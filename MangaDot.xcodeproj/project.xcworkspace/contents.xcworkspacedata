@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:../Carthage"
+      name = "Carthage">
+      <Group
+         location = "group:Checkouts"
+         name = "Checkouts">
+         <Group
+            location = "group:FeedKit"
+            name = "FeedKit">
+            <FileRef
+               location = "group:FeedKit.podspec">
+            </FileRef>
+            <FileRef
+               location = "group:FeedKit.png">
+            </FileRef>
+            <Group
+               location = "group:Example macOS"
+               name = "Example macOS">
+               <FileRef
+                  location = "group:ViewController.swift">
+               </FileRef>
+               <Group
+                  location = "group:Assets.xcassets"
+                  name = "Assets.xcassets">
+                  <Group
+                     location = "group:AppIcon.appiconset"
+                     name = "AppIcon.appiconset">
+                     <FileRef
+                        location = "group:Contents.json">
+                     </FileRef>
+                  </Group>
+               </Group>
+               <Group
+                  location = "group:Base.lproj"
+                  name = "Base.lproj">
+                  <FileRef
+                     location = "group:Main.storyboard">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:AppDelegate.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:FeedKit.paw">
+            </FileRef>
+            <FileRef
+               location = "group:LICENSE">
+            </FileRef>
+            <FileRef
+               location = "group:CHANGELOG.md">
+            </FileRef>
+            <Group
+               location = "group:Tests"
+               name = "Tests">
+               <FileRef
+                  location = "group:ContentTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:MediaTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:RDFTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:DurationTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:JSONTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:AtomTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:RSS2Tests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:DateTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:BaseTestCase.swift">
+               </FileRef>
+               <Group
+                  location = "group:xml"
+                  name = "xml">
+                  <FileRef
+                     location = "group:Syndication.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:RDFDC.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:RSS2.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:iTunesPodcasting.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Content.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:RSSDC.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:Atom.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:FeedNotFound.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:RDF.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:AtomMedia.xml">
+                  </FileRef>
+                  <FileRef
+                     location = "group:RSSMedia.xml">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:SyndicationTests.swift">
+               </FileRef>
+               <Group
+                  location = "group:json"
+                  name = "json">
+                  <FileRef
+                     location = "group:feed.json">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:iTunesTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:FeedUriSchemeSanitizerTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:ParserErrorTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:DublinCoreTests.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:INSTALL.md">
+            </FileRef>
+            <FileRef
+               location = "group:README.md">
+            </FileRef>
+            <Group
+               location = "group:Example tvOS"
+               name = "Example tvOS">
+               <FileRef
+                  location = "group:ViewController.swift">
+               </FileRef>
+               <Group
+                  location = "group:Assets.xcassets"
+                  name = "Assets.xcassets">
+                  <FileRef
+                     location = "group:Contents.json">
+                  </FileRef>
+                  <Group
+                     location = "group:LaunchImage.launchimage"
+                     name = "LaunchImage.launchimage">
+                     <FileRef
+                        location = "group:Contents.json">
+                     </FileRef>
+                  </Group>
+                  <Group
+                     location = "group:App Icon &amp; Top Shelf Image.brandassets"
+                     name = "App Icon &amp; Top Shelf Image.brandassets">
+                     <Group
+                        location = "group:Top Shelf Image.imageset"
+                        name = "Top Shelf Image.imageset">
+                        <FileRef
+                           location = "group:Contents.json">
+                        </FileRef>
+                     </Group>
+                     <FileRef
+                        location = "group:Contents.json">
+                     </FileRef>
+                     <Group
+                        location = "group:App Icon - Large.imagestack"
+                        name = "App Icon - Large.imagestack">
+                        <Group
+                           location = "group:Front.imagestacklayer"
+                           name = "Front.imagestacklayer">
+                           <Group
+                              location = "group:Content.imageset"
+                              name = "Content.imageset">
+                              <FileRef
+                                 location = "group:Contents.json">
+                              </FileRef>
+                           </Group>
+                           <FileRef
+                              location = "group:Contents.json">
+                           </FileRef>
+                        </Group>
+                        <FileRef
+                           location = "group:Contents.json">
+                        </FileRef>
+                        <Group
+                           location = "group:Back.imagestacklayer"
+                           name = "Back.imagestacklayer">
+                           <Group
+                              location = "group:Content.imageset"
+                              name = "Content.imageset">
+                              <FileRef
+                                 location = "group:Contents.json">
+                              </FileRef>
+                           </Group>
+                           <FileRef
+                              location = "group:Contents.json">
+                           </FileRef>
+                        </Group>
+                        <Group
+                           location = "group:Middle.imagestacklayer"
+                           name = "Middle.imagestacklayer">
+                           <Group
+                              location = "group:Content.imageset"
+                              name = "Content.imageset">
+                              <FileRef
+                                 location = "group:Contents.json">
+                              </FileRef>
+                           </Group>
+                           <FileRef
+                              location = "group:Contents.json">
+                           </FileRef>
+                        </Group>
+                     </Group>
+                     <Group
+                        location = "group:App Icon - Small.imagestack"
+                        name = "App Icon - Small.imagestack">
+                        <Group
+                           location = "group:Front.imagestacklayer"
+                           name = "Front.imagestacklayer">
+                           <Group
+                              location = "group:Content.imageset"
+                              name = "Content.imageset">
+                              <FileRef
+                                 location = "group:Contents.json">
+                              </FileRef>
+                           </Group>
+                           <FileRef
+                              location = "group:Contents.json">
+                           </FileRef>
+                        </Group>
+                        <FileRef
+                           location = "group:Contents.json">
+                        </FileRef>
+                        <Group
+                           location = "group:Back.imagestacklayer"
+                           name = "Back.imagestacklayer">
+                           <Group
+                              location = "group:Content.imageset"
+                              name = "Content.imageset">
+                              <FileRef
+                                 location = "group:Contents.json">
+                              </FileRef>
+                           </Group>
+                           <FileRef
+                              location = "group:Contents.json">
+                           </FileRef>
+                        </Group>
+                        <Group
+                           location = "group:Middle.imagestacklayer"
+                           name = "Middle.imagestacklayer">
+                           <Group
+                              location = "group:Content.imageset"
+                              name = "Content.imageset">
+                              <FileRef
+                                 location = "group:Contents.json">
+                              </FileRef>
+                           </Group>
+                           <FileRef
+                              location = "group:Contents.json">
+                           </FileRef>
+                        </Group>
+                     </Group>
+                     <Group
+                        location = "group:Top Shelf Image Wide.imageset"
+                        name = "Top Shelf Image Wide.imageset">
+                        <FileRef
+                           location = "group:Contents.json">
+                        </FileRef>
+                     </Group>
+                  </Group>
+               </Group>
+               <Group
+                  location = "group:Base.lproj"
+                  name = "Base.lproj">
+                  <FileRef
+                     location = "group:Main.storyboard">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:AppDelegate.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+            <Group
+               location = "group:Example iOS"
+               name = "Example iOS">
+               <Group
+                  location = "group:Assets.xcassets"
+                  name = "Assets.xcassets">
+                  <Group
+                     location = "group:AppIcon.appiconset"
+                     name = "AppIcon.appiconset">
+                     <FileRef
+                        location = "group:Contents.json">
+                     </FileRef>
+                  </Group>
+               </Group>
+               <Group
+                  location = "group:View Controllers"
+                  name = "View Controllers">
+                  <FileRef
+                     location = "group:FeedTableViewController.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:FeedDetailTableViewController.swift">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Base.lproj"
+                  name = "Base.lproj">
+                  <FileRef
+                     location = "group:LaunchScreen.storyboard">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Extensions"
+                  name = "Extensions">
+                  <FileRef
+                     location = "group:FeedTableViewController + ReusableCell.swift">
+                  </FileRef>
+                  <FileRef
+                     location = "group:FeedTableViewController + TableViewLayout.swift">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:AppDelegate.swift">
+               </FileRef>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:Package.swift">
+            </FileRef>
+            <Group
+               location = "group:Sources"
+               name = "Sources">
+               <Group
+                  location = "group:FeedKit"
+                  name = "FeedKit">
+                  <Group
+                     location = "group:Dates"
+                     name = "Dates">
+                     <FileRef
+                        location = "group:DateSpec.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:RFC3339DateFormatter.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:RFC822DateFormatter.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:ISO8601DateFormatter.swift">
+                     </FileRef>
+                  </Group>
+                  <Group
+                     location = "group:Models"
+                     name = "Models">
+                     <Group
+                        location = "group:Atom"
+                        name = "Atom">
+                        <FileRef
+                           location = "group:AtomFeedGenerator.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntryContent.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeed.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntryContributor.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntryCategory.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedContributor.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedCategory.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntrySummary.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomPath.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedAuthor.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeed + mapCharacters.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntrySource.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedLink.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntryAuthor.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntryLink.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeed + mapAttributes.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedSubtitle.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:AtomFeedEntry.swift">
+                        </FileRef>
+                     </Group>
+                     <Group
+                        location = "group:RSS"
+                        name = "RSS">
+                        <FileRef
+                           location = "group:RSSFeed + mapCharacters.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedCategory.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RDFPath.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedItem.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeed + mapAttributes.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedImage.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedSkipDay.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedItemGUID.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedSkipHour.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedCloud.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedItemCategory.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSPath.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedTextInput.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedItemEnclosure.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeedItemSource.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:RSSFeed.swift">
+                        </FileRef>
+                     </Group>
+                     <Group
+                        location = "group:Namespaces"
+                        name = "Namespaces">
+                        <Group
+                           location = "group:Syndication"
+                           name = "Syndication">
+                           <FileRef
+                              location = "group:SyndicationUpdatePeriod.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:SyndicationNamespace.swift">
+                           </FileRef>
+                        </Group>
+                        <Group
+                           location = "group:iTunes"
+                           name = "iTunes">
+                           <FileRef
+                              location = "group:iTunesCategory.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:iTunesImage.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:iTunesNamespace.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:iTunesSubCategory.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:iTunesOwner.swift">
+                           </FileRef>
+                        </Group>
+                        <Group
+                           location = "group:Content"
+                           name = "Content">
+                           <FileRef
+                              location = "group:ContentNamespace.swift">
+                           </FileRef>
+                        </Group>
+                        <Group
+                           location = "group:Dublin Core"
+                           name = "Dublin Core">
+                           <FileRef
+                              location = "group:DublinCoreNamespace.swift">
+                           </FileRef>
+                        </Group>
+                        <Group
+                           location = "group:Media"
+                           name = "Media">
+                           <FileRef
+                              location = "group:MediaLicence.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaCredit.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaHash.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaTitle.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaNamespace.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaRating.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaRights.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaContent.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaTag.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaSubTitle.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaLocation.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaGroup.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaCommunity.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaPrice.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaPeerLink.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaCopyright.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaRestriction.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaDescription.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaParam.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaScene.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaStatistics.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaEmbed.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaText.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaCategory.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaStatus.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaStarRating.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaThumbnail.swift">
+                           </FileRef>
+                           <FileRef
+                              location = "group:MediaPlayer.swift">
+                           </FileRef>
+                        </Group>
+                     </Group>
+                     <Group
+                        location = "group:JSON"
+                        name = "JSON">
+                        <FileRef
+                           location = "group:JSONFeed.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:JSONFeedAttachment.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:JSONFeedHub.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:JSONFeedItem.swift">
+                        </FileRef>
+                        <FileRef
+                           location = "group:JSONFeedAuthor.swift">
+                        </FileRef>
+                     </Group>
+                  </Group>
+                  <Group
+                     location = "group:Parser"
+                     name = "Parser">
+                     <FileRef
+                        location = "group:FeedDataType.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:XMLFeedType.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:ParserError.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:JSONFeedParser.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:Result.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:FeedParser.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:XMLFeedParser.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:FeedParserProtocol.swift">
+                     </FileRef>
+                  </Group>
+                  <Group
+                     location = "group:Extensions"
+                     name = "Extensions">
+                     <FileRef
+                        location = "group:URL + replacingScheme.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:String + toDuration.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:Array + Equatable.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:String + replacingFirstOccurrence.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:String + toDate.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:String + toBool.swift">
+                     </FileRef>
+                     <FileRef
+                        location = "group:Data + toUtf8.swift">
+                     </FileRef>
+                  </Group>
+               </Group>
+               <FileRef
+                  location = "group:FeedKit.h">
+               </FileRef>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:FeedKit.xcodeproj">
+            </FileRef>
+         </Group>
+      </Group>
+      <Group
+         location = "group:Build"
+         name = "Build">
+         <Group
+            location = "group:watchOS"
+            name = "watchOS">
+            <FileRef
+               location = "group:FeedKit.framework.dSYM">
+            </FileRef>
+            <Group
+               location = "group:FeedKit.framework"
+               name = "FeedKit.framework">
+               <FileRef
+                  location = "group:FeedKit">
+               </FileRef>
+               <Group
+                  location = "group:Headers"
+                  name = "Headers">
+                  <FileRef
+                     location = "group:FeedKit-Swift.h">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Modules"
+                  name = "Modules">
+                  <Group
+                     location = "group:FeedKit.swiftmodule"
+                     name = "FeedKit.swiftmodule">
+                     <FileRef
+                        location = "group:i386.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm64_32.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:i386.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm64_32.swiftmodule">
+                     </FileRef>
+                  </Group>
+                  <FileRef
+                     location = "group:module.modulemap">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+            <FileRef
+               location = "group:C5FDA9F6-99C0-3236-88B2-B6AA21F262CC.bcsymbolmap">
+            </FileRef>
+            <FileRef
+               location = "group:E134EA82-4D16-39F4-AF12-6474F8A723D7.bcsymbolmap">
+            </FileRef>
+         </Group>
+         <Group
+            location = "group:iOS"
+            name = "iOS">
+            <FileRef
+               location = "group:124A70A1-262F-3629-801E-BE1AB6FD714F.bcsymbolmap">
+            </FileRef>
+            <FileRef
+               location = "group:FeedKit.framework.dSYM">
+            </FileRef>
+            <FileRef
+               location = "group:B9B543F1-39CF-35A1-AE75-4171B8179BE7.bcsymbolmap">
+            </FileRef>
+            <Group
+               location = "group:FeedKit.framework"
+               name = "FeedKit.framework">
+               <FileRef
+                  location = "group:FeedKit">
+               </FileRef>
+               <Group
+                  location = "group:Headers"
+                  name = "Headers">
+                  <FileRef
+                     location = "group:FeedKit-Swift.h">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Modules"
+                  name = "Modules">
+                  <Group
+                     location = "group:FeedKit.swiftmodule"
+                     name = "FeedKit.swiftmodule">
+                     <FileRef
+                        location = "group:i386.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:x86_64.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm64.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:x86_64.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:i386.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm64.swiftdoc">
+                     </FileRef>
+                  </Group>
+                  <FileRef
+                     location = "group:module.modulemap">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:Mac"
+            name = "Mac">
+            <FileRef
+               location = "group:FeedKit.framework.dSYM">
+            </FileRef>
+            <Group
+               location = "group:FeedKit.framework"
+               name = "FeedKit.framework">
+               <FileRef
+                  location = "group:Resources">
+               </FileRef>
+               <Group
+                  location = "group:Versions"
+                  name = "Versions">
+                  <Group
+                     location = "group:A"
+                     name = "A">
+                     <Group
+                        location = "group:Resources"
+                        name = "Resources">
+                        <FileRef
+                           location = "group:Info.plist">
+                        </FileRef>
+                     </Group>
+                     <FileRef
+                        location = "group:FeedKit">
+                     </FileRef>
+                     <Group
+                        location = "group:Headers"
+                        name = "Headers">
+                        <FileRef
+                           location = "group:FeedKit-Swift.h">
+                        </FileRef>
+                     </Group>
+                     <Group
+                        location = "group:Modules"
+                        name = "Modules">
+                        <Group
+                           location = "group:FeedKit.swiftmodule"
+                           name = "FeedKit.swiftmodule">
+                           <FileRef
+                              location = "group:x86_64.swiftdoc">
+                           </FileRef>
+                           <FileRef
+                              location = "group:x86_64.swiftmodule">
+                           </FileRef>
+                        </Group>
+                        <FileRef
+                           location = "group:module.modulemap">
+                        </FileRef>
+                     </Group>
+                  </Group>
+                  <FileRef
+                     location = "group:Current">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:FeedKit">
+               </FileRef>
+               <FileRef
+                  location = "group:Headers">
+               </FileRef>
+               <FileRef
+                  location = "group:Modules">
+               </FileRef>
+            </Group>
+         </Group>
+         <Group
+            location = "group:tvOS"
+            name = "tvOS">
+            <FileRef
+               location = "group:FeedKit.framework.dSYM">
+            </FileRef>
+            <FileRef
+               location = "group:2256439C-B42C-3A26-8100-CB728A0D994A.bcsymbolmap">
+            </FileRef>
+            <Group
+               location = "group:FeedKit.framework"
+               name = "FeedKit.framework">
+               <FileRef
+                  location = "group:FeedKit">
+               </FileRef>
+               <Group
+                  location = "group:Headers"
+                  name = "Headers">
+                  <FileRef
+                     location = "group:FeedKit-Swift.h">
+                  </FileRef>
+               </Group>
+               <Group
+                  location = "group:Modules"
+                  name = "Modules">
+                  <Group
+                     location = "group:FeedKit.swiftmodule"
+                     name = "FeedKit.swiftmodule">
+                     <FileRef
+                        location = "group:x86_64.swiftdoc">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm64.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:x86_64.swiftmodule">
+                     </FileRef>
+                     <FileRef
+                        location = "group:arm64.swiftdoc">
+                     </FileRef>
+                  </Group>
+                  <FileRef
+                     location = "group:module.modulemap">
+                  </FileRef>
+               </Group>
+               <FileRef
+                  location = "group:Info.plist">
+               </FileRef>
+            </Group>
+         </Group>
+      </Group>
+   </Group>
+   <FileRef
+      location = "self:">
+   </FileRef>
+</Workspace>
