@@ -44,7 +44,7 @@ class MangadexTitleResponseTests: XCTestCase {
     
     
     func testCoverUrl() {
-        XCTAssertEqual(mangadexTitleData.coverUrl, "/images/manga/153.jpg?1528849721")
+        XCTAssertEqual(mangadexTitleData.coverUrl.absoluteString.removingPercentEncoding!, "https://mangadex.org/images/manga/153.jpg?1528849721")
     }
     
     func testMangadexTitle() {

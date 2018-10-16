@@ -8,9 +8,19 @@
 
 import Foundation
 
+protocol FeedData {
+    var sections: [SectionData]      { get }
+}
+
+protocol SectionData {
+    var sectionName: String          { get }
+    var titleList: [TitleData]       { get }
+}
+
 protocol TitleData {
     var id: Int?                     { get }
-    var coverUrl: String             { get }
+    var coverUrl: URL                { get }
+    var largeCoverUrl: URL?          { get }
     var title: String                { get }
 }
 
@@ -54,7 +64,7 @@ protocol DetailedChapterData: ChapterData {
     var mangaId: String              { get }
     var comments: Int                { get }
     var server: URL                  { get }
-    var pageArray: [String]          { get }
+    var pageUrlArray: [URL]          { get }
     var longStrip: Int8              { get }
     var status: String               { get }
 }

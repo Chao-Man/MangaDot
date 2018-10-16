@@ -29,4 +29,8 @@ struct MangadexFeedRequest {
     let baseUrl: URL
     
     // MARK: -
+    
+    var url: URL {
+        return baseUrl
+    }
 }

@@ -37,7 +37,9 @@ class MangadexFeedResponseTests: XCTestCase {
         super.tearDown()
     }
     
-    func testTitle() {
+    // MARK: - Test MangadexFeedResponse propeties
+    
+    func testCoverUrl() {
         print(mangadexFeedData)
     }
 }

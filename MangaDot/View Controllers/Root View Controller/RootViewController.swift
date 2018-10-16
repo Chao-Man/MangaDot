@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 final class RootViewController: UITabBarController {
     
@@ -14,21 +15,12 @@ final class RootViewController: UITabBarController {
     
     // MARK: - Properties
     
-    private let readnowTableViewController: ReadnowTableViewController = {
-        guard let readnowViewController = UIStoryboard.main.instantiateViewController(withIdentifier: ReadnowTableViewController.storyboardIdentifier) as? ReadnowTableViewController else {
-            fatalError("Unable to Instantiate Day View Controller")
-        }
-        readnowViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        return readnowViewController
-    }()
-
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
+        self.setupChildViewControllers()
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        
         
     }
 
@@ -36,7 +28,63 @@ final class RootViewController: UITabBarController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    // MARK: - Helper Methods
+    
+    private func setupChildViewControllers() {
+        let readnowViewController   = ReadnowViewController()
+        let libraryViewController   = LibraryViewController()
+        let searchViewController    = SearchViewController()
+        let settingsViewController  = SettingsViewController()
+        
+        readnowViewController.title  = "ReadnowViewController.title".localized()
+        libraryViewController.title  = "LibraryViewController.title".localized()
+        searchViewController.title   = "SearchViewController.title".localized()
+        settingsViewController.title = "SettingsViewController.title".localized()
+        
+        let readnowNavigationController     = UINavigationController.init(rootViewController: readnowViewController)
+        let libraryNavigationController     = UINavigationController.init(rootViewController: libraryViewController)
+        let searchNavigationController      = UINavigationController.init(rootViewController: searchViewController)
+        let settingsNavigationController    = UINavigationController.init(rootViewController: settingsViewController)
+        
+        // Set Child View Controller Models
+        readnowViewController.viewModel  = ReadnowViewModel()
+        libraryViewController.viewModel  = LibraryViewModel()
+        searchViewController.viewModel   = SearchViewModel()
+        settingsViewController.viewModel = SettingsViewModel()
+        
+        // Setup Tab Bars
+        readnowNavigationController.tabBarItem = UITabBarItem(
+            title: readnowViewController.title,
+            image: nil,
+            selectedImage: nil)
+        
+        libraryNavigationController.tabBarItem = UITabBarItem(
+            title: libraryViewController.title,
+            image: nil,
+            selectedImage: nil)
+        
+        searchNavigationController.tabBarItem = UITabBarItem(
+            title: searchViewController.title,
+            image: nil,
+            selectedImage: nil)
+        
+        settingsNavigationController.tabBarItem = UITabBarItem(
+            title: settingsViewController.title,
+            image: nil,
+            selectedImage: nil)
+        
+        // Add Child View Controllers
+        self.addChild(readnowNavigationController)
+        self.addChild(libraryNavigationController)
+        self.addChild(searchNavigationController)
+        self.addChild(settingsNavigationController)
+        
+        readnowNavigationController.didMove(toParent: self)
+        libraryNavigationController.didMove(toParent: self)
+        searchNavigationController.didMove(toParent: self)
+        settingsNavigationController.didMove(toParent: self)
+    }
 
 }
 

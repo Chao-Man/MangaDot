@@ -8,11 +8,50 @@
 
 import Foundation
 
+// MARK: - Response Data Structures
+
+struct MangadexTitleResponse: Codable {
+    struct Chapter: Codable {
+        let volume: String
+        let chapter: String
+        let title: String
+        let langCode: String
+        let groupId: Int
+        let groupName: String?
+        let groupId2: Int
+        let groupName2: String?
+        let groupId3: Int
+        let groupName3: String?
+        let timestamp: Date
+    }
+    
+    struct Manga: Codable {
+        let coverUrl: String
+        let description: String
+        let title: String
+        let artist: String
+        let author: String
+        let status: Int8
+        let genres: [Int8]
+        let lastChapter: String
+        let langName: String
+        let langFlag: String
+    }
+    
+    let manga: Manga
+    let chapter: [Int: Chapter]
+}
+
+
 // MARK: - Extensions
 
 extension MangadexTitleResponse: DetailedTitleData {
+    var largeCoverUrl: URL? {
+        return URL(string: MangadexService.baseUrl.absoluteString+manga.coverUrl)
+    }
+    
     var id: Int? {
-        let idString = coverUrl
+        let idString = coverUrl.absoluteString
             .replacingOccurrences(of: "/images/manga/", with: "")
             .replacingOccurrences(of: ".jpg", with: "")
         return Int(idString)
@@ -23,16 +62,17 @@ extension MangadexTitleResponse: DetailedTitleData {
             case .ascending:
                 return chapters
                     .filter { $0.langCode == langCode }
-                    .sorted(by: { $0.chapter > $1.chapter })
+                    .sorted(by: { ($0.chapter as NSString).floatValue > ($1.chapter as NSString).floatValue })
             case .descending:
                 return chapters
                     .filter { $0.langCode == langCode }
-                    .sorted(by: { $0.chapter < $1.chapter })
+                    .sorted(by: { ($0.chapter as NSString).floatValue < ($1.chapter as NSString).floatValue })
         }
     }
     
-    var coverUrl: String {
-        return manga.coverUrl
+    var coverUrl: URL {
+        let largeCover = manga.coverUrl.replacingOccurrences(of: ".jpg", with: ".large.jpg")
+        return URL(string: MangadexService.baseUrl.absoluteString+largeCover)!
     }
     
     var description: String {
@@ -119,38 +159,4 @@ extension MangadexTitleResponse: DetailedTitleData {
         
         return chaptersWithId
     }
-}
-
-// MARK: - Response Data Structures
-
-struct MangadexTitleResponse: Codable {
-    struct Chapter: Codable {
-        let volume: String
-        let chapter: String
-        let title: String
-        let langCode: String
-        let groupId: Int
-        let groupName: String?
-        let groupId2: Int
-        let groupName2: String?
-        let groupId3: Int
-        let groupName3: String?
-        let timestamp: Date
-    }
-    
-    struct Manga: Codable {
-        let coverUrl: String
-        let description: String
-        let title: String
-        let artist: String
-        let author: String
-        let status: Int8
-        let genres: [Int8]
-        let lastChapter: String
-        let langName: String
-        let langFlag: String
-    }
-    
-    let manga: Manga
-    let chapter: [Int: Chapter]
 }

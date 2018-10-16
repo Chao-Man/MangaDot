@@ -13,55 +13,72 @@ enum MangadexFeedError: Error {
     case invalidDataFormat
 }
 
-class MangadexFeedResponse {
+struct MangadexFeedResponse: FeedData {
     
     // MARK: - Struct
     
-    struct Latest: TitleData {
+    struct Section: SectionData {
+        var sectionName: String
+        var titleList: [TitleData]
+    }
+    
+    class LatestItem: TitleData {
         let id: Int?
-        let coverUrl: String
+        let coverUrl: URL
+        let largeCoverUrl: URL?
         let title: String
         
         init(el: Element) throws {
-            let thumbUrl = try el.select("img").attr("src")
-            coverUrl = thumbUrl.replacingOccurrences(of: ".thumb", with: "")
-            title = try el.select("manga_title").attr("title")
-            let idString = coverUrl
+            let thumbnailPath = try el.select("img").attr("src")
+            let coverPath = thumbnailPath.replacingOccurrences(of: ".thumb", with: ".large")
+            let largeCoverPath = thumbnailPath.replacingOccurrences(of: ".thumb", with: "")
+            let idString = largeCoverPath
                 .replacingOccurrences(of: "/images/manga/", with: "")
                 .replacingOccurrences(of: ".jpg", with: "")
-            id = Int(idString)
+            self.title = try el.select(".manga_title").attr("title")
+            self.id = Int(idString)
+            self.coverUrl = MangadexService.baseUrl.appendingPathComponent(coverPath)
+            self.largeCoverUrl = MangadexService.baseUrl.appendingPathComponent(largeCoverPath)
         }
     }
     
-    struct Featured: TitleData {
+    class FeaturedItem: TitleData {
         let id: Int?
-        let coverUrl: String
+        let coverUrl: URL
+        let largeCoverUrl: URL?
         let title: String
         
         init(el: Element) throws {
-            let thumbUrl = try el.attr("data-src")
-            coverUrl = thumbUrl.replacingOccurrences(of: ".large", with: "")
-            title = try el.attr("title")
-            let idString = coverUrl
+            let thumbnailPath = try el.attr("data-src")
+            let coverPath = thumbnailPath
+            let largeCoverPath = thumbnailPath.replacingOccurrences(of: ".large", with: "")
+            let idString = largeCoverPath
                 .replacingOccurrences(of: "/images/manga/", with: "")
                 .replacingOccurrences(of: ".jpg", with: "")
-            id = Int(idString)
+            self.title = try el.attr("title")
+            self.id = Int(idString)
+            self.coverUrl = MangadexService.baseUrl.appendingPathComponent(coverPath)
+            self.largeCoverUrl = MangadexService.baseUrl.appendingPathComponent(largeCoverPath)
         }
     }
     
-    struct New: TitleData {
+    class NewItem: TitleData {
         let id: Int?
-        let coverUrl: String
+        let coverUrl: URL
+        let largeCoverUrl: URL?
         let title: String
         
         init(el: Element) throws {
-            let thumbUrl = try el.attr("data-src")
-            coverUrl = thumbUrl.replacingOccurrences(of: ".large", with: "")
-            title = try el.attr("title")
-            let idString = coverUrl
+            let thumbnailPath = try el.attr("data-src")
+            let coverPath = thumbnailPath
+            let largeCoverPath = thumbnailPath.replacingOccurrences(of: ".large", with: "")
+            let idString = largeCoverPath
                 .replacingOccurrences(of: "/images/manga/", with: "")
                 .replacingOccurrences(of: ".jpg", with: "")
-            id = Int(idString)
+            self.title = try el.attr("title")
+            self.id = Int(idString)
+            self.coverUrl = MangadexService.baseUrl.appendingPathComponent(coverPath)
+            self.largeCoverUrl = MangadexService.baseUrl.appendingPathComponent(largeCoverPath)
         }
     }
     
@@ -89,10 +106,7 @@ class MangadexFeedResponse {
     }
     
     // MARK: - Properties
-    
-    private var latest: [Latest] = []
-    private var featured: [Featured] = []
-    private var new: [New] = []
+    var sections: [SectionData] = []
     
     init(data: Data) throws {
         guard let dataString = String(data: data, encoding: String.Encoding.utf8) else {
@@ -101,8 +115,9 @@ class MangadexFeedResponse {
         let doc = try SwiftSoup.parse(dataString)
         
         do {
-            try setupLatestList(doc: doc)
-            try setupFeaturedList(doc: doc)
+            try setupLatestSection(doc: doc)
+            try setupFeaturedSection(doc: doc)
+            try setupNewSection(doc: doc)
         }
         catch {
             throw MangadexFeedError.invalidDataFormat
@@ -111,22 +126,29 @@ class MangadexFeedResponse {
     
     // MARK: - Helper methods
     
-    func setupLatestList(doc: Document) throws {
+    private mutating func setupLatestSection(doc: Document) throws {
+        var titles: [TitleData] = []
         try doc.select("div.col-md-6").forEach({ (el) in
-            latest.append(try Latest(el: el))
+            titles.append(try LatestItem(el: el))
         })
+        sections.append(Section(sectionName: "CarouselViewController.header.latest", titleList: titles))
     }
     
-    func setupFeaturedList(doc: Document) throws {
-        try doc.select("div#hled_titles_owl_carousel>div>div.hover>a>img)").forEach({ (el) in
-            featured.append(try Featured(el: el))
+    private mutating func setupFeaturedSection(doc: Document) throws {
+        var titles: [TitleData] = []
+        try doc.select("div#hled_titles_owl_carousel>div>div.hover>a>img").forEach({ (el) in
+            titles.append(try FeaturedItem(el: el))
         })
+            
+        sections.append(Section(sectionName: "CarouselViewController.header.featured", titleList: titles))
     }
     
-    func setupNewList(doc: Document) throws {
+    private mutating func setupNewSection(doc: Document) throws {
+        var titles: [TitleData] = []
         try doc.select("div#new_titles_owl_carousel>div>div.hover>a>img").forEach({ (el) in
-            new.append(try New(el: el))
+            titles.append(try NewItem(el: el))
         })
+        sections.append(Section(sectionName: "CarouselViewController.header.new", titleList: titles))
     }
     
 }

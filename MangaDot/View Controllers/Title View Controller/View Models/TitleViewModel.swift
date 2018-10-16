@@ -18,18 +18,28 @@ class TitleViewModel {
     
     // MARK: - Type Aliases
     
-    typealias DidFetchTitleDataCompletion = (TitleData?, TitleDataError?) -> Void
+    typealias DidFetchTitleDataCompletion = (DetailedTitleData?, TitleDataError?) -> Void
     
     // MARK: - Properties
     
     var didfetchTitleData: DidFetchTitleDataCompletion?
+    var titleId: Int
     
-    func fetchMangadexTitleData(id: Int) {
+    init(titleId: Int) {
+        self.titleId = titleId
+    }
+    
+    func fetchMangadexTitleData() {
+        fetchMangadexTitleData(id: titleId)
+    }
+    
+    private func fetchMangadexTitleData(id: Int) {
         
-        let request = MangadexApiRequest(baseUrl:  MangadexService.baseApiUrl, type: MangadexService.ApiType.title, id: String(id))
-        
+        let mangadexRequest = MangadexApiRequest(baseUrl:  MangadexService.baseApiUrl, type: MangadexService.ApiType.title, id: String(id))
+        var request = URLRequest(url: mangadexRequest.url)
+        request.setValue("Accept-Encoding", forHTTPHeaderField: "compress, gzip")
         // Create Data Task
-        URLSession.shared.dataTask(with: request.url) { [weak self] (data, response, error) in
+        URLSession.shared.dataTask(with: request) { [weak self] (data, response, error) in
             if let response = response as? HTTPURLResponse {
                 print("Status Code: \(response.statusCode)")
             }
