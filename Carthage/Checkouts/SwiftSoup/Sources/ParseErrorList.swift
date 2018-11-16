@@ -48,5 +48,4 @@ public class ParseErrorList {
     open func add(_ index: Int, _ element: ParseError) {
         array.insert(element, at: index)
     }
-
 }

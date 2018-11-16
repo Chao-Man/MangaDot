@@ -21,9 +21,17 @@ struct MangadexChapterResponse: Codable {
     let groupId: Int
     let groupId2: Int
     let groupId3: Int
-    let comments: Int
+    let comments: Int?
     let server: URL
-    let pageArray: [String: String]
+    let pageArray: [String]
     let longStrip: Int8
     let status: String
+}
+
+extension MangadexChapterResponse: ChapterPageData {
+    var pageUrlArray: [URL?] {
+        return pageArray.map { (page) -> URL? in
+            URL(string: "\(server)")?.appendingPathComponent(hash).appendingPathComponent(page)
+        }
+    }
 }

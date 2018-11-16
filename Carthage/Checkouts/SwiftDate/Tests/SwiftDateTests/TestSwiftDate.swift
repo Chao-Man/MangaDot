@@ -10,15 +10,13 @@ import SwiftDate
 import XCTest
 
 class TestSwiftDate: XCTestCase {
-
-	func testAutoFormats() {
-		let builtInAutoFormats = SwiftDate.autoFormats
-		XCTAssert((SwiftDate.autoFormats.isEmpty == false), "No auto formats available")
-		let newFormats = [DateFormats.altRSS, DateFormats.extended, DateFormats.httpHeader]
-		SwiftDate.autoFormats = newFormats
-		XCTAssert( (SwiftDate.autoFormats == newFormats), "Failed to set new auto formats")
-		SwiftDate.resetAutoFormats()
-		XCTAssert( (SwiftDate.autoFormats == builtInAutoFormats), "Failed to reset auto formats")
-	}
-
+    func testAutoFormats() {
+        let builtInAutoFormats = SwiftDate.autoFormats
+        XCTAssert((SwiftDate.autoFormats.isEmpty == false), "No auto formats available")
+        let newFormats = [DateFormats.altRSS, DateFormats.extended, DateFormats.httpHeader]
+        SwiftDate.autoFormats = newFormats
+        XCTAssert((SwiftDate.autoFormats == newFormats), "Failed to set new auto formats")
+        SwiftDate.resetAutoFormats()
+        XCTAssert((SwiftDate.autoFormats == builtInAutoFormats), "Failed to reset auto formats")
+    }
 }

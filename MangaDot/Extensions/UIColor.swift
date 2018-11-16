@@ -15,8 +15,8 @@ public extension UIColor {
         var brightness: CGFloat = 0
         var saturation: CGFloat = 0
         var alpha: CGFloat = 0
-        self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-        
+        getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+
         return brightness > 0.5 ? UIBarStyle.default : UIBarStyle.black
     }
 }

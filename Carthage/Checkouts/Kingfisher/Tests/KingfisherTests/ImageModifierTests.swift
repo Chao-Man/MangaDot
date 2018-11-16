@@ -24,11 +24,10 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import XCTest
 import Kingfisher
+import XCTest
 
 class ImageModifierTests: XCTestCase {
-
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -41,45 +40,44 @@ class ImageModifierTests: XCTestCase {
 
     func testAnyImageModifier() {
         let m = AnyImageModifier(modify: { image in
-            return image
+            image
         })
         let image = Image(data: testImagePNGData)!
         let modifiedImage = m.modify(image)
         XCTAssert(modifiedImage == image)
     }
 
-#if os(iOS) || os(tvOS) || os(watchOS)
+    #if os(iOS) || os(tvOS) || os(watchOS)
 
-    func testRenderingModeImageModifier() {
-        let m1 = RenderingModeImageModifier(renderingMode: .alwaysOriginal)
-        let image = Image(data: testImagePNGData)!
-        let alwaysOriginalImage = m1.modify(image)
-        XCTAssert(alwaysOriginalImage.renderingMode == .alwaysOriginal)
+        func testRenderingModeImageModifier() {
+            let m1 = RenderingModeImageModifier(renderingMode: .alwaysOriginal)
+            let image = Image(data: testImagePNGData)!
+            let alwaysOriginalImage = m1.modify(image)
+            XCTAssert(alwaysOriginalImage.renderingMode == .alwaysOriginal)
 
-        let m2 = RenderingModeImageModifier(renderingMode: .alwaysTemplate)
-        let alwaysTemplateImage = m2.modify(image)
-        XCTAssert(alwaysTemplateImage.renderingMode == .alwaysTemplate)
-    }
-
-    func testFlipsForRightToLeftLayoutDirectionImageModifier() {
-        let m = FlipsForRightToLeftLayoutDirectionImageModifier()
-        let image = Image(data: testImagePNGData)!
-        let modifiedImage = m.modify(image)
-        if #available(iOS 9.0, *) {
-            XCTAssert(modifiedImage.flipsForRightToLeftLayoutDirection == true)
-        } else {
-            XCTAssert(true)
+            let m2 = RenderingModeImageModifier(renderingMode: .alwaysTemplate)
+            let alwaysTemplateImage = m2.modify(image)
+            XCTAssert(alwaysTemplateImage.renderingMode == .alwaysTemplate)
         }
-    }
 
-    func testAlignmentRectInsetsImageModifier() {
-        let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        let m = AlignmentRectInsetsImageModifier(alignmentInsets: insets)
-        let image = Image(data: testImagePNGData)!
-        let modifiedImage = m.modify(image)
-        XCTAssert(modifiedImage.alignmentRectInsets == insets)
-    }
+        func testFlipsForRightToLeftLayoutDirectionImageModifier() {
+            let m = FlipsForRightToLeftLayoutDirectionImageModifier()
+            let image = Image(data: testImagePNGData)!
+            let modifiedImage = m.modify(image)
+            if #available(iOS 9.0, *) {
+                XCTAssert(modifiedImage.flipsForRightToLeftLayoutDirection == true)
+            } else {
+                XCTAssert(true)
+            }
+        }
 
-#endif
+        func testAlignmentRectInsetsImageModifier() {
+            let insets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+            let m = AlignmentRectInsetsImageModifier(alignmentInsets: insets)
+            let image = Image(data: testImagePNGData)!
+            let modifiedImage = m.modify(image)
+            XCTAssert(modifiedImage.alignmentRectInsets == insets)
+        }
 
+    #endif
 }

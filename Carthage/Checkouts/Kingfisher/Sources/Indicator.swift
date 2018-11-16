@@ -48,6 +48,7 @@ public enum IndicatorType {
 }
 
 // MARK: - Indicator Protocol
+
 public protocol Indicator {
     func startAnimatingView()
     func stopAnimatingView()
@@ -58,40 +59,41 @@ public protocol Indicator {
 
 extension Indicator {
     #if os(macOS)
-    public var viewCenter: CGPoint {
-        get {
-            let frame = view.frame
-            return CGPoint(x: frame.origin.x + frame.size.width / 2.0, y: frame.origin.y + frame.size.height / 2.0 )
+        public var viewCenter: CGPoint {
+            get {
+                let frame = view.frame
+                return CGPoint(x: frame.origin.x + frame.size.width / 2.0, y: frame.origin.y + frame.size.height / 2.0)
+            }
+            set {
+                let frame = view.frame
+                let newFrame = CGRect(x: newValue.x - frame.size.width / 2.0,
+                                      y: newValue.y - frame.size.height / 2.0,
+                                      width: frame.size.width,
+                                      height: frame.size.height)
+                view.frame = newFrame
+            }
         }
-        set {
-            let frame = view.frame
-            let newFrame = CGRect(x: newValue.x - frame.size.width / 2.0,
-                                  y: newValue.y - frame.size.height / 2.0,
-                                  width: frame.size.width,
-                                  height: frame.size.height)
-            view.frame = newFrame
-        }
-    }
+
     #else
-    public var viewCenter: CGPoint {
-        get {
-            return view.center
+        public var viewCenter: CGPoint {
+            get {
+                return view.center
+            }
+            set {
+                view.center = newValue
+            }
         }
-        set {
-            view.center = newValue
-        }
-    }
     #endif
 }
 
 // MARK: - ActivityIndicator
+
 // Displays a NSProgressIndicator / UIActivityIndicatorView
 final class ActivityIndicator: Indicator {
-
     #if os(macOS)
-    private let activityIndicatorView: NSProgressIndicator
+        private let activityIndicatorView: NSProgressIndicator
     #else
-    private let activityIndicatorView: UIActivityIndicatorView
+        private let activityIndicatorView: UIActivityIndicatorView
     #endif
     private var animatingCount = 0
 
@@ -135,13 +137,14 @@ final class ActivityIndicator: Indicator {
             #else
                 let indicatorStyle = UIActivityIndicatorView.Style.gray
             #endif
-            activityIndicatorView = UIActivityIndicatorView(style:indicatorStyle)
+            activityIndicatorView = UIActivityIndicatorView(style: indicatorStyle)
             activityIndicatorView.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleBottomMargin, .flexibleTopMargin]
         #endif
     }
 }
 
 // MARK: - ImageIndicator
+
 // Displays an ImageView. Supports gif
 final class ImageIndicator: Indicator {
     private let animatedImageIndicatorView: ImageView
@@ -151,13 +154,12 @@ final class ImageIndicator: Indicator {
     }
 
     init?(imageData data: Data, processor: ImageProcessor = DefaultImageProcessor.default, options: KingfisherOptionsInfo = KingfisherEmptyOptionsInfo) {
-
         var options = options
         // Use normal image view to show animations, so we need to preload all animation data.
         if !options.preloadAllAnimationData {
             options.append(.preloadAllAnimationData)
         }
-        
+
         guard let image = processor.process(item: .data(data), options: options) else {
             return nil
         }
@@ -165,11 +167,11 @@ final class ImageIndicator: Indicator {
         animatedImageIndicatorView = ImageView()
         animatedImageIndicatorView.image = image
         animatedImageIndicatorView.frame = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
-        
+
         #if os(macOS)
             // Need for gif to animate on macOS
-            self.animatedImageIndicatorView.imageScaling = .scaleNone
-            self.animatedImageIndicatorView.canDrawSubviewsIntoLayer = true
+            animatedImageIndicatorView.imageScaling = .scaleNone
+            animatedImageIndicatorView.canDrawSubviewsIntoLayer = true
         #else
             animatedImageIndicatorView.contentMode = .center
             animatedImageIndicatorView.autoresizingMask = [.flexibleLeftMargin,

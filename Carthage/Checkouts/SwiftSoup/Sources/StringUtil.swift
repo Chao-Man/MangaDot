@@ -30,13 +30,14 @@ open class StringUtil {
     public static func join(_ strings: [String], sep: String) -> String {
         return strings.joined(separator: sep)
     }
+
     public static func join(_ strings: Set<String>, sep: String) -> String {
         return strings.joined(separator: sep)
     }
 
     public static func join(_ strings: OrderedSet<String>, sep: String) -> String {
-		return strings.joined(separator: sep)
-	}
+        return strings.joined(separator: sep)
+    }
 
 //    /**
 //     * Join a collection of strings by a seperator
@@ -47,11 +48,11 @@ open class StringUtil {
 //    public static String join(Iterator strings, String sep) {
 //    if (!strings.hasNext())
 //    return ""
-//    
+//
 //    String start = strings.next().toString()
 //    if (!strings.hasNext()) // only one, avoid builder
 //    return start
-//    
+//
 //    StringBuilder sb = new StringBuilder(64).append(start)
 //    while (strings.hasNext()) {
 //    sb.append(sep)
@@ -65,18 +66,17 @@ open class StringUtil {
      * @return string of spaces * width
      */
     public static func padding(_ width: Int) -> String {
-
-        if(width <= 0) {
+        if width <= 0 {
             return ""
         }
 
-        if (width < padding.count) {
+        if width < padding.count {
             return padding[width]
         }
 
         var out: [Character] = [Character]()
 
-        for _ in 0..<width {
+        for _ in 0 ..< width {
             out.append(" ")
         }
         return String(out)
@@ -88,12 +88,12 @@ open class StringUtil {
      * @return if string is blank
      */
     public static func isBlank(_ string: String) -> Bool {
-        if (string.count == 0) {
+        if string.count == 0 {
             return true
         }
 
         for chr in string {
-            if (!StringUtil.isWhitespace(chr)) {
+            if !StringUtil.isWhitespace(chr) {
                 return false
             }
         }
@@ -106,12 +106,12 @@ open class StringUtil {
      * @return true if only digit chars, false if empty or null or contains non-digit chrs
      */
     public static func isNumeric(_ string: String) -> Bool {
-        if (string.count == 0) {
+        if string.count == 0 {
             return false
         }
 
         for chr in string {
-            if !("0"..."9" ~= chr) {
+            if !("0" ... "9" ~= chr) {
                 return false
             }
         }
@@ -124,7 +124,7 @@ open class StringUtil {
      * @return true if code point is whitespace, false otherwise
      */
     public static func isWhitespace(_ c: Character) -> Bool {
-        //(c == " " || c == UnicodeScalar.BackslashT || c == "\n" || (c == "\f" ) || c == "\r")
+        // (c == " " || c == UnicodeScalar.BackslashT || c == "\n" || (c == "\f" ) || c == "\r")
         return c.isWhitespace
     }
 
@@ -135,7 +135,7 @@ open class StringUtil {
      * @return normalised string
      */
     public static func normaliseWhitespace(_ string: String) -> String {
-        let sb: StringBuilder  = StringBuilder.init()
+        let sb: StringBuilder = StringBuilder()
         appendNormalisedWhitespace(sb, string: string, stripLeading: false)
         return sb.toString()
     }
@@ -146,13 +146,13 @@ open class StringUtil {
      * @param string string to normalize whitespace within
      * @param stripLeading set to true if you wish to remove any leading whitespace
      */
-    public static func appendNormalisedWhitespace(_ accum: StringBuilder, string: String, stripLeading: Bool ) {
+    public static func appendNormalisedWhitespace(_ accum: StringBuilder, string: String, stripLeading: Bool) {
         var lastWasWhite: Bool = false
-        var reachedNonWhite: Bool  = false
+        var reachedNonWhite: Bool = false
 
         for c in string {
-            if (isWhitespace(c)) {
-                if ((stripLeading && !reachedNonWhite) || lastWasWhite) {
+            if isWhitespace(c) {
+                if (stripLeading && !reachedNonWhite) || lastWasWhite {
                     continue
                 }
                 accum.append(" ")
@@ -168,10 +168,11 @@ open class StringUtil {
     public static func inString(_ needle: String?, haystack: String...) -> Bool {
         return inString(needle, haystack)
     }
+
     public static func inString(_ needle: String?, _ haystack: [String?]) -> Bool {
-        if(needle == nil) {return false}
+        if needle == nil { return false }
         for hay in haystack {
-            if(hay != nil  && hay! == needle!) {
+            if hay != nil && hay! == needle! {
                 return true
             }
         }
@@ -209,13 +210,13 @@ open class StringUtil {
      * @return the resolved absolute URL
      * @throws MalformedURLException if an error occurred generating the URL
      */
-    //NOTE: Not sure it work
-    public static func resolve(_ base: URL, relUrl: String ) -> URL? {
+    // NOTE: Not sure it work
+    public static func resolve(_ base: URL, relUrl: String) -> URL? {
         var base = base
-        if(base.pathComponents.count == 0 && base.absoluteString.last != "/" && !base.isFileURL) {
+        if base.pathComponents.count == 0 && base.absoluteString.last != "/" && !base.isFileURL {
             base = base.appendingPathComponent("/", isDirectory: false)
         }
-        let u =  URL(string: relUrl, relativeTo: base)
+        let u = URL(string: relUrl, relativeTo: base)
         return u
     }
 
@@ -225,21 +226,20 @@ open class StringUtil {
      * @param relUrl the relative URL to resolve. (If it's already absolute, it will be returned)
      * @return an absolute URL if one was able to be generated, or the empty string if not
      */
-    public static func resolve(_ baseUrl: String, relUrl: String ) -> String {
-
+    public static func resolve(_ baseUrl: String, relUrl: String) -> String {
         let base = URL(string: baseUrl)
 
-        if(base == nil || base?.scheme == nil) {
+        if base == nil || base?.scheme == nil {
             let abs = URL(string: relUrl)
-			return abs != nil && abs?.scheme != nil ? abs!.absoluteURL.absoluteString : ""
+            return abs != nil && abs?.scheme != nil ? abs!.absoluteURL.absoluteString : ""
         } else {
             let url = resolve(base!, relUrl: relUrl)
-            if(url != nil) {
+            if url != nil {
                 let ext = url!.absoluteURL.absoluteString
                 return ext
             }
 
-            if(base != nil && base?.scheme != nil) {
+            if base != nil && base?.scheme != nil {
                 let ext = base!.absoluteString
                 return ext
             }
@@ -259,7 +259,5 @@ open class StringUtil {
 //        } catch (MalformedURLException e) {
 //            return ""
 //        }
-
     }
-
 }

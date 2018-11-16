@@ -12,6 +12,4 @@ enum OrderBy {
     case ascending, descending
 }
 
-enum Language {
-    
-}
+enum Language {}

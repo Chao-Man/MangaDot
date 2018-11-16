@@ -13,21 +13,21 @@ import Foundation
  */
 public final class CharacterReader {
     private static let empty = ""
-    public static let EOF: UnicodeScalar = "\u{FFFF}"//65535
+    public static let EOF: UnicodeScalar = "\u{FFFF}" // 65535
     private let input: [UnicodeScalar]
     private let length: Int
     private var pos: Int = 0
     private var mark: Int = 0
-    //private let stringCache: Array<String?> // holds reused strings in this doc, to lessen garbage
+    // private let stringCache: Array<String?> // holds reused strings in this doc, to lessen garbage
 
     public init(_ input: String) {
         self.input = Array(input.unicodeScalars)
-        self.length = self.input.count
-        //stringCache = Array(repeating:nil, count:512)
+        length = self.input.count
+        // stringCache = Array(repeating:nil, count:512)
     }
 
     public func getPos() -> Int {
-        return self.pos
+        return pos
     }
 
     public func isEmpty() -> Bool {
@@ -63,9 +63,9 @@ public final class CharacterReader {
 
     public func consumeAsString() -> String {
         let p = pos
-        pos+=1
+        pos += 1
         return String(input[p])
-        //return String(input, pos+=1, 1)
+        // return String(input, pos+=1, 1)
     }
 
     /**
@@ -75,8 +75,8 @@ public final class CharacterReader {
      */
     public func nextIndexOf(_ c: UnicodeScalar) -> Int {
         // doesn't handle scanning for surrogates
-        for i in pos..<length {
-            if (c == input[i]) {
+        for i in pos ..< length {
+            if c == input[i] {
                 return i - pos
             }
         }
@@ -91,24 +91,24 @@ public final class CharacterReader {
      */
     public func nextIndexOf(_ seq: String) -> Int {
         // doesn't handle scanning for surrogates
-		if(seq.isEmpty) {return -1}
+        if seq.isEmpty { return -1 }
         let startChar: UnicodeScalar = seq.unicodeScalar(0)
-        for var offset in pos..<length {
+        for var offset in pos ..< length {
             // scan to first instance of startchar:
-            if (startChar != input[offset]) {
-                offset+=1
-                while(offset < length && startChar != input[offset]) { offset+=1 }
+            if startChar != input[offset] {
+                offset += 1
+                while offset < length && startChar != input[offset] { offset += 1 }
             }
             var i = offset + 1
-            let last = i + seq.unicodeScalars.count-1
-            if (offset < length && last <= length) {
+            let last = i + seq.unicodeScalars.count - 1
+            if offset < length && last <= length {
                 var j = 1
                 while i < last && seq.unicodeScalar(j) == input[i] {
-                    j+=1
-                    i+=1
+                    j += 1
+                    i += 1
                 }
                 // found full sequence
-                if (i == last) {
+                if i == last {
                     return offset - pos
                 }
             }
@@ -118,7 +118,7 @@ public final class CharacterReader {
 
     public func consumeTo(_ c: UnicodeScalar) -> String {
         let offset = nextIndexOf(c)
-        if (offset != -1) {
+        if offset != -1 {
             let consumed = cacheString(pos, offset)
             pos += offset
             return consumed
@@ -129,7 +129,7 @@ public final class CharacterReader {
 
     public func consumeTo(_ seq: String) -> String {
         let offset = nextIndexOf(seq)
-        if (offset != -1) {
+        if offset != -1 {
             let consumed = cacheString(pos, offset)
             pos += offset
             return consumed
@@ -141,14 +141,15 @@ public final class CharacterReader {
     public func consumeToAny(_ chars: UnicodeScalar...) -> String {
         return consumeToAny(chars)
     }
+
     public func consumeToAny(_ chars: [UnicodeScalar]) -> String {
         let start: Int = pos
         let remaining: Int = length
         let val = input
-        OUTER: while (pos < remaining) {
-			if chars.contains(val[pos]) {
-				break OUTER
-			}
+        OUTER: while pos < remaining {
+            if chars.contains(val[pos]) {
+                break OUTER
+            }
 //            for c in chars {
 //                if (val[pos] == c){
 //                    break OUTER
@@ -157,26 +158,26 @@ public final class CharacterReader {
             pos += 1
         }
 
-        return pos > start ? cacheString(start, pos-start) : CharacterReader.empty
+        return pos > start ? cacheString(start, pos - start) : CharacterReader.empty
     }
 
     public func consumeToAnySorted(_ chars: UnicodeScalar...) -> String {
         return consumeToAnySorted(chars)
     }
+
     public func consumeToAnySorted(_ chars: [UnicodeScalar]) -> String {
         let start = pos
         let remaining = length
         let val = input
 
-        while (pos < remaining) {
-
+        while pos < remaining {
             if chars.contains(val[pos]) {
                 break
             }
             pos += 1
         }
 
-        return pos > start ? cacheString(start, pos-start) : CharacterReader.empty
+        return pos > start ? cacheString(start, pos - start) : CharacterReader.empty
     }
 
     public func consumeData() -> String {
@@ -185,15 +186,15 @@ public final class CharacterReader {
         let remaining = length
         let val = input
 
-        while (pos < remaining) {
+        while pos < remaining {
             let c: UnicodeScalar = val[pos]
-            if (c == UnicodeScalar.Ampersand || c ==  UnicodeScalar.LessThan || c ==  TokeniserStateVars.nullScalr) {
+            if c == UnicodeScalar.Ampersand || c == UnicodeScalar.LessThan || c == TokeniserStateVars.nullScalr {
                 break
             }
             pos += 1
         }
 
-        return pos > start ? cacheString(start, pos-start) : CharacterReader.empty
+        return pos > start ? cacheString(start, pos - start) : CharacterReader.empty
     }
 
     public func consumeTagName() -> String {
@@ -202,27 +203,27 @@ public final class CharacterReader {
         let remaining = length
         let val = input
 
-        while (pos < remaining) {
+        while pos < remaining {
             let c: UnicodeScalar = val[pos]
-            if (c == UnicodeScalar.BackslashT || c ==  UnicodeScalar.BackslashN || c ==  UnicodeScalar.BackslashR || c ==  UnicodeScalar.BackslashF || c ==  UnicodeScalar.Space || c ==  UnicodeScalar.Slash || c ==  UnicodeScalar.GreaterThan || c ==  TokeniserStateVars.nullScalr) {
+            if c == UnicodeScalar.BackslashT || c == UnicodeScalar.BackslashN || c == UnicodeScalar.BackslashR || c == UnicodeScalar.BackslashF || c == UnicodeScalar.Space || c == UnicodeScalar.Slash || c == UnicodeScalar.GreaterThan || c == TokeniserStateVars.nullScalr {
                 break
             }
             pos += 1
         }
-        return pos > start ? cacheString(start, pos-start) : CharacterReader.empty
+        return pos > start ? cacheString(start, pos - start) : CharacterReader.empty
     }
 
     public func consumeToEnd() -> String {
-        let data = cacheString(pos, length-pos)
+        let data = cacheString(pos, length - pos)
         pos = length
         return data
     }
 
     public func consumeLetterSequence() -> String {
         let start = pos
-        while (pos < length) {
+        while pos < length {
             let c: UnicodeScalar = input[pos]
-            if ((c >= "A" && c <= "Z") || (c >= "a" && c <= "z") || c.isMemberOfCharacterSet(CharacterSet.letters)) {
+            if (c >= "A" && c <= "Z") || (c >= "a" && c <= "z") || c.isMemberOfCharacterSet(CharacterSet.letters) {
                 pos += 1
             } else {
                 break
@@ -233,17 +234,17 @@ public final class CharacterReader {
 
     public func consumeLetterThenDigitSequence() -> String {
         let start = pos
-        while (pos < length) {
+        while pos < length {
             let c = input[pos]
-            if ((c >= "A" && c <= "Z") || (c >= "a" && c <= "z") || c.isMemberOfCharacterSet(CharacterSet.letters)) {
+            if (c >= "A" && c <= "Z") || (c >= "a" && c <= "z") || c.isMemberOfCharacterSet(CharacterSet.letters) {
                 pos += 1
             } else {
                 break
             }
         }
-        while (!isEmpty()) {
+        while !isEmpty() {
             let c = input[pos]
-            if (c >= "0" && c <= "9") {
+            if c >= "0" && c <= "9" {
                 pos += 1
             } else {
                 break
@@ -255,10 +256,10 @@ public final class CharacterReader {
 
     public func consumeHexSequence() -> String {
         let start = pos
-        while (pos < length) {
+        while pos < length {
             let c = input[pos]
-            if ((c >= "0" && c <= "9") || (c >= "A" && c <= "F") || (c >= "a" && c <= "f")) {
-                pos+=1
+            if (c >= "0" && c <= "9") || (c >= "A" && c <= "F") || (c >= "a" && c <= "f") {
+                pos += 1
             } else {
                 break
             }
@@ -268,10 +269,10 @@ public final class CharacterReader {
 
     public func consumeDigitSequence() -> String {
         let start = pos
-        while (pos < length) {
+        while pos < length {
             let c = input[pos]
-            if (c >= "0" && c <= "9") {
-                pos+=1
+            if c >= "0" && c <= "9" {
+                pos += 1
             } else {
                 break
             }
@@ -281,37 +282,35 @@ public final class CharacterReader {
 
     public func matches(_ c: UnicodeScalar) -> Bool {
         return !isEmpty() && input[pos] == c
-
     }
 
     public func matches(_ seq: String) -> Bool {
         let scanLength = seq.unicodeScalars.count
-        if (scanLength > length - pos) {
+        if scanLength > length - pos {
             return false
         }
 
-        for offset in 0..<scanLength {
-            if (seq.unicodeScalar(offset) != input[pos+offset]) {
+        for offset in 0 ..< scanLength {
+            if seq.unicodeScalar(offset) != input[pos + offset] {
                 return false
             }
         }
         return true
     }
 
-    public func matchesIgnoreCase(_ seq: String ) -> Bool {
-
+    public func matchesIgnoreCase(_ seq: String) -> Bool {
         let scanLength = seq.unicodeScalars.count
-		if(scanLength == 0) {
-			return false
-		}
-        if (scanLength > length - pos) {
+        if scanLength == 0 {
+            return false
+        }
+        if scanLength > length - pos {
             return false
         }
 
-        for offset in 0..<scanLength {
+        for offset in 0 ..< scanLength {
             let upScan: UnicodeScalar = seq.unicodeScalar(offset).uppercase
-            let upTarget: UnicodeScalar = input[pos+offset].uppercase
-            if (upScan != upTarget) {
+            let upTarget: UnicodeScalar = input[pos + offset].uppercase
+            if upScan != upTarget {
                 return false
             }
         }
@@ -319,13 +318,13 @@ public final class CharacterReader {
     }
 
     public func matchesAny(_ seq: UnicodeScalar...) -> Bool {
-        if (isEmpty()) {
+        if isEmpty() {
             return false
         }
 
         let c: UnicodeScalar = input[pos]
         for seek in seq {
-            if (seek == c) {
+            if seek == c {
                 return true
             }
         }
@@ -337,24 +336,24 @@ public final class CharacterReader {
     }
 
     public func matchesLetter() -> Bool {
-        if (isEmpty()) {
+        if isEmpty() {
             return false
         }
-        let c  = input[pos]
+        let c = input[pos]
         return (c >= "A" && c <= "Z") || (c >= "a" && c <= "z") || c.isMemberOfCharacterSet(CharacterSet.letters)
     }
 
     public func matchesDigit() -> Bool {
-        if (isEmpty()) {
+        if isEmpty() {
             return false
         }
-        let c  = input[pos]
+        let c = input[pos]
         return (c >= "0" && c <= "9")
     }
 
     @discardableResult
     public func matchConsume(_ seq: String) -> Bool {
-        if (matches(seq)) {
+        if matches(seq) {
             pos += seq.unicodeScalars.count
             return true
         } else {
@@ -364,7 +363,7 @@ public final class CharacterReader {
 
     @discardableResult
     public func matchConsumeIgnoreCase(_ seq: String) -> Bool {
-        if (matchesIgnoreCase(seq)) {
+        if matchesIgnoreCase(seq) {
             pos += seq.unicodeScalars.count
             return true
         } else {
@@ -372,7 +371,7 @@ public final class CharacterReader {
         }
     }
 
-    public func containsIgnoreCase(_ seq: String ) -> Bool {
+    public func containsIgnoreCase(_ seq: String) -> Bool {
         // used to check presence of </title>, </style>. only finds consistent case.
         let loScan = seq.lowercased(with: Locale(identifier: "en"))
         let hiScan = seq.uppercased(with: Locale(identifier: "eng"))
@@ -380,9 +379,9 @@ public final class CharacterReader {
     }
 
     public func toString() -> String {
-        return String(input[pos..<length])
-		//return String.unicodescalars(Array(input[pos..<length]))
-        //return  input.string(pos, length - pos)
+        return String(input[pos ..< length])
+        // return String.unicodescalars(Array(input[pos..<length]))
+        // return  input.string(pos, length - pos)
     }
 
     /**
@@ -393,8 +392,8 @@ public final class CharacterReader {
      * some more duplicates.
      */
     private func cacheString(_ start: Int, _ count: Int) -> String {
-        return String(input[start..<start+count])
-// Too Slow
+        return String(input[start ..< start + count])
+        // Too Slow
 //        var cache: [String?] = stringCache
 //
 //        // limit (no cache):
@@ -412,20 +411,20 @@ public final class CharacterReader {
 //        }
 //
 //        // get from cache
-//		hash = abs(hash)
-//		let i = hash % cache.count
+        //		hash = abs(hash)
+        //		let i = hash % cache.count
 //        let index: Int = abs(i) //Int(hash & Int(cache.count) - 1)
 //        var cached = cache[index]
 //
 //        if (cached == nil) { // miss, add
-//			cached = String(val[start..<start+count].flatMap { Character($0) })
+        //			cached = String(val[start..<start+count].flatMap { Character($0) })
 //            //cached = val.string(start, count)
 //            cache[Int(index)] = cached
 //        } else { // hashcode hit, check equality
 //            if (rangeEquals(start, count, cached!)) { // hit
 //                return cached!
 //            } else { // hashcode conflict
-//				cached = String(val[start..<start+count].flatMap { Character($0) })
+        //				cached = String(val[start..<start+count].flatMap { Character($0) })
 //                //cached = val.string(start, count)
 //                cache[index] = cached // update the cache, as recently used strings are more likely to show up again
 //            }
@@ -458,6 +457,6 @@ public final class CharacterReader {
 
 extension CharacterReader: CustomDebugStringConvertible {
     public var debugDescription: String {
-        return  self.toString()
+        return toString()
     }
 }

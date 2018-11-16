@@ -15,28 +15,27 @@ import Foundation
  *
  */
 public class XmlTreeBuilder: TreeBuilder {
-
     public override init() {
-		super.init()
-	}
+        super.init()
+    }
 
     public override func defaultSettings() -> ParseSettings {
         return ParseSettings.preserveCase
     }
 
-    public func parse(_ input: String, _ baseUri: String)throws->Document {
+    public func parse(_ input: String, _ baseUri: String) throws -> Document {
         return try parse(input, baseUri, ParseErrorList.noTracking(), ParseSettings.preserveCase)
     }
 
-    override public func initialiseParse(_ input: String, _ baseUri: String, _ errors: ParseErrorList, _ settings: ParseSettings) {
-		super.initialiseParse(input, baseUri, errors, settings)
+    public override func initialiseParse(_ input: String, _ baseUri: String, _ errors: ParseErrorList, _ settings: ParseSettings) {
+        super.initialiseParse(input, baseUri, errors, settings)
         stack.append(doc) // place the document onto the stack. differs from HtmlTreeBuilder (not on stack)
         doc.outputSettings().syntax(syntax: OutputSettings.Syntax.xml)
     }
 
-    override public func process(_ token: Token)throws->Bool {
+    public override func process(_ token: Token) throws -> Bool {
         // start tag, end tag, doctype, comment, character, eof
-        switch (token.type) {
+        switch token.type {
         case .StartTag:
             try insert(token.asStartTag())
             break
@@ -60,20 +59,19 @@ public class XmlTreeBuilder: TreeBuilder {
         return true
     }
 
-    private func insertNode(_ node: Node)throws {
+    private func insertNode(_ node: Node) throws {
         try currentElement()?.appendChild(node)
     }
 
     @discardableResult
-    func insert(_ startTag: Token.StartTag)throws->Element {
+    func insert(_ startTag: Token.StartTag) throws -> Element {
         let tag: Tag = try Tag.valueOf(startTag.name(), settings)
         // todo: wonder if for xml parsing, should treat all tags as unknown? because it's not html.
         let el: Element = try Element(tag, baseUri, settings.normalizeAttributes(startTag._attributes))
         try insertNode(el)
-        if (startTag.isSelfClosing()) {
+        if startTag.isSelfClosing() {
             tokeniser.acknowledgeSelfClosingFlag()
-            if (!tag.isKnownTag()) // unknown tag, remember this is self closing for output. see above.
-            {
+            if !tag.isKnownTag() { // unknown tag, remember this is self closing for output. see above.
                 tag.setSelfClosing()
             }
         } else {
@@ -82,13 +80,13 @@ public class XmlTreeBuilder: TreeBuilder {
         return el
     }
 
-    func insert(_ commentToken: Token.Comment)throws {
+    func insert(_ commentToken: Token.Comment) throws {
         let comment: Comment = Comment(commentToken.getData(), baseUri)
         var insert: Node = comment
-        if (commentToken.bogus) { // xml declarations are emitted as bogus comments (which is right for html, but not xml)
+        if commentToken.bogus { // xml declarations are emitted as bogus comments (which is right for html, but not xml)
             // so we do a bit of a hack and parse the data as an element to pull the attributes out
             let data: String = comment.getData()
-            if (data.count > 1 && (data.startsWith("!") || data.startsWith("?"))) {
+            if data.count > 1 && (data.startsWith("!") || data.startsWith("?")) {
                 let doc: Document = try SwiftSoup.parse("<" + data.substring(1, data.count - 2) + ">", baseUri, Parser.xmlParser())
                 let el: Element = doc.child(0)
                 insert = XmlDeclaration(settings.normalizeTag(el.tagName()), comment.getBaseUri(), data.startsWith("!"))
@@ -98,12 +96,12 @@ public class XmlTreeBuilder: TreeBuilder {
         try insertNode(insert)
     }
 
-    func insert(_ characterToken: Token.Char)throws {
+    func insert(_ characterToken: Token.Char) throws {
         let node: Node = TextNode(characterToken.getData()!, baseUri)
         try insertNode(node)
     }
 
-    func insert(_ d: Token.Doctype)throws {
+    func insert(_ d: Token.Doctype) throws {
         let doctypeNode = DocumentType(settings.normalizeTag(d.getName()), d.getPubSysKey(), d.getPublicIdentifier(), d.getSystemIdentifier(), baseUri)
         try insertNode(doctypeNode)
     }
@@ -114,32 +112,32 @@ public class XmlTreeBuilder: TreeBuilder {
      *
      * @param endTag
      */
-    private func popStackToClose(_ endTag: Token.EndTag)throws {
+    private func popStackToClose(_ endTag: Token.EndTag) throws {
         let elName: String = try endTag.name()
-        var firstFound: Element? = nil
+        var firstFound: Element?
 
-        for pos in (0..<stack.count).reversed() {
+        for pos in (0 ..< stack.count).reversed() {
             let next: Element = stack[pos]
-            if (next.nodeName().equals(elName)) {
+            if next.nodeName().equals(elName) {
                 firstFound = next
                 break
             }
         }
-        if (firstFound == nil) {
-        return // not found, skip
+        if firstFound == nil {
+            return // not found, skip
         }
 
-        for pos in (0..<stack.count).reversed() {
+        for pos in (0 ..< stack.count).reversed() {
             let next: Element = stack[pos]
             stack.remove(at: pos)
-            if (next == firstFound!) {
-            break
+            if next == firstFound! {
+                break
             }
         }
     }
 
-    func parseFragment(_ inputFragment: String, _ baseUri: String, _ errors: ParseErrorList, _ settings: ParseSettings)throws->Array<Node> {
-		initialiseParse(inputFragment, baseUri, errors, settings)
+    func parseFragment(_ inputFragment: String, _ baseUri: String, _ errors: ParseErrorList, _ settings: ParseSettings) throws -> Array<Node> {
+        initialiseParse(inputFragment, baseUri, errors, settings)
         try runParser()
         return doc.getChildNodes()
     }

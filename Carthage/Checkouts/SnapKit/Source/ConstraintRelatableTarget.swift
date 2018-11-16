@@ -27,40 +27,27 @@
     import AppKit
 #endif
 
+public protocol ConstraintRelatableTarget {}
 
-public protocol ConstraintRelatableTarget {
-}
+extension Int: ConstraintRelatableTarget {}
 
-extension Int: ConstraintRelatableTarget {
-}
+extension UInt: ConstraintRelatableTarget {}
 
-extension UInt: ConstraintRelatableTarget {
-}
+extension Float: ConstraintRelatableTarget {}
 
-extension Float: ConstraintRelatableTarget {
-}
+extension Double: ConstraintRelatableTarget {}
 
-extension Double: ConstraintRelatableTarget {
-}
+extension CGFloat: ConstraintRelatableTarget {}
 
-extension CGFloat: ConstraintRelatableTarget {
-}
+extension CGSize: ConstraintRelatableTarget {}
 
-extension CGSize: ConstraintRelatableTarget {
-}
+extension CGPoint: ConstraintRelatableTarget {}
 
-extension CGPoint: ConstraintRelatableTarget {
-}
+extension ConstraintInsets: ConstraintRelatableTarget {}
 
-extension ConstraintInsets: ConstraintRelatableTarget {
-}
+extension ConstraintItem: ConstraintRelatableTarget {}
 
-extension ConstraintItem: ConstraintRelatableTarget {
-}
-
-extension ConstraintView: ConstraintRelatableTarget {
-}
+extension ConstraintView: ConstraintRelatableTarget {}
 
 @available(iOS 9.0, OSX 10.11, *)
-extension ConstraintLayoutGuide: ConstraintRelatableTarget {
-}
+extension ConstraintLayoutGuide: ConstraintRelatableTarget {}

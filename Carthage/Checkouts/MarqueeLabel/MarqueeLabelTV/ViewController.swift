@@ -15,12 +15,12 @@ let labels = [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id.",
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ultricies justo.",
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ultricies justo. Praesent eleifend."]
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ultricies justo. Praesent eleifend.",
+]
 
 let defaultScrollDuration: CGFloat = 20.0
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
     @IBOutlet var marqueeTableView: UITableView!
     @IBOutlet var labelTableView: UITableView!
 
@@ -29,12 +29,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // MarqueeLabel Tableview
         marqueeTableView.dataSource = self
         marqueeTableView.delegate = self
-        
+
         // Basic UILabel Tableview
         labelTableView.dataSource = self
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return labels.count * 10
     }
 
@@ -43,8 +43,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         cell.cellText = labels[(indexPath as NSIndexPath).row % labels.count]
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with coordinator: UIFocusAnimationCoordinator) {
+
+    func tableView(_ tableView: UITableView, didUpdateFocusIn context: UITableViewFocusUpdateContext, with _: UIFocusAnimationCoordinator) {
         if tableView == marqueeTableView {
             if let previouslyFocusedIndexPath = context.previouslyFocusedIndexPath {
                 let previous = tableView.cellForRow(at: previouslyFocusedIndexPath) as? MarqueeCell
@@ -64,7 +64,7 @@ protocol TextCell {
 
 class MarqueeCell: UITableViewCell {
     @IBOutlet var marquee: MarqueeLabel!
-    
+
     override func awakeFromNib() {
         // Perform initial setup
         marquee.labelize = true
@@ -72,7 +72,7 @@ class MarqueeCell: UITableViewCell {
         marquee.speed = .duration(defaultScrollDuration)
         marquee.lineBreakMode = .byTruncatingTail
     }
-    
+
     override var cellText: String? {
         get {
             return marquee.text

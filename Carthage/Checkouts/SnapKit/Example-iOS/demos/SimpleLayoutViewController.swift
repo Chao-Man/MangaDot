@@ -9,7 +9,6 @@
 import UIKit
 
 class SimpleLayoutViewController: UIViewController {
-
     var didSetupConstraints = false
 
     let blackView: UIView = {
@@ -57,9 +56,7 @@ class SimpleLayoutViewController: UIViewController {
     }
 
     override func updateViewConstraints() {
-
-        if (!didSetupConstraints) {
-
+        if !didSetupConstraints {
             blackView.snp.makeConstraints { make in
                 make.center.equalTo(view)
                 make.size.equalTo(CGSize(width: 100, height: 100))

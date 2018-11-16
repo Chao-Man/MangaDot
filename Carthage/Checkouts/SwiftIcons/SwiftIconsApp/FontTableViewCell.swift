@@ -23,10 +23,9 @@
 import UIKit
 
 class FontTableViewCell: UITableViewCell {
-
     @IBOutlet var fontName: UILabel!
     @IBOutlet var author: UILabel!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

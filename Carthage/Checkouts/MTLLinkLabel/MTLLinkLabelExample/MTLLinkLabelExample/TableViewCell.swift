@@ -6,11 +6,9 @@
 //  Copyright (c) 2016, Recruit Holdings Co., Ltd.
 //
 
-import UIKit
 import MTLLinkLabel
+import UIKit
 
 class TableViewCell: UITableViewCell {
-    
     @IBOutlet var label: LinkLabel!
-
 }

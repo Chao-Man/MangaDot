@@ -15,7 +15,7 @@ open class SingleShotOffscreenLabel: MarqueeLabel {
         trailingBuffer = frame.width
         super.layoutSubviews()
     }
-    
+
     // Override labelWillBeginScroll to catch when a scroll animation starts
     open override func labelWillBeginScroll() {
         // This only makes sense for leftRight and rightLeft types
@@ -26,7 +26,7 @@ open class SingleShotOffscreenLabel: MarqueeLabel {
             Timer.scheduledTimer(timeInterval: TimeInterval(awayTime), target: self, selector: #selector(pauseAndClear), userInfo: nil, repeats: false)
         }
     }
-    
+
     @objc public func pauseAndClear() {
         // Pause label offscreen
         pauseLabel()

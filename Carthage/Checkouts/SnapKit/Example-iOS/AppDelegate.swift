@@ -10,21 +10,19 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        window = UIWindow(frame: UIScreen.main.bounds)
 
-        self.window = UIWindow(frame: UIScreen.main.bounds)
+        let listViewController: ListViewController = ListViewController()
+        let navigationController: UINavigationController = UINavigationController(rootViewController: listViewController)
 
-        let listViewController:ListViewController = ListViewController()
-        let navigationController:UINavigationController = UINavigationController(rootViewController: listViewController);
+        window!.rootViewController = navigationController
 
-        self.window!.rootViewController = navigationController;
- 
-        self.window!.backgroundColor = UIColor.white
-        self.window!.makeKeyAndVisible()
-        
+        window!.backgroundColor = UIColor.white
+        window!.makeKeyAndVisible()
+
         return true
     }
 }

@@ -27,6 +27,7 @@
 import WatchKit
 
 // MARK: - Extension methods.
+
 /**
  *    Set image to use from web.
  */
@@ -76,11 +77,12 @@ extension Kingfisher where Base: WKInterfaceImage {
                         completionHandler?(nil, error, cacheType, imageURL)
                         return
                     }
-                
+
                     strongBase.setImage(image)
                     completionHandler?(image, error, cacheType, imageURL)
                 }
-            })
+            }
+        )
 
         setImageTask(task)
 
@@ -97,6 +99,7 @@ extension Kingfisher where Base: WKInterfaceImage {
 }
 
 // MARK: - Associated Object
+
 private var lastURLKey: Void?
 private var imageTaskKey: Void?
 
@@ -118,4 +121,3 @@ extension Kingfisher where Base: WKInterfaceImage {
         objc_setAssociatedObject(base, &imageTaskKey, task, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 }
-

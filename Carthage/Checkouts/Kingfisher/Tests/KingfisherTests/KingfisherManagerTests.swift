@@ -24,33 +24,32 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import XCTest
 @testable import Kingfisher
+import XCTest
 
 class KingfisherManagerTests: XCTestCase {
-    
     var manager: KingfisherManager!
-    
+
     override class func setUp() {
         super.setUp()
         LSNocilla.sharedInstance().start()
     }
-    
+
     override class func tearDown() {
         super.tearDown()
         LSNocilla.sharedInstance().stop()
     }
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let uuid = UUID()
         let downloader = ImageDownloader(name: "test.manager.\(uuid.uuidString)")
         let cache = ImageCache(name: "test.cache.\(uuid.uuidString)")
-        
+
         manager = KingfisherManager(downloader: downloader, cache: cache)
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         LSNocilla.sharedInstance().clearStubs()
@@ -59,38 +58,37 @@ class KingfisherManagerTests: XCTestCase {
         manager = nil
         super.tearDown()
     }
-    
+
     func testRetrieveImage() {
-        
         let expectation = self.expectation(description: "wait for downloading image")
         let URLString = testKeys[0]
-        
+
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
 
         manager.retrieveImage(with: url, options: nil, progressBlock: nil) {
-            image, error, cacheType, imageURL in
+            image, _, cacheType, _ in
             XCTAssertNotNil(image)
             XCTAssertEqual(cacheType, .none)
-            
+
             self.manager.retrieveImage(with: url, options: nil, progressBlock: nil) {
-                image, error, cacheType, imageURL in
+                image, _, cacheType, _ in
                 XCTAssertNotNil(image)
                 XCTAssertEqual(cacheType, .memory)
-                
+
                 self.manager.cache.clearMemoryCache()
                 self.manager.retrieveImage(with: url, options: nil, progressBlock: nil) {
-                    image, error, cacheType, imageURL in
+                    image, _, cacheType, _ in
                     XCTAssertNotNil(image)
                     XCTAssertEqual(cacheType, .disk)
-                    
+
                     cleanDefaultCache()
                     self.manager.retrieveImage(with: url, options: [.forceRefresh], progressBlock: nil) {
-                        image, error, cacheType, imageURL in
+                        image, _, cacheType, _ in
                         XCTAssertNotNil(image)
                         XCTAssertEqual(cacheType, CacheType.none)
-                    
+
                         expectation.fulfill()
                     }
                 }
@@ -99,106 +97,106 @@ class KingfisherManagerTests: XCTestCase {
 
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testRetrieveImageWithProcessor() {
         cleanDefaultCache()
         let expectation = self.expectation(description: "wait for downloading image")
         let URLString = testKeys[0]
-        
+
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
+
         let p = RoundCornerImageProcessor(cornerRadius: 20)
         manager.retrieveImage(with: url, options: [.processor(p)], progressBlock: nil) {
-            image, error, cacheType, imageURL in
+            image, _, cacheType, _ in
             XCTAssertNotNil(image)
             XCTAssertEqual(cacheType, .none)
-            
+
             self.manager.retrieveImage(with: url, options: nil, progressBlock: nil) {
-                image, error, cacheType, imageURL in
-                
+                image, _, cacheType, _ in
+
                 XCTAssertNotNil(image)
                 XCTAssertEqual(cacheType, .none, "Need a processor to get correct image. Cannot get from cache, need download again.")
-                
+
                 self.manager.retrieveImage(with: url, options: [.processor(p)], progressBlock: nil) {
-                    image, error, cacheType, imageURL in
-                
+                    image, _, cacheType, _ in
+
                     XCTAssertNotNil(image)
                     XCTAssertEqual(cacheType, .memory)
-                    
+
                     self.manager.cache.clearMemoryCache()
                     self.manager.retrieveImage(with: url, options: [.processor(p)], progressBlock: nil) {
-                        image, error, cacheType, imageURL in
+                        image, _, cacheType, _ in
                         XCTAssertNotNil(image)
                         XCTAssertEqual(cacheType, .disk)
-                        
+
                         cleanDefaultCache()
                         self.manager.retrieveImage(with: url, options: [.processor(p), .forceRefresh], progressBlock: nil) {
-                            image, error, cacheType, imageURL in
+                            image, _, cacheType, _ in
                             XCTAssertNotNil(image)
                             XCTAssertEqual(cacheType, CacheType.none)
-                            
+
                             expectation.fulfill()
                         }
                     }
                 }
             }
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testRetrieveImageNotModified() {
         let expectation = self.expectation(description: "wait for downloading image")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
+
         manager.retrieveImage(with: url, options: nil, progressBlock: nil) {
-            image, error, cacheType, imageURL in
+            image, _, cacheType, _ in
             XCTAssertNotNil(image)
             XCTAssertEqual(cacheType, CacheType.none)
-            
+
             self.manager.cache.clearMemoryCache()
-            
+
             _ = stubRequest("GET", URLString).andReturn(304)?.withBody("12345" as NSString)
-            
+
             var progressCalled = false
-            
+
             self.manager.retrieveImage(with: url, options: [.forceRefresh], progressBlock: {
                 _, _ in
                 progressCalled = true
             }) {
-                image, error, cacheType, imageURL in
+                image, _, cacheType, _ in
                 XCTAssertNotNil(image)
                 XCTAssertEqual(cacheType, CacheType.disk)
-                
+
                 XCTAssertTrue(progressCalled, "The progress callback should be called at least once since network connecting happens.")
-                
+
                 expectation.fulfill()
             }
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testSuccessCompletionHandlerRunningOnMainQueueDefaultly() {
         let progressExpectation = expectation(description: "progressBlock running on main queue")
         let completionExpectation = expectation(description: "completionHandler running on main queue")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
+
         manager.retrieveImage(with: url, options: nil, progressBlock: { _, _ in
             XCTAssertTrue(Thread.isMainThread)
             progressExpectation.fulfill()
-            }, completionHandler: { _, error, _, _ in
-                XCTAssertNil(error)
-                XCTAssertTrue(Thread.isMainThread)
-                completionExpectation.fulfill()
+        }, completionHandler: { _, error, _, _ in
+            XCTAssertNil(error)
+            XCTAssertTrue(Thread.isMainThread)
+            completionExpectation.fulfill()
         })
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -212,10 +210,10 @@ class KingfisherManagerTests: XCTestCase {
         let url = URL(string: URLString)!
 
         manager.retrieveImage(with: url, options: [.onlyFromCache], progressBlock: nil, completionHandler: { image, error, _, _ in
-                XCTAssertNil(image)
-                XCTAssertNotNil(error)
-                XCTAssertEqual(error!.code, KingfisherError.notCached.rawValue)
-                expectation.fulfill()
+            XCTAssertNil(image)
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error!.code, KingfisherError.notCached.rawValue)
+            expectation.fulfill()
         })
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -228,13 +226,13 @@ class KingfisherManagerTests: XCTestCase {
         let url = URL(string: URLString)!
 
         manager.retrieveImage(with: url, options: nil, progressBlock: { _, _ in
-            //won't be called
-            }, completionHandler: { _, error, _, _ in
-                XCTAssertNotNil(error)
-                XCTAssertTrue(Thread.isMainThread)
-                DispatchQueue.main.async {
-                    expectation.fulfill()
-                }
+            // won't be called
+        }, completionHandler: { _, error, _, _ in
+            XCTAssertNotNil(error)
+            XCTAssertTrue(Thread.isMainThread)
+            DispatchQueue.main.async {
+                expectation.fulfill()
+            }
         })
         waitForExpectations(timeout: 5, handler: nil)
     }
@@ -244,66 +242,66 @@ class KingfisherManagerTests: XCTestCase {
         let completionExpectation = expectation(description: "completionHandler running on custom queue")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
+
         let customQueue = DispatchQueue(label: "com.kingfisher.testQueue")
         manager.retrieveImage(with: url, options: [.callbackDispatchQueue(customQueue)], progressBlock: { _, _ in
             XCTAssertTrue(Thread.isMainThread)
             DispatchQueue.main.async { progressExpectation.fulfill() }
-            }, completionHandler: { _, error, _, _ in
-                XCTAssertNil(error)
-                
-                if #available(iOS 10.0, tvOS 10.0, macOS 10.12, *) {
-                    dispatchPrecondition(condition: .onQueue(customQueue))
-                }
+        }, completionHandler: { _, error, _, _ in
+            XCTAssertNil(error)
 
-                DispatchQueue.main.async {
-                    completionExpectation.fulfill()
-                }
+            if #available(iOS 10.0, tvOS 10.0, macOS 10.12, *) {
+                dispatchPrecondition(condition: .onQueue(customQueue))
+            }
+
+            DispatchQueue.main.async {
+                completionExpectation.fulfill()
+            }
         })
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testErrorCompletionHandlerRunningOnCustomQueue() {
         let expectation = self.expectation(description: "running on custom queue")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(404)
-        
+
         let url = URL(string: URLString)!
-        
+
         let customQueue = DispatchQueue(label: "com.kingfisher.testQueue")
         manager.retrieveImage(with: url, options: [.callbackDispatchQueue(customQueue)], progressBlock: { _, _ in
-            //won't be called
-            }, completionHandler: { _, error, _, _ in
-                XCTAssertNotNil(error)
-                if #available(iOS 10.0, tvOS 10.0, macOS 10.12, *) {
-                    dispatchPrecondition(condition: .onQueue(customQueue))
-                }
-                DispatchQueue.main.async {
-                    expectation.fulfill()
-                }
+            // won't be called
+        }, completionHandler: { _, error, _, _ in
+            XCTAssertNotNil(error)
+            if #available(iOS 10.0, tvOS 10.0, macOS 10.12, *) {
+                dispatchPrecondition(condition: .onQueue(customQueue))
+            }
+            DispatchQueue.main.async {
+                expectation.fulfill()
+            }
         })
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testDefaultOptionCouldApply() {
         let expectation = self.expectation(description: "Default options")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
+
         manager.defaultOptions = [.scaleFactor(2)]
         manager.retrieveImage(with: url, options: nil, progressBlock: nil, completionHandler: { image, _, _, _ in
             #if !os(macOS)
-            XCTAssertEqual(image!.scale, 2.0)
+                XCTAssertEqual(image!.scale, 2.0)
             #endif
             expectation.fulfill()
         })
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testOriginalImageCouldBeStored() {
         let expectation = self.expectation(description: "waiting for cache finished")
 
@@ -313,8 +311,8 @@ class KingfisherManagerTests: XCTestCase {
 
         let p = SimpleProcessor()
         let options: KingfisherOptionsInfo = [.processor(p), .cacheOriginalImage]
-        self.manager.downloadAndCacheImage(with: url, forKey: URLString, retrieveImageTask: RetrieveImageTask(), progressBlock: nil, completionHandler: {
-            (image, error, cacheType, url) in
+        manager.downloadAndCacheImage(with: url, forKey: URLString, retrieveImageTask: RetrieveImageTask(), progressBlock: nil, completionHandler: {
+            _, _, _, _ in
             delay(0.1) {
                 var imageCached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
                 var originalCached = self.manager.cache.imageCachedType(forKey: URLString)
@@ -333,88 +331,86 @@ class KingfisherManagerTests: XCTestCase {
             }
         }, options: options)
 
-        self.waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testOriginalImageNotBeStoredWithoutOptionSet() {
         let expectation = self.expectation(description: "waiting for cache finished")
-        
+
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
         let url = URL(string: URLString)!
-        
+
         let p = SimpleProcessor()
         let options: KingfisherOptionsInfo = [.processor(p)]
         manager.downloadAndCacheImage(with: url, forKey: URLString, retrieveImageTask: RetrieveImageTask(), progressBlock: nil, completionHandler: {
-            (image, error, cacheType, url) in
+            _, _, _, _ in
             delay(0.1) {
                 var imageCached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
                 var originalCached = self.manager.cache.imageCachedType(forKey: URLString)
-                
+
                 XCTAssertEqual(imageCached, .memory)
                 XCTAssertEqual(originalCached, .none)
-                
+
                 self.manager.cache.clearMemoryCache()
-                
+
                 imageCached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
                 originalCached = self.manager.cache.imageCachedType(forKey: URLString)
                 XCTAssertEqual(imageCached, .disk)
                 XCTAssertEqual(originalCached, .none)
-                
+
                 expectation.fulfill()
             }
         }, options: options)
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testCouldProcessOnOriginalImage() {
         let expectation = self.expectation(description: "waiting for downloading finished")
-        
+
         let URLString = testKeys[0]
         manager.cache.store(testImage, original: testImageData as Data,
                             forKey: URLString, processorIdentifier: DefaultImageProcessor.default.identifier,
-                            cacheSerializer: DefaultCacheSerializer.default, toDisk: true)
-        {
+                            cacheSerializer: DefaultCacheSerializer.default, toDisk: true) {
             let p = SimpleProcessor()
-            
+
             let cached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
             XCTAssertFalse(cached.cached)
-            
+
             // No downloading will happen
             self.manager.retrieveImage(with: URL(string: URLString)!, options: [.processor(p)], progressBlock: nil) {
-                image, error, cacheType, url in
+                image, _, cacheType, _ in
                 XCTAssertNotNil(image)
                 XCTAssertEqual(cacheType, .none)
                 XCTAssertTrue(p.processed)
-                
+
                 // The processed image should be cached
                 delay(0.1) {
                     let cached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
                     XCTAssertTrue(cached.cached)
                     expectation.fulfill()
                 }
-                
             }
         }
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testCacheOriginalImageWithOriginalCache() {
         cleanDefaultCache()
         let expectation = self.expectation(description: "wait for downloading image")
         let URLString = testKeys[0]
         let originalCache = ImageCache(name: "test-originalCache")
-        
+
         // Clear original cache first.
         originalCache.clearMemoryCache()
         originalCache.clearDiskCache {
             _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-            
+
             let url = URL(string: URLString)!
-            
+
             let p = RoundCornerImageProcessor(cornerRadius: 20)
             self.manager.retrieveImage(with: url, options: [.processor(p), .cacheOriginalImage, .originalCache(originalCache)], progressBlock: nil) {
-                image, error, cacheType, imageURL in
+                _, _, _, _ in
                 delay(0.1) {
                     let originalCached = originalCache.imageCachedType(forKey: URLString)
                     XCTAssertEqual(originalCached, .memory)
@@ -422,36 +418,35 @@ class KingfisherManagerTests: XCTestCase {
                 }
             }
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testCouldProcessOnOriginalImageWithOriginalCache() {
         cleanDefaultCache()
         let expectation = self.expectation(description: "waiting for downloading finished")
-        
+
         let URLString = testKeys[0]
         let originalCache = ImageCache(name: "test-originalCache")
-        
+
         // Clear original cache first.
         originalCache.clearMemoryCache()
         originalCache.clearDiskCache {
             originalCache.store(testImage, original: testImageData as Data,
                                 forKey: URLString, processorIdentifier: DefaultImageProcessor.default.identifier,
-                                cacheSerializer: DefaultCacheSerializer.default, toDisk: true)
-            {
+                                cacheSerializer: DefaultCacheSerializer.default, toDisk: true) {
                 let p = SimpleProcessor()
-                
+
                 let cached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
                 XCTAssertFalse(cached.cached)
-                
+
                 // No downloading will happen
                 self.manager.retrieveImage(with: URL(string: URLString)!, options: [.processor(p), .originalCache(originalCache)], progressBlock: nil) {
-                    image, error, cacheType, url in
+                    image, _, cacheType, _ in
                     XCTAssertNotNil(image)
                     XCTAssertEqual(cacheType, .none)
                     XCTAssertTrue(p.processed)
-                    
+
                     // The processed image should be cached
                     delay(0.1) {
                         let cached = self.manager.cache.imageCachedType(forKey: URLString, processorIdentifier: p.identifier)
@@ -461,46 +456,46 @@ class KingfisherManagerTests: XCTestCase {
                 }
             }
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testWaitForCacheOnRetrieveImage() {
         cleanDefaultCache()
         let expectation = self.expectation(description: "wait for caching image on retrieve image")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
-        self.manager.retrieveImage(with: url, options: [.waitForCache], progressBlock: nil) {
-            image, error, cacheType, imageURL in
+
+        manager.retrieveImage(with: url, options: [.waitForCache], progressBlock: nil) {
+            image, _, cacheType, _ in
             XCTAssertNotNil(image)
             XCTAssertEqual(cacheType, .memory)
-            
+
             expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
-    
+
     func testWaitForCacheOnRetrieveImageWithProcessor() {
         cleanDefaultCache()
         let expectation = self.expectation(description: "wait for caching image on retrieve image with processor")
         let URLString = testKeys[0]
         _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        
+
         let url = URL(string: URLString)!
-        
+
         let p = RoundCornerImageProcessor(cornerRadius: 20)
-        self.manager.retrieveImage(with: url, options: [.processor(p), .waitForCache], progressBlock: nil) {
-            image, error, cacheType, imageURL in
+        manager.retrieveImage(with: url, options: [.processor(p), .waitForCache], progressBlock: nil) {
+            image, _, cacheType, _ in
             XCTAssertNotNil(image)
             XCTAssertEqual(cacheType, .memory)
-            
+
             expectation.fulfill()
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
 
@@ -517,20 +512,20 @@ class KingfisherManagerTests: XCTestCase {
                 // Can download and cache normally
                 XCTAssertNotNil(image)
                 XCTAssertEqual(type, .none)
-                
+
                 // Can still be got from memory even when disk cache cleared.
                 self.manager.cache.clearDiskCache {
                     self.manager.retrieveImage(with: url, options: [.fromMemoryCacheOrRefresh], progressBlock: nil) {
                         image, _, type, _ in
                         XCTAssertNotNil(image)
                         XCTAssertEqual(type, .memory)
-                        
+
                         expectation.fulfill()
                     }
                 }
             }
         }
-        
+
         waitForExpectations(timeout: 5, handler: nil)
     }
 
@@ -550,7 +545,7 @@ class KingfisherManagerTests: XCTestCase {
 
             self.manager.cache.clearMemoryCache()
             XCTAssertEqual(self.manager.cache.imageCachedType(forKey: URLString), .disk)
-            
+
             self.manager.retrieveImage(with: url, options: [.fromMemoryCacheOrRefresh], progressBlock: nil) {
                 image, _, type, _ in
                 XCTAssertNotNil(image)
@@ -596,74 +591,74 @@ class KingfisherManagerTests: XCTestCase {
         waitForExpectations(timeout: 5, handler: nil)
     }
 
-#if os(iOS) || os(tvOS) || os(watchOS)
-    func testShouldApplyImageModifierWhenDownload() {
-        let expectation = self.expectation(description: "waiting for downloading and cache")
+    #if os(iOS) || os(tvOS) || os(watchOS)
+        func testShouldApplyImageModifierWhenDownload() {
+            let expectation = self.expectation(description: "waiting for downloading and cache")
 
-        let URLString = testKeys[0]
-        _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
-        let url = URL(string: URLString)!
+            let URLString = testKeys[0]
+            _ = stubRequest("GET", URLString).andReturn(200)?.withBody(testImageData)
+            let url = URL(string: URLString)!
 
-        var modifierCalled = false
-        let modifier = AnyImageModifier { image in
-            modifierCalled = true
-            return image.withRenderingMode(.alwaysTemplate)
-        }
-        manager.retrieveImage(with: url, options: [.imageModifier(modifier)], progressBlock: nil) {
-            image, _, _, _ in
-            XCTAssertTrue(modifierCalled)
-            XCTAssertEqual(image?.renderingMode, .alwaysTemplate)
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 5, handler: nil)
-    }
-
-    func testShouldApplyImageModifierWhenLoadFromMemoryCache() {
-        let expectation = self.expectation(description: "waiting for downloading and cache")
-        let URLString = testKeys[0]
-        let url = URL(string: URLString)!
-
-        var modifierCalled = false
-        let modifier = AnyImageModifier { image in
-            modifierCalled = true
-            return image.withRenderingMode(.alwaysTemplate)
-        }
-
-        manager.cache.store(testImage, forKey: URLString)
-        manager.retrieveImage(with: url, options: [.imageModifier(modifier)], progressBlock: nil) {
-            image, _, type, _ in
-            XCTAssertTrue(modifierCalled)
-            XCTAssertEqual(type, .memory)
-            XCTAssertEqual(image?.renderingMode, .alwaysTemplate)
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 5, handler: nil)
-    }
-
-    func testShouldApplyImageModifierWhenLoadFromDiskCache() {
-        let expectation = self.expectation(description: "waiting for downloading and cache")
-        let URLString = testKeys[0]
-        let url = URL(string: URLString)!
-
-        var modifierCalled = false
-        let modifier = AnyImageModifier { image in
-            modifierCalled = true
-            return image.withRenderingMode(.alwaysTemplate)
-        }
-
-        manager.cache.store(testImage, forKey: URLString) {
-            self.manager.cache.clearMemoryCache()
-            self.manager.retrieveImage(with: url, options: [.imageModifier(modifier)], progressBlock: nil) {
-                image, _, type, _ in
+            var modifierCalled = false
+            let modifier = AnyImageModifier { image in
+                modifierCalled = true
+                return image.withRenderingMode(.alwaysTemplate)
+            }
+            manager.retrieveImage(with: url, options: [.imageModifier(modifier)], progressBlock: nil) {
+                image, _, _, _ in
                 XCTAssertTrue(modifierCalled)
-                XCTAssertEqual(type, .disk)
                 XCTAssertEqual(image?.renderingMode, .alwaysTemplate)
                 expectation.fulfill()
             }
+            waitForExpectations(timeout: 5, handler: nil)
         }
-        waitForExpectations(timeout: 5, handler: nil)
-    }
-#endif
+
+        func testShouldApplyImageModifierWhenLoadFromMemoryCache() {
+            let expectation = self.expectation(description: "waiting for downloading and cache")
+            let URLString = testKeys[0]
+            let url = URL(string: URLString)!
+
+            var modifierCalled = false
+            let modifier = AnyImageModifier { image in
+                modifierCalled = true
+                return image.withRenderingMode(.alwaysTemplate)
+            }
+
+            manager.cache.store(testImage, forKey: URLString)
+            manager.retrieveImage(with: url, options: [.imageModifier(modifier)], progressBlock: nil) {
+                image, _, type, _ in
+                XCTAssertTrue(modifierCalled)
+                XCTAssertEqual(type, .memory)
+                XCTAssertEqual(image?.renderingMode, .alwaysTemplate)
+                expectation.fulfill()
+            }
+            waitForExpectations(timeout: 5, handler: nil)
+        }
+
+        func testShouldApplyImageModifierWhenLoadFromDiskCache() {
+            let expectation = self.expectation(description: "waiting for downloading and cache")
+            let URLString = testKeys[0]
+            let url = URL(string: URLString)!
+
+            var modifierCalled = false
+            let modifier = AnyImageModifier { image in
+                modifierCalled = true
+                return image.withRenderingMode(.alwaysTemplate)
+            }
+
+            manager.cache.store(testImage, forKey: URLString) {
+                self.manager.cache.clearMemoryCache()
+                self.manager.retrieveImage(with: url, options: [.imageModifier(modifier)], progressBlock: nil) {
+                    image, _, type, _ in
+                    XCTAssertTrue(modifierCalled)
+                    XCTAssertEqual(type, .disk)
+                    XCTAssertEqual(image?.renderingMode, .alwaysTemplate)
+                    expectation.fulfill()
+                }
+            }
+            waitForExpectations(timeout: 5, handler: nil)
+        }
+    #endif
 }
 
 class SimpleProcessor: ImageProcessor {
@@ -671,7 +666,7 @@ class SimpleProcessor: ImageProcessor {
     var processed = false
     /// Initialize a `DefaultImageProcessor`
     public init() {}
-    
+
     /// Process an input `ImageProcessItem` item to an image for this processor.
     ///
     /// - parameter item:    Input item which will be processed by `self`
@@ -683,15 +678,15 @@ class SimpleProcessor: ImageProcessor {
     public func process(item: ImageProcessItem, options: KingfisherOptionsInfo) -> Image? {
         processed = true
         switch item {
-        case .image(let image):
+        case let .image(image):
             return image
-        case .data(let data):
+        case let .data(data):
             return Kingfisher<Image>.image(
                 data: data,
                 scale: options.scaleFactor,
                 preloadAllAnimationData: options.preloadAllAnimationData,
-                onlyFirstFrame: options.onlyLoadFirstFrame)
+                onlyFirstFrame: options.onlyLoadFirstFrame
+            )
         }
     }
 }
-

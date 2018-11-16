@@ -39,11 +39,11 @@ import ImageIO
     public typealias Image = UIImage
     public typealias Color = UIColor
     #if !os(watchOS)
-    public typealias ImageView = UIImageView
-    public typealias View = UIView
-    public typealias Button = UIButton
+        public typealias ImageView = UIImageView
+        public typealias View = UIView
+        public typealias Button = UIButton
     #else
-    import WatchKit
+        import WatchKit
     #endif
 #endif
 
@@ -68,10 +68,10 @@ public extension KingfisherCompatible {
     }
 }
 
-extension Image: KingfisherCompatible { }
+extension Image: KingfisherCompatible {}
 #if !os(watchOS)
-extension ImageView: KingfisherCompatible { }
-extension Button: KingfisherCompatible { }
+    extension ImageView: KingfisherCompatible {}
+    extension Button: KingfisherCompatible {}
 #else
-extension WKInterfaceImage: KingfisherCompatible { }
+    extension WKInterfaceImage: KingfisherCompatible {}
 #endif

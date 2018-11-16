@@ -20,13 +20,12 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import UIKit
 import SwiftIcons
+import UIKit
 
 private let reuseIdentifier = "fontIcons"
 
 class IconsViewController: UICollectionViewController {
-    
     var index: Int!
     var iconColors = ["e74c3c", "e67e22", "f1c40f", "2ecc71", "1abc9c", "3498db", "9b59b6", "e4Accf", "95a5a6", "34495e", "6c6998", "00695C"]
     var fonts = ["DRIPICONS", "EMOJI", "FONT-AWESOME-REGULAR", "ICO FONT", "IONICONS", "LINEARICONS", "MAP-ICONS", "MATERIAL ICONS", "OPEN ICONIC", "STATE FACE", "WEATHER ICONS", "TYPICONS"]
@@ -38,35 +37,35 @@ class IconsViewController: UICollectionViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Do any additional setup after loading the view.
-        let color = UIColor.init(hex: iconColors[index])
+        let color = UIColor(hex: iconColors[index])
         let font = UIFont(name: "AppleSDGothicNeo-Bold", size: 20)
-        let attributes = [NSAttributedStringKey.font : font!, NSAttributedStringKey.foregroundColor: color]
+        let attributes = [NSAttributedStringKey.font: font!, NSAttributedStringKey.foregroundColor: color]
 
         navigationController?.navigationBar.titleTextAttributes = attributes
         navigationItem.title = fonts[index]
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(goBack(sender:)))
         navigationItem.leftBarButtonItem?.setIcon(icon: .fontAwesomeSolid(.longArrowAltLeft), iconSize: 30, color: color)
-        
+
         let screenSize = UIScreen.main.bounds
         let screenWidth = screenSize.width
-        
+
         var spacing: CGFloat
         if screenWidth == 320 {
-            spacing = 70/6
+            spacing = 70 / 6
         } else if screenWidth == 375 {
-            spacing = 75/7
+            spacing = 75 / 7
         } else if screenWidth == 414 {
-            spacing = 114/8
+            spacing = 114 / 8
         } else {
             spacing = 5
         }
-        
+
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         layout.itemSize = CGSize(width: 50, height: 50)
         layout.minimumInteritemSpacing = spacing
         layout.minimumLineSpacing = spacing
-        
+
         collectionView!.collectionViewLayout = layout
     }
 
@@ -76,28 +75,29 @@ class IconsViewController: UICollectionViewController {
     }
 
     // MARK: - Navigation
-    @objc func goBack(sender: UIBarButtonItem) {
+
+    @objc func goBack(sender _: UIBarButtonItem) {
         _ = navigationController?.popViewController(animated: true)
     }
-    
+
     /*
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using [segue destinationViewController].
+     // Pass the selected object to the new view controller.
+     }
+     */
 
     // MARK: UICollectionViewDataSource
 
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in _: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        
+
         var count = 0
         switch index! {
         case 0:
@@ -127,17 +127,17 @@ class IconsViewController: UICollectionViewController {
         default:
             break
         }
-        
+
         return count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
+
         // Configure the cell
         let imgView = cell.viewWithTag(1) as! UIImageView
-        let color = UIColor.init(hex: iconColors[index!])
-        
+        let color = UIColor(hex: iconColors[index!])
+
         switch index! {
         case 0:
             let icon: DripiconType = DripiconType(rawValue: indexPath.row)!
@@ -178,22 +178,22 @@ class IconsViewController: UICollectionViewController {
         default:
             break
         }
-        
+
         return cell
     }
-    
+
     // MARK: - Navigation
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if (segue.identifier == "iconSelectionSegue") {
+        if segue.identifier == "iconSelectionSegue" {
             let indexPath = (collectionView?.indexPathsForSelectedItems?[0])! as IndexPath
 
             let viewController = segue.destination as! IconDetailViewController
             viewController.index = index
             viewController.indexPath = indexPath
-            
+
             switch index! {
             case 0:
                 let icon: DripiconType = DripiconType(rawValue: indexPath.row)!
@@ -233,7 +233,7 @@ class IconsViewController: UICollectionViewController {
                 viewController.icon = .typIcons(icon)
             default:
                 break
-            }            
+            }
         }
     }
 }

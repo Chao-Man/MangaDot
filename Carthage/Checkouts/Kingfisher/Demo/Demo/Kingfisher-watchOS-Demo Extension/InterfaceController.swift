@@ -24,30 +24,27 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
-import WatchKit
 import Foundation
 import Kingfisher
+import WatchKit
 
 var count = 0
 
 class InterfaceController: WKInterfaceController {
-    
     @IBOutlet var interfaceImage: WKInterfaceImage!
-    
+
     var currentIndex: Int?
-    
-    
+
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
-        
+
         currentIndex = count
         count += 1
     }
-    
+
     func refreshImage() {
         let url = URL(string: "https://raw.githubusercontent.com/onevcat/Kingfisher/master/images/kingfisher-\(currentIndex! + 1).jpg")!
-        self.interfaceImage.kf.setImage(url)
+        interfaceImage.kf.setImage(url)
     }
 
     override func willActivate() {
@@ -60,5 +57,4 @@ class InterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
-
 }

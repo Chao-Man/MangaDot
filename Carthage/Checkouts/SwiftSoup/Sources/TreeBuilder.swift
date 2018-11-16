@@ -19,12 +19,12 @@ public class TreeBuilder {
     public var settings: ParseSettings
 
     private let start: Token.StartTag = Token.StartTag() // start tag to process
-    private let end: Token.EndTag  = Token.EndTag()
+    private let end: Token.EndTag = Token.EndTag()
 
-    public func defaultSettings() -> ParseSettings {preconditionFailure("This method must be overridden")}
+    public func defaultSettings() -> ParseSettings { preconditionFailure("This method must be overridden") }
 
     public init() {
-        doc =  Document("")
+        doc = Document("")
         reader = CharacterReader("")
         tokeniser = Tokeniser(reader, nil)
         stack = Array<Element>()
@@ -43,38 +43,38 @@ public class TreeBuilder {
         self.baseUri = baseUri
     }
 
-    func parse(_ input: String, _ baseUri: String, _ errors: ParseErrorList, _ settings: ParseSettings)throws->Document {
-		initialiseParse(input, baseUri, errors, settings)
+    func parse(_ input: String, _ baseUri: String, _ errors: ParseErrorList, _ settings: ParseSettings) throws -> Document {
+        initialiseParse(input, baseUri, errors, settings)
         try runParser()
         return doc
     }
 
-    public func runParser()throws {
-        while (true) {
+    public func runParser() throws {
+        while true {
             let token: Token = try tokeniser.read()
             try process(token)
             token.reset()
 
-            if (token.type == Token.TokenType.EOF) {
+            if token.type == Token.TokenType.EOF {
                 break
             }
         }
     }
 
     @discardableResult
-    public func process(_ token: Token)throws->Bool {preconditionFailure("This method must be overridden")}
+    public func process(_: Token) throws -> Bool { preconditionFailure("This method must be overridden") }
 
     @discardableResult
-    public func processStartTag(_ name: String)throws->Bool {
-        if (currentToken === start) { // don't recycle an in-use token
+    public func processStartTag(_ name: String) throws -> Bool {
+        if currentToken === start { // don't recycle an in-use token
             return try process(Token.StartTag().name(name))
         }
         return try process(start.reset().name(name))
     }
 
     @discardableResult
-    public func processStartTag(_ name: String, _ attrs: Attributes)throws->Bool {
-        if (currentToken === start) { // don't recycle an in-use token
+    public func processStartTag(_ name: String, _ attrs: Attributes) throws -> Bool {
+        if currentToken === start { // don't recycle an in-use token
             return try process(Token.StartTag().nameAttr(name, attrs))
         }
         start.reset()
@@ -83,16 +83,16 @@ public class TreeBuilder {
     }
 
     @discardableResult
-    public func processEndTag(_ name: String)throws->Bool {
-    if (currentToken === end) { // don't recycle an in-use token
-    return try process(Token.EndTag().name(name))
-    }
+    public func processEndTag(_ name: String) throws -> Bool {
+        if currentToken === end { // don't recycle an in-use token
+            return try process(Token.EndTag().name(name))
+        }
 
-    return try process(end.reset().name(name))
+        return try process(end.reset().name(name))
     }
 
     public func currentElement() -> Element? {
         let size: Int = stack.count
-        return size > 0 ? stack[size-1] : nil
+        return size > 0 ? stack[size - 1] : nil
     }
 }

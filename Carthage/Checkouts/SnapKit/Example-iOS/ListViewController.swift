@@ -6,35 +6,34 @@
 //  Copyright © 2016 SnapKit Team. All rights reserved.
 //
 
-import UIKit
 import SnapKit
+import UIKit
 
 class ListViewController: UITableViewController {
-
     let kCellIdentifier = "CellIdentifier"
     let demos = ["Simple Layout", "Basic UIScrollView"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = "SnapKit iOS Demos"
-        
-        self.tableView?.register(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
+
+        title = "SnapKit iOS Demos"
+
+        tableView?.register(UITableViewCell.self, forCellReuseIdentifier: kCellIdentifier)
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return demos.count
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: kCellIdentifier)! as UITableViewCell
-        
+
         cell.textLabel?.text = demos[indexPath.row]
-        
+
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let viewController = SimpleLayoutViewController()
             navigationController?.pushViewController(viewController, animated: true)

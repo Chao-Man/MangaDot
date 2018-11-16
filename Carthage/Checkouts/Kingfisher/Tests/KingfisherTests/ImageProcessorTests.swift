@@ -24,11 +24,11 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import XCTest
 @testable import Kingfisher
+import XCTest
 
 #if os(macOS)
-import AppKit
+    import AppKit
 #endif
 
 let imageNames = ["kingfisher.jpg", "onevcat.jpg", "unicorn.png"]
@@ -43,19 +43,19 @@ func imageData(noAlpha: Bool = false) -> [Data] {
 // Optimization for Xcode 10 parallel tests
 class ImageProcessorBlendTests: XCTestCase, ImageProcessorHelper {
     #if !os(macOS)
-    func testBlendProcessor() {
-        let p = BlendImageProcessor(blendMode: .darken, alpha: 1.0, backgroundColor: .lightGray)
-        XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.BlendImageProcessor(\(CGBlendMode.darken.rawValue),\(p.alpha))_#aaaaaaff")
-        checkProcessor(p, with: "blend-\(CGBlendMode.darken.rawValue)")
-    }
+        func testBlendProcessor() {
+            let p = BlendImageProcessor(blendMode: .darken, alpha: 1.0, backgroundColor: .lightGray)
+            XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.BlendImageProcessor(\(CGBlendMode.darken.rawValue),\(p.alpha))_#aaaaaaff")
+            checkProcessor(p, with: "blend-\(CGBlendMode.darken.rawValue)")
+        }
     #endif
-    
+
     #if os(macOS)
-    func testCompositingProcessor() {
-        let p = CompositingImageProcessor(compositingOperation: .darken, alpha: 1.0, backgroundColor: .lightGray)
-        XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.CompositingImageProcessor(\(NSCompositingOperation.darken.rawValue),\(p.alpha))_\(Color.lightGray.hex)")
-        checkProcessor(p, with: "compositing-\(NSCompositingOperation.darken.rawValue)")
-    }
+        func testCompositingProcessor() {
+            let p = CompositingImageProcessor(compositingOperation: .darken, alpha: 1.0, backgroundColor: .lightGray)
+            XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.CompositingImageProcessor(\(NSCompositingOperation.darken.rawValue),\(p.alpha))_\(Color.lightGray.hex)")
+            checkProcessor(p, with: "compositing-\(NSCompositingOperation.darken.rawValue)")
+        }
     #endif
 }
 
@@ -65,22 +65,22 @@ class ImageProcessorRoundCornerTests: XCTestCase, ImageProcessorHelper {
         XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.RoundCornerImageProcessor(40.0)")
         checkProcessor(p, with: "round-corner-40")
     }
-    
+
     func testRoundCornerWithResizingProcessor() {
         let p = RoundCornerImageProcessor(cornerRadius: 60, targetSize: CGSize(width: 100, height: 100))
         XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.RoundCornerImageProcessor(60.0_(100.0, 100.0))")
         checkProcessor(p, with: "round-corner-60-resize-100")
     }
-    
+
     func testRoundCornerWithRectCornerProcessor() {
         let p1 = RoundCornerImageProcessor(cornerRadius: 40, roundingCorners: [.topLeft, .topRight])
         XCTAssertEqual(p1.identifier, "com.onevcat.Kingfisher.RoundCornerImageProcessor(40.0_corner(3))")
         checkProcessor(p1, with: "round-corner-40-corner-3")
-        
+
         let p2 = RoundCornerImageProcessor(cornerRadius: 40, roundingCorners: [.bottomLeft, .bottomRight])
         XCTAssertEqual(p2.identifier, "com.onevcat.Kingfisher.RoundCornerImageProcessor(40.0_corner(12))")
         checkProcessor(p2, with: "round-corner-40-corner-12")
-        
+
         let p3 = RoundCornerImageProcessor(cornerRadius: 40, roundingCorners: .all)
         XCTAssertEqual(p3.identifier, "com.onevcat.Kingfisher.RoundCornerImageProcessor(40.0)")
         checkProcessor(p3, with: "round-corner-40")
@@ -93,17 +93,16 @@ class ImageProcessorResizingTests: XCTestCase, ImageProcessorHelper {
         XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.ResizingImageProcessor((120.0, 120.0))")
         checkProcessor(p, with: "resize-120")
     }
-    
+
     func testResizingProcessorWithContentMode() {
         let p1 = ResizingImageProcessor(referenceSize: CGSize(width: 240, height: 60), mode: .aspectFill)
         XCTAssertEqual(p1.identifier, "com.onevcat.Kingfisher.ResizingImageProcessor((240.0, 60.0), aspectFill)")
         checkProcessor(p1, with: "resize-240-60-aspectFill")
-        
+
         let p2 = ResizingImageProcessor(referenceSize: CGSize(width: 240, height: 60), mode: .aspectFit)
         XCTAssertEqual(p2.identifier, "com.onevcat.Kingfisher.ResizingImageProcessor((240.0, 60.0), aspectFit)")
         checkProcessor(p2, with: "resize-240-60-aspectFit")
     }
-    
 }
 
 class ImageProcessorBlurTests: XCTestCase, ImageProcessorHelper {
@@ -121,7 +120,7 @@ class ImageProcessorOverlayTests: XCTestCase, ImageProcessorHelper {
         let p1 = OverlayImageProcessor(overlay: .red)
         XCTAssertEqual(p1.identifier, "com.onevcat.Kingfisher.OverlayImageProcessor(\(Color.red.hex)_0.5)")
         checkProcessor(p1, with: "overlay-red")
-        
+
         let p2 = OverlayImageProcessor(overlay: .red, fraction: 0.7)
         XCTAssertEqual(p2.identifier, "com.onevcat.Kingfisher.OverlayImageProcessor(\(Color.red.hex)_0.7)")
         checkProcessor(p2, with: "overlay-red-07")
@@ -143,7 +142,7 @@ class ImageProcessorColorControlTests: XCTestCase, ImageProcessorHelper {
         XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.ColorControlsProcessor(0.0_1.1_1.2_0.7)")
         checkProcessor(p, with: "color-control-b00-c11-s12-ev07")
     }
-    
+
     func testBlackWhiteProcessor() {
         let p = BlackWhiteProcessor()
         XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.BlackWhiteProcessor")
@@ -160,14 +159,13 @@ class ImageProcessorCroppingTests: XCTestCase, ImageProcessorHelper {
 }
 
 class ImageProcessorTests: XCTestCase, ImageProcessorHelper {
-
     func testRenderEqual() {
         let image1 = Image(data: testImageData as Data)!
         let image2 = Image(data: testImagePNGData)!
-        
+
         XCTAssertTrue(image1.renderEqual(to: image2))
     }
-    
+
     func testCompositionProcessor() {
         let p = BlurImageProcessor(blurRadius: 4) >> RoundCornerImageProcessor(cornerRadius: 60)
         XCTAssertEqual(p.identifier, "com.onevcat.Kingfisher.BlurImageProcessor(4.0)|>com.onevcat.Kingfisher.RoundCornerImageProcessor(60.0)")
@@ -175,36 +173,36 @@ class ImageProcessorTests: XCTestCase, ImageProcessorHelper {
         // See results in Resource folder.
         checkProcessor(p, with: "blur-4-round-corner-60", noAlpha: true)
     }
-    
+
     func testCIImageProcessor() {
         let p = TestCIImageProcessor(filter: .tint(Color.yellow.withAlphaComponent(0.2)))
         checkProcessor(p, with: "tint-yellow-02")
     }
 
     #if os(iOS) || os(tvOS)
-    func testImageProcessorRespectOptionScale() {
-        let image = testImage
-        XCTAssertEqual(image.scale, 1.0)
+        func testImageProcessorRespectOptionScale() {
+            let image = testImage
+            XCTAssertEqual(image.scale, 1.0)
 
-        let size = CGSize(width: 2, height: 2)
+            let size = CGSize(width: 2, height: 2)
 
-        let processors: [ImageProcessor] = [
-            DefaultImageProcessor(),
-            RoundCornerImageProcessor(cornerRadius: 1.0, targetSize: size),
-            ResizingImageProcessor(referenceSize: size),
-            BlurImageProcessor(blurRadius: 1.0),
-            OverlayImageProcessor(overlay: .red),
-            TintImageProcessor(tint: .red),
-            ColorControlsProcessor(brightness: 0, contrast: 0, saturation: 0, inputEV: 0),
-            BlackWhiteProcessor(),
-            CroppingImageProcessor(size: size)
-        ]
+            let processors: [ImageProcessor] = [
+                DefaultImageProcessor(),
+                RoundCornerImageProcessor(cornerRadius: 1.0, targetSize: size),
+                ResizingImageProcessor(referenceSize: size),
+                BlurImageProcessor(blurRadius: 1.0),
+                OverlayImageProcessor(overlay: .red),
+                TintImageProcessor(tint: .red),
+                ColorControlsProcessor(brightness: 0, contrast: 0, saturation: 0, inputEV: 0),
+                BlackWhiteProcessor(),
+                CroppingImageProcessor(size: size),
+            ]
 
-        let images = processors.map { $0.process(item: .image(image), options: [.scaleFactor(2.0)]) }
-        images.forEach {
-            XCTAssertEqual($0!.scale, 2.0)
+            let images = processors.map { $0.process(item: .image(image), options: [.scaleFactor(2.0)]) }
+            images.forEach {
+                XCTAssertEqual($0!.scale, 2.0)
+            }
         }
-    }
     #endif
 }
 
@@ -216,17 +214,14 @@ struct TestCIImageProcessor: CIImageProcessor {
 protocol ImageProcessorHelper {
     func checkProcessor(_ p: ImageProcessor, with suffix: String, noAlpha: Bool)
     func checkImagesEqual(targetImages: [Image], resultImages: [Image], for suffix: String)
-    
 }
 
 extension ImageProcessorHelper {
-    
     func checkProcessor(_ p: ImageProcessor, with suffix: String, noAlpha: Bool = false) {
-        
         let specifiedSuffix = getSuffix(with: suffix)
-        
+
         let filteredImageNames = noAlpha ? nonPNGIamgeNames : imageNames
-        
+
         let targetImages = filteredImageNames
             .map { $0.replacingOccurrences(of: ".", with: "-\(specifiedSuffix).") }
             .compactMap { name -> Image? in
@@ -239,12 +234,12 @@ extension ImageProcessorHelper {
 
                 return Image(fileName: name)
             }
-        
+
         let resultImages = imageData(noAlpha: noAlpha).compactMap { p.process(item: .data($0), options: []) }
-        
+
         checkImagesEqual(targetImages: targetImages, resultImages: resultImages, for: specifiedSuffix)
     }
-    
+
     func checkImagesEqual(targetImages: [Image], resultImages: [Image], for suffix: String) {
         XCTAssertEqual(targetImages.count, resultImages.count)
 
@@ -261,12 +256,12 @@ extension ImageProcessorHelper {
             }
         }
     }
-    
+
     func getSuffix(with ori: String) -> String {
         #if os(macOS)
-        return "\(ori)-mac"
+            return "\(ori)-mac"
         #else
-        return ori
+            return ori
         #endif
     }
 }

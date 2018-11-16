@@ -2,5 +2,5 @@
 import XCTest
 
 XCTMain([
-    testCase(SwiftDateTests.allTests)
+    testCase(SwiftDateTests.allTests),
 ])

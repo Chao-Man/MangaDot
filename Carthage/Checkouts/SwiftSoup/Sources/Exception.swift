@@ -18,5 +18,5 @@ public enum ExceptionType {
 }
 
 public enum Exception: Error {
-    case Error(type:ExceptionType, Message: String)
+    case Error(type: ExceptionType, Message: String)
 }

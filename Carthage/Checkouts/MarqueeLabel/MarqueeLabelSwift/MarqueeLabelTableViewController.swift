@@ -15,7 +15,7 @@ class MarqueeLabelTableViewController: UITableViewController {
                    "By the pricking of my thumbs, Something wicked this way comes.",
                    "My favorite things in life don't cost any money. It's really clear that the most precious resource we all have is time.",
                    "Be a yardstick of quality. Some people aren't used to an environment where excellence is expected."]
-    
+
     override func viewDidLoad() {
         if let tabBar = tabBarController?.tabBar {
             var tabBarInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: tabBar.bounds.height, right: 0.0)
@@ -23,72 +23,72 @@ class MarqueeLabelTableViewController: UITableViewController {
             tabBarInsets.top = 84
             tableView.scrollIndicatorInsets = tabBarInsets
         }
-        
-        let headerNib = UINib(nibName: "MLHeader", bundle:nil)
+
+        let headerNib = UINib(nibName: "MLHeader", bundle: nil)
         tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "MLHeader")
     }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
+
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return 30
     }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection _: Int) -> UIView? {
         return tableView.dequeueReusableHeaderFooterView(withIdentifier: "MLHeader")
     }
-    
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+    override func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
         return 84.0
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MLCell", for: indexPath) as! MLCell
-        
+
         cell.label.text = strings[Int(arc4random_uniform(UInt32(strings.count)))]
         cell.label.type = .continuous
         cell.label.speed = .duration(15)
         cell.label.animationCurve = .easeInOut
         cell.label.fadeLength = 10.0
         cell.label.leadingBuffer = 14.0
-        
+
         // Labelize normally, to improve scroll performance
         cell.label.labelize = true
-        
+
         // Set background, to improve scroll performance
         cell.backgroundColor = UIColor.white
-        
+
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MLCell
-        
+
         // De-labelize on selection
         cell.label.labelize = false
     }
-    
+
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Re-labelize all scrolling labels on tableview scroll
         for cell in tableView.visibleCells as! [MLCell] {
             cell.label.labelize = true
         }
-        
+
         // Animate border
         let header = tableView.headerView(forSection: 0) as! MLHeader
-        UIView.animate(withDuration: 0.2) { 
+        UIView.animate(withDuration: 0.2) {
             header.border.alpha = (scrollView.contentOffset.y > 1.0 ? 1.0 : 0.0)
         }
     }
 }
 
 class MLCell: UITableViewCell {
-    @IBOutlet weak var label: MarqueeLabel!
+    @IBOutlet var label: MarqueeLabel!
 }
 
 class MLHeader: UITableViewHeaderFooterView {
-    @IBOutlet weak var border: UIView!
+    @IBOutlet var border: UIView!
 }

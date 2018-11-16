@@ -10,7 +10,7 @@ import Foundation
 
 /**
  An XML Declaration.
-  */
+ */
 public class XmlDeclaration: Node {
     private let _name: String
     private let isProcessingInstruction: Bool // <! if true, <? if false, declaration (and last data char should be ?)
@@ -22,7 +22,7 @@ public class XmlDeclaration: Node {
      @param isProcessingInstruction is processing instruction
      */
     public init(_ name: String, _ baseUri: String, _ isProcessingInstruction: Bool) {
-        self._name = name
+        _name = name
         self.isProcessingInstruction = isProcessingInstruction
         super.init(baseUri)
     }
@@ -43,11 +43,11 @@ public class XmlDeclaration: Node {
      Get the unencoded XML declaration.
      @return XML declaration
      */
-    public func getWholeDeclaration()throws->String {
+    public func getWholeDeclaration() throws -> String {
         return try attributes!.html().trim() // attr html starts with a " "
     }
 
-    override func outerHtmlHead(_ accum: StringBuilder, _ depth: Int, _ out: OutputSettings) {
+    override func outerHtmlHead(_ accum: StringBuilder, _: Int, _ out: OutputSettings) {
         accum
             .append("<")
             .append(isProcessingInstruction ? "!" : "?")
@@ -60,18 +60,18 @@ public class XmlDeclaration: Node {
             .append(">")
     }
 
-    override func outerHtmlTail(_ accum: StringBuilder, _ depth: Int, _ out: OutputSettings) {}
+    override func outerHtmlTail(_: StringBuilder, _: Int, _: OutputSettings) {}
 
-	public override func copy(with zone: NSZone? = nil) -> Any {
-		let clone = XmlDeclaration(_name, baseUri!, isProcessingInstruction)
-		return copy(clone: clone)
-	}
+    public override func copy(with _: NSZone? = nil) -> Any {
+        let clone = XmlDeclaration(_name, baseUri!, isProcessingInstruction)
+        return copy(clone: clone)
+    }
 
-	public override func copy(parent: Node?) -> Node {
-		let clone = XmlDeclaration(_name, baseUri!, isProcessingInstruction)
-		return copy(clone: clone, parent: parent)
-	}
-	public override func copy(clone: Node, parent: Node?) -> Node {
-		return super.copy(clone: clone, parent: parent)
-	}
+    public override func copy(parent: Node?) -> Node {
+        let clone = XmlDeclaration(_name, baseUri!, isProcessingInstruction)
+        return copy(clone: clone, parent: parent)
+    }
+    public override func copy(clone: Node, parent: Node?) -> Node {
+        return super.copy(clone: clone, parent: parent)
+    }
 }

@@ -27,15 +27,14 @@
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
-    
-    @IBOutlet weak var cellImageView: UIImageView!
-    
-    #if os(tvOS)
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    @IBOutlet var cellImageView: UIImageView!
 
-        cellImageView.adjustsImageWhenAncestorFocused = true
-        cellImageView.clipsToBounds = false
-    }
+    #if os(tvOS)
+        override func awakeFromNib() {
+            super.awakeFromNib()
+
+            cellImageView.adjustsImageWhenAncestorFocused = true
+            cellImageView.clipsToBounds = false
+        }
     #endif
 }
