@@ -50,8 +50,10 @@ Free & open source Manga reader
 ### Reader
 - [x] Basic pages left -> right
 - [x] Zoom
+- [ ] Next chapter at end of current chapter
 - [ ] Refresh page
 - [ ] Add to Title to Library
+- [ ] Progress indicator
 - [ ] Read direction (left -> right, right -> left, top -> down)
 - [ ] Page Scrobbling
 - [ ] Exit gesture (zoom out) 

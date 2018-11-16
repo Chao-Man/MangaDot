@@ -25,7 +25,6 @@ class ReaderPageViewController: UIViewController {
     var scrollView = UIScrollView() {
         didSet {
             updateScrollViewScaling()
-            scrollView.delegate = self
         }
     }
 
@@ -40,7 +39,7 @@ class ReaderPageViewController: UIViewController {
     }
 
     override func viewDidLayoutSubviews() {
-        updateViewConstraints()
+//        updateViewConstraints()
         super.viewDidLayoutSubviews()
     }
 
@@ -48,10 +47,6 @@ class ReaderPageViewController: UIViewController {
         setupViews()
         updateViewConstraints()
         super.viewDidLoad()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
 
     override func updateViewConstraints() {
@@ -78,20 +73,22 @@ class ReaderPageViewController: UIViewController {
     
     private func updateScrollViewScaling() {
         scrollView.isUserInteractionEnabled = true
-        scrollView.minimumZoomScale = 0.25
+        scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 5.0
         scrollView.contentSize = imageView.frame.size
     }
 
     private func setupViews() {
-        // Add views
         imageView.kf.indicatorType = .activity
         imageView.kf.setImage(with: imageUrl, completionHandler: {
             (image, error, cacheType, imageUrl) in
             self.updateImageContentMode()
             self.updateScrollViewScaling()
         })
+        scrollView.delegate = self
         scrollView.addSubview(imageView)
+        
+        // Add views
         view.addSubview(scrollView)
         view.backgroundColor = .white
     }
@@ -102,9 +99,9 @@ extension ReaderPageViewController: UIScrollViewDelegate {
         return imageView
     }
 }
-//
-//extension ReaderPageViewController: UIGestureRecognizerDelegate {
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
-//}
+
+extension ReaderPageViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}

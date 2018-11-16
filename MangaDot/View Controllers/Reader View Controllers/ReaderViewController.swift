@@ -135,3 +135,10 @@ extension ReaderViewController: UIPageViewControllerDataSource {
         return pages[previousPageIndex]
     }
 }
+
+
+extension ReaderViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+}

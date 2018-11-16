@@ -466,8 +466,8 @@
 		057F52B6216CBF4E000724DD /* Title Chapter View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				057F52B7216CBF6D000724DD /* View Models */,
 				057F52BA216CBFCB000724DD /* TitleChapterViewController.swift */,
+				057F52B7216CBF6D000724DD /* View Models */,
 			);
 			path = "Title Chapter View Controller";
 			sourceTree = "<group>";
