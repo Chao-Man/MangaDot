@@ -26,4 +26,11 @@ struct TitleDescriptionViewModel {
     var largeCoverUrl: URL? {
         return titleData.largeCoverUrl
     }
+
+    var id: String? {
+        if let id = titleData.id {
+            return String(id)
+        }
+        return nil
+    }
 }

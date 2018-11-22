@@ -169,7 +169,6 @@ class TitleDescriptionViewController: PalettableViewController {
 //        }
 
         if let largeCoverUrl = largeCoverUrl {
-            print(ImageCache.default.imageCachedType(forKey: largeCoverUrl.absoluteString).cached)
             coverView.kf.setImage(with: largeCoverUrl, options: [.transition(.fade(0.2)), .waitForCache])
         } else {
             coverView.kf.setImage(with: coverUrl, options: [.transition(.fade(0.2)), .waitForCache])

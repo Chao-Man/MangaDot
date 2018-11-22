@@ -6,6 +6,8 @@
 //  Copyright © 2018 Jian Chao Man. All rights reserved.
 //
 
+import Hero
+import Kingfisher
 import SnapKit
 import UIKit
 
@@ -32,6 +34,8 @@ final class RootViewController: UITabBarController {
     private func setupChildViewControllers() {
         // User Default Theme
         // TODO: Please Change
+
+        ImageCache.default.maxMemoryCost = 1024 * 1024 * 200
 
         let readnowViewController = ReadnowViewController()
         let libraryViewController = LibraryViewController()

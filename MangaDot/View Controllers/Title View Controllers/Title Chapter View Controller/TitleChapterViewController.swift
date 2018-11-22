@@ -9,6 +9,12 @@
 import UIKit
 
 class TitleChapterViewController: UITableViewController {
+    // MARK: - Types
+
+    private enum AlertType {
+        case noChapterIdData
+    }
+
     // MARK: - Propeties
 
     var palette: UIImageColors? {
@@ -68,6 +74,28 @@ class TitleChapterViewController: UITableViewController {
             }
         }, completion: nil)
     }
+
+    private func presentAlert(of alertType: AlertType) {
+        // Helpers
+        let title: String
+        let message: String
+
+        switch alertType {
+        case .noChapterIdData:
+            title = "Unable to load chapter"
+            message = "The application is unable to fetch chapter data. Please make sure your device is connected over Wi-Fi or cellular."
+        }
+
+        // Initialize Alert Controller
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        // Add Cancel Action
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+
+        // Present Alert Controller
+        present(alertController, animated: true)
+    }
 }
 
 extension TitleChapterViewController {
@@ -95,10 +123,16 @@ extension TitleChapterViewController {
         guard let viewModel = viewModel else {
             return
         }
-        let selectedChapterId = viewModel.chapter(index: indexPath.item).id
-        let readerViewController = ReaderViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        let readerViewModel = ReaderViewModel(id: selectedChapterId)
-        readerViewController.viewModel = readerViewModel
-        navigationController?.pushViewController(readerViewController, animated: true)
+        do {
+            let selectedChapterId = viewModel.chapter(index: indexPath.item).id
+            let chapterIds = viewModel.chapterIds()
+            let readerViewController = ReaderPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+            let readerViewModel = try ReaderViewModel(selectedChapterId: selectedChapterId, chapterIds: chapterIds)
+            readerViewController.viewModel = readerViewModel
+            readerViewController.title = "Chapter \(viewModel.chapters[indexPath.row].chapter)"
+            navigationController?.pushViewController(readerViewController, animated: true)
+        } catch {
+            presentAlert(of: .noChapterIdData)
+        }
     }
 }

@@ -62,30 +62,14 @@ class CarouselCell: UICollectionViewCell {
     }
 
     private func loadImage(coverUrl: URL, largeCoverUrl: URL?) {
-        DispatchQueue.main.async {
-            let isCoverCached = ImageCache.default.imageCachedType(forKey: coverUrl.absoluteString).cached
-            if let largeCoverUrl = largeCoverUrl {
-                let isLargeCoverCached = ImageCache.default.imageCachedType(forKey: largeCoverUrl.absoluteString).cached
-
-                if !isLargeCoverCached {
-                    // Large Cover is not cached, loading small cover, and downloading large cover
-                    self.coverView.kf.setImage(with: coverUrl, options: [.transition(.fade(0.2))])
-                    self.fetcher = ImagePrefetcher(urls: [largeCoverUrl]) { _, _, completedResources in
-                        if completedResources.count > 0 {
-                            // Load large cover
-                            self.loadImage(coverUrl: coverUrl, largeCoverUrl: largeCoverUrl)
-                        }
-                    }
-                    self.fetcher.start()
-                } else if isCoverCached {
-                    // Large Cover is cached, loading large cover
-                    self.coverView.kf.setImage(with: largeCoverUrl, options: [.onlyFromCache, .transition(.fade(0.2))])
-                }
-            } else {
-                // Large Cover does not exist, loading small cover
-                self.coverView.kf.setImage(with: coverUrl, options: [.transition(.fade(0.2))])
-            }
-        }
+        // Clear existing image
+        coverView.imageView.image = nil
+        // Define small cover as a placeholder
+        let smallCoverImageView = UIImageView()
+        smallCoverImageView.kf.setImage(with: coverUrl)
+        smallCoverImageView.contentMode = .scaleAspectFill
+        // Use large cover when download is complete
+        coverView.kf.setImage(with: largeCoverUrl, placeholder: smallCoverImageView, options: [.transition(.fade(0.2))])
     }
 
     override func layoutSubviews() {

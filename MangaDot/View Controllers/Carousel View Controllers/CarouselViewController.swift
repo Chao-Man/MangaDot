@@ -143,14 +143,27 @@ extension CarouselViewController: UICollectionViewDelegate {
     func collectionView(_: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt _: IndexPath) {
         if let carouselCell = cell as? CarouselCell {
             carouselCell.coverView.kf.cancelDownloadTask()
-            carouselCell.fetcher.stop()
         }
     }
 }
 
 extension CarouselViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        let smallCoverUrls = indexPaths.compactMap { self.viewModel?.titleData(index: $0.item).coverUrl }
-        ImagePrefetcher(urls: smallCoverUrls).start()
+        var coverUrls: [URL] = []
+        let smallCoverUrls = indexPaths.compactMap { (indexPath) -> URL? in
+            guard let coverUrl = self.viewModel?.titleData(index: indexPath.item).coverUrl else { return nil }
+            guard ImageCache.default.imageCachedType(forKey: coverUrl.absoluteString) == .none else { return nil }
+            return coverUrl
+        }
+        let largeCoverUrls = indexPaths.compactMap { (indexPath) -> URL? in
+            guard let coverUrl = self.viewModel?.titleData(index: indexPath.item).largeCoverUrl else { return nil }
+            guard ImageCache.default.imageCachedType(forKey: coverUrl.absoluteString) == .none else { return nil }
+            return coverUrl
+        }
+        coverUrls += smallCoverUrls
+        coverUrls += largeCoverUrls
+        let imagePrefetcher = ImagePrefetcher(urls: coverUrls)
+        imagePrefetcher.maxConcurrentDownloads = 1
+        imagePrefetcher.start()
     }
 }

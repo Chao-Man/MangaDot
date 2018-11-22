@@ -24,4 +24,8 @@ struct TitleChapterViewModel {
     func chapter(index: Int) -> TitleChapterData {
         return chapters[index]
     }
+
+    func chapterIds() -> [Int] {
+        return chapters.map({ $0.id }).reversed()
+    }
 }

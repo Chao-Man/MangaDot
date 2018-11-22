@@ -198,7 +198,7 @@ public class KingfisherManager {
                                                 }
                                             }
 
-                                            if options.waitForCache == false {
+                                            if options.waitForCache == false || image == nil {
                                                 completionHandler?(image, error, .none, url)
                                             }
         })

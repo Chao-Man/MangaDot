@@ -8,9 +8,13 @@
 
 import Foundation
 
-internal enum AssociatedKeys: String {
-    case customDateFormatter = "SwiftDate.CustomDateFormatter"
-}
+#if os(Linux)
+
+#else
+    internal enum AssociatedKeys: String {
+        case customDateFormatter = "SwiftDate.CustomDateFormatter"
+    }
+#endif
 
 extension Date: DateRepresentable {
     /// Just return itself to be compliant with `DateRepresentable` protocol.
@@ -21,18 +25,28 @@ extension Date: DateRepresentable {
         return SwiftDate.defaultRegion
     }
 
-    /// Assign a custom formatter if you need a special behaviour during formatting of the object.
-    /// Usually you will not need to do it, SwiftDate uses the local thread date formatter in order to
-    /// optimize the formatting process. By default is `nil`.
-    public var customFormatter: DateFormatter? {
-        get {
-            let fomatter: DateFormatter? = getAssociatedValue(key: AssociatedKeys.customDateFormatter.rawValue, object: self as AnyObject)
-            return fomatter
+    #if os(Linux)
+        public var customFormatter: DateFormatter? {
+            get {
+                debugPrint("Not supported on Linux")
+                return nil
+            }
+            set { debugPrint("Not supported on Linux") }
         }
-        set {
-            set(associatedValue: newValue, key: AssociatedKeys.customDateFormatter.rawValue, object: self as AnyObject)
+    #else
+        /// Assign a custom formatter if you need a special behaviour during formatting of the object.
+        /// Usually you will not need to do it, SwiftDate uses the local thread date formatter in order to
+        /// optimize the formatting process. By default is `nil`.
+        public var customFormatter: DateFormatter? {
+            get {
+                let fomatter: DateFormatter? = getAssociatedValue(key: AssociatedKeys.customDateFormatter.rawValue, object: self as AnyObject)
+                return fomatter
+            }
+            set {
+                set(associatedValue: newValue, key: AssociatedKeys.customDateFormatter.rawValue, object: self as AnyObject)
+            }
         }
-    }
+    #endif
 
     /// Extract the date components.
     public var dateComponents: DateComponents {

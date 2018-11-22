@@ -98,6 +98,8 @@ class TitleViewController: PalettableViewController {
         // Customise view
         view.addSubview(separatorView)
         view.backgroundColor = .white
+        // Remove back button title
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     private func setupChildViewControllers() {

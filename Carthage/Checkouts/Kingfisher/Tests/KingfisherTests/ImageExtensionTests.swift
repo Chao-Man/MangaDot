@@ -68,6 +68,14 @@ class ImageExtensionTests: XCTestCase {
         #endif
     }
 
+    #if os(iOS) || os(tvOS)
+        func testScaleForGIFImage() {
+            let image = Kingfisher<Image>.animated(with: testImageGIFData, scale: 2.0, duration: 0.0, preloadAll: false, onlyFirstFrame: false)
+            XCTAssertNotNil(image, "The image should be initiated.")
+            XCTAssertEqual(image!.scale, 2.0, "should have correct scale")
+        }
+    #endif
+
     func testGIFRepresentation() {
         let image = Kingfisher<Image>.animated(with: testImageGIFData, preloadAll: false)!
         let data = image.kf.gifRepresentation()

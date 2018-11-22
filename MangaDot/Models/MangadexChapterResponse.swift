@@ -30,8 +30,15 @@ struct MangadexChapterResponse: Codable {
 
 extension MangadexChapterResponse: ChapterPageData {
     var pageUrlArray: [URL?] {
+        // TODO: - Hacky fix
+        // Mangadex API returns '/data/' when it uses the main server, but the full url when using a different image server.
+        var serverUrl: URL = server
+
+        if server.absoluteString == "/data/" {
+            serverUrl = MangadexService.baseUrl.appendingPathComponent(server.absoluteString)
+        }
         return pageArray.map { (page) -> URL? in
-            URL(string: "\(server)")?.appendingPathComponent(hash).appendingPathComponent(page)
+            serverUrl.appendingPathComponent(hash).appendingPathComponent(page)
         }
     }
 }

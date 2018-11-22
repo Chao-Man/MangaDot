@@ -10,6 +10,8 @@ Free & open source Manga reader
 - SwiftSoup
 - KingFisher
 - SnapKit
+- SwiftDate
+- SwiftIcons    
 
 ## Features
 
