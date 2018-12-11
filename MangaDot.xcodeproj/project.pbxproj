@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		051899EF21B63FE10024FA8A /* ScrobblerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051899EE21B63FE10024FA8A /* ScrobblerCellViewModel.swift */; };
+		051899F121B8EA130024FA8A /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051899F021B8EA130024FA8A /* RoundedImageView.swift */; };
 		051FA1482161065E00CABA9C /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051FA1472161065D00CABA9C /* SnapKit.framework */; };
 		051FA14A21610E9A00CABA9C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051FA14921610E9A00CABA9C /* Configuration.swift */; };
 		051FA14C2161BFAC00CABA9C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051FA14B2161BFAC00CABA9C /* String.swift */; };
@@ -64,6 +66,8 @@
 		05675635219D1913007182D6 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05675634219D1913007182D6 /* ColorPalette.swift */; };
 		05675638219D2CE4007182D6 /* PalettableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05675637219D2CE4007182D6 /* PalettableViewController.swift */; };
 		0567563A219D30BB007182D6 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05675639219D30BB007182D6 /* UserDefaults.swift */; };
+		0576160621B0CE4E00238E3A /* ScrobblerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0576160521B0CE4E00238E3A /* ScrobblerViewModel.swift */; };
+		0576160821B3BD2A00238E3A /* PageThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0576160721B3BD2A00238E3A /* PageThumbnailView.swift */; };
 		057F52B9216CBFC0000724DD /* TitleChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057F52B8216CBFC0000724DD /* TitleChapterViewModel.swift */; };
 		057F52BB216CBFCB000724DD /* TitleChapterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057F52BA216CBFCB000724DD /* TitleChapterViewController.swift */; };
 		057F52BD216CE2DF000724DD /* ChapterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057F52BC216CE2DF000724DD /* ChapterCell.swift */; };
@@ -92,6 +96,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		051899EE21B63FE10024FA8A /* ScrobblerCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrobblerCellViewModel.swift; sourceTree = "<group>"; };
+		051899F021B8EA130024FA8A /* RoundedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedImageView.swift; sourceTree = "<group>"; };
 		051FA1472161065D00CABA9C /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		051FA14921610E9A00CABA9C /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		051FA14B2161BFAC00CABA9C /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -150,6 +156,8 @@
 		05675634219D1913007182D6 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		05675637219D2CE4007182D6 /* PalettableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalettableViewController.swift; sourceTree = "<group>"; };
 		05675639219D30BB007182D6 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		0576160521B0CE4E00238E3A /* ScrobblerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrobblerViewModel.swift; sourceTree = "<group>"; };
+		0576160721B3BD2A00238E3A /* PageThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageThumbnailView.swift; sourceTree = "<group>"; };
 		057F52B8216CBFC0000724DD /* TitleChapterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleChapterViewModel.swift; sourceTree = "<group>"; };
 		057F52BA216CBFCB000724DD /* TitleChapterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleChapterViewController.swift; sourceTree = "<group>"; };
 		057F52BC216CE2DF000724DD /* ChapterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterCell.swift; sourceTree = "<group>"; };
@@ -333,7 +341,9 @@
 				052FDE772165F6700099D127 /* CarouselCell.swift */,
 				057F52BC216CE2DF000724DD /* ChapterCell.swift */,
 				05513400218D515000E7C50F /* CoverView.swift */,
+				0576160721B3BD2A00238E3A /* PageThumbnailView.swift */,
 				05513402218D579200E7C50F /* DropShadowView.swift */,
+				051899F021B8EA130024FA8A /* RoundedImageView.swift */,
 				05513404218D94DA00E7C50F /* SeparatedStackView.swift */,
 				05513406218D98B200E7C50F /* SeperatorView.swift */,
 			);
@@ -344,6 +354,8 @@
 			isa = PBXGroup;
 			children = (
 				0551340B218EF2B500E7C50F /* ReaderViewModel.swift */,
+				0576160521B0CE4E00238E3A /* ScrobblerViewModel.swift */,
+				051899EE21B63FE10024FA8A /* ScrobblerCellViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -790,6 +802,7 @@
 				052D2E362158ECC600079034 /* MangadexTitleResponse.swift in Sources */,
 				05820005214E01550032639A /* RootViewController.swift in Sources */,
 				0567563A219D30BB007182D6 /* UserDefaults.swift in Sources */,
+				0576160621B0CE4E00238E3A /* ScrobblerViewModel.swift in Sources */,
 				055C3F17216DFFFB00BF2D33 /* UIView.swift in Sources */,
 				05513403218D579200E7C50F /* DropShadowView.swift in Sources */,
 				052D2E322158E6D100079034 /* SearchViewController.swift in Sources */,
@@ -797,10 +810,12 @@
 				05598B91215D0BA200B16F71 /* CarouselViewModel.swift in Sources */,
 				052E9002215F8F9D00FE5677 /* MangadexFeedResponse.swift in Sources */,
 				05598B8B215D0AD200B16F71 /* CarouselViewController.swift in Sources */,
+				0576160821B3BD2A00238E3A /* PageThumbnailView.swift in Sources */,
 				0582000B214E01550032639A /* Manga.xcdatamodeld in Sources */,
 				05675635219D1913007182D6 /* ColorPalette.swift in Sources */,
 				05513401218D515000E7C50F /* CoverView.swift in Sources */,
 				057F52BB216CBFCB000724DD /* TitleChapterViewController.swift in Sources */,
+				051899EF21B63FE10024FA8A /* ScrobblerCellViewModel.swift in Sources */,
 				052D2E272158DC6C00079034 /* RootViewModel.swift in Sources */,
 				052FDE782165F6700099D127 /* CarouselCell.swift in Sources */,
 				05513407218D98B200E7C50F /* SeperatorView.swift in Sources */,
@@ -830,6 +845,7 @@
 				05E89B0E21A505370069A71A /* ReaderScrobblerCell.swift in Sources */,
 				05513405218D94DA00E7C50F /* SeparatedStackView.swift in Sources */,
 				05CB43E1216F1834002B0FEB /* GenresListViewController.swift in Sources */,
+				051899F121B8EA130024FA8A /* RoundedImageView.swift in Sources */,
 				05675630219D14DD007182D6 /* Palettable.swift in Sources */,
 				05598B84215CEA9100B16F71 /* TitleViewController.swift in Sources */,
 				051FA1572163288200CABA9C /* SearchViewModel.swift in Sources */,

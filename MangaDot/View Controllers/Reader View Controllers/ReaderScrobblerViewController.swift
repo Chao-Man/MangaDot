@@ -8,43 +8,57 @@
 
 import SnapKit
 import UIKit
+import Kingfisher
 
 class ReaderScrobblerViewController: UIViewController {
     // MARK: - Types
 
     // MARK: - Properties
 
-    let collectionViewLayout = UICollectionViewFlowLayout()
-    let collectionViewController: UICollectionViewController
     let separatorView = SeparatorView(axis: .horizontal, width: 0.5, inset: 0, color: UIColor.gray)
     let visualEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
-    let visualEffectsView: UIVisualEffectView
+
+    private lazy var layout: UICollectionViewFlowLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout.scrollDirection = .horizontal
+        return layout
+    }()
+
+    private lazy var collectionViewController: UICollectionViewController = {
+        let viewController = UICollectionViewController(collectionViewLayout: layout)
+        viewController.collectionView.backgroundColor = .clear
+        viewController.collectionView.delegate = self
+        viewController.collectionView.dataSource = self
+        viewController.collectionView.register(ReaderScrobblerCell.self, forCellWithReuseIdentifier: "ScrobblerCell")
+        viewController.willMove(toParent: self)
+        addChild(viewController)
+        return viewController
+    }()
+
+    private lazy var visualEffectsView: UIVisualEffectView = {
+        let view = UIVisualEffectView(effect: visualEffect)
+        view.clipsToBounds = true
+        view.contentView.addSubview(collectionViewController.view)
+        view.contentView.addSubview(separatorView)
+        return view
+    }()
+
+    var viewModel: ScrobblerViewModel? {
+        didSet {
+            guard let viewModel = viewModel else {
+                reload()
+                return
+            }
+            loadData(with: viewModel)
+        }
+    }
 
     // MARK: - View Life Cycle
 
-    init() {
-        collectionViewController = UICollectionViewController(collectionViewLayout: collectionViewLayout)
-        visualEffectsView = UIVisualEffectView(effect: visualEffect)
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-
     override func viewDidLoad() {
-        setupChildViewcontrollers()
         setupViews()
         super.viewDidLoad()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func updateViewConstraints() {
@@ -55,8 +69,8 @@ class ReaderScrobblerViewController: UIViewController {
         collectionViewController.view.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        separatorView.snp.makeConstraints { (make) in
+
+        separatorView.snp.makeConstraints { make in
             make.left.top.right.equalToSuperview()
             make.height.equalTo(0.5)
         }
@@ -66,26 +80,19 @@ class ReaderScrobblerViewController: UIViewController {
 
     // MARK: - Helper Methods
 
-    private func setupChildViewcontrollers() {
-        collectionViewController.collectionView.delegate = self
-        collectionViewController.collectionView.dataSource = self
-
-        collectionViewController.willMove(toParent: self)
-        addChild(collectionViewController)
+    private func setupViews() {
+        view.addSubview(visualEffectsView)
+        updateViewConstraints()
     }
 
-    private func setupViews() {
-        visualEffectsView.clipsToBounds = true;
-        
-        collectionViewController.collectionView.backgroundColor = .clear
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
-        collectionViewLayout.scrollDirection = .horizontal
-
-        view.addSubview(visualEffectsView)
-        visualEffectsView.contentView.addSubview(collectionViewController.view)
-        visualEffectsView.contentView.addSubview(separatorView)
-        
-        updateViewConstraints()
+    private func loadData(with _: ScrobblerViewModel) {
+        collectionViewController.collectionView.reloadData()
+    }
+    
+    // MARK: - Methods
+    
+    func reload() {
+        collectionViewController.collectionView.reloadData()
     }
 }
 
@@ -93,10 +100,43 @@ extension ReaderScrobblerViewController: UICollectionViewDelegate {}
 
 extension ReaderScrobblerViewController: UICollectionViewDataSource {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        return 0
+        guard let pageCount = viewModel?.numberOfPages() else { return 0 }
+        return pageCount
     }
 
-    func collectionView(_: UICollectionView, cellForItemAt _: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let viewModel = viewModel else { return UICollectionViewCell() }
+        guard let imageUrl = viewModel.pageImageUrl(index: indexPath.item) else { return UICollectionViewCell() }
+        guard let scrobblerCell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "ScrobblerCell",
+            for: indexPath
+        ) as? ReaderScrobblerCell else {
+            return ReaderScrobblerCell()
+        }
+
+        scrobblerCell.recycle(imageUrl: imageUrl)
+        return scrobblerCell
+    }
+}
+
+extension ReaderScrobblerViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let height = view.bounds.height - (layout.sectionInset.top + layout.sectionInset.bottom)
+        let width: CGFloat = 150
+        
+        let defaultSize = CGSize(
+            width: width,
+            height: height
+        )
+        
+        return defaultSize
+//        guard let viewModel = viewModel else {
+//            return defaultSize
+//        }
+//        guard let imageUrl = viewModel.pageImageUrl(index: indexPath.item) else
+//        {
+//            return defaultSize
+//        }
+        
     }
 }

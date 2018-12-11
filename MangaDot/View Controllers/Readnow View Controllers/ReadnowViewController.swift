@@ -22,9 +22,25 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
 
     // MARK: - Properties
 
-    let stackView = SeparatedStackView()
-    let scrollView = UIScrollView()
-    var carouselViewControllers: [CarouselViewController] = []
+    private lazy var stackView: SeparatedStackView = {
+        let stackView = SeparatedStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 0
+        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.delegate = self
+        return scrollView
+    }()
+
+    private var carouselViewControllers: [CarouselViewController] = []
 
     var viewModel: ReadnowViewModel? {
         didSet {
@@ -126,19 +142,6 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
 
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
-
-        // Set Scroll View Params
-        scrollView.alwaysBounceVertical = true
-        scrollView.delegate = self
-
-        // Set Stack View Params
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 0
-        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-        stackView.isLayoutMarginsRelativeArrangement = true
-
         updateViewConstraints()
     }
 

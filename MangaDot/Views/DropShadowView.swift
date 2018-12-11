@@ -20,8 +20,9 @@ class DropShadowView: UIView {
     }
 
     override func layoutSubviews() {
-        layer.applyShadow(options: options)
+        layer.applyShadow(options: options, path: nil)
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
+        super.layoutSubviews()
     }
 }

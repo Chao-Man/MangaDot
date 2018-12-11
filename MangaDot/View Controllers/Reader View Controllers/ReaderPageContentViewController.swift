@@ -16,7 +16,7 @@ class ReaderPageContentViewController: UIViewController {
     let imageUrl: URL
     var imageView = UIImageView() {
         didSet {
-            imageView.layer.magnificationFilter = .trilinear
+            imageView.layer.magnificationFilter = .nearest
             imageView.layer.minificationFilter = .trilinear
             updateImageContentMode()
         }

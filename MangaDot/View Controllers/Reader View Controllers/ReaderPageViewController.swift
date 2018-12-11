@@ -27,8 +27,18 @@ class ReaderPageViewController: UIPageViewController {
             viewModel.reload()
         }
     }
-    
+
     var disableTaps: Bool = false
+
+    private var pendingViewController: ReaderPageContentViewController?
+    private var currentViewController: ReaderPageContentViewController? {
+        didSet {
+            guard let currentViewController = currentViewController else { return }
+            guard let chapter = viewModel?.getChapter(withPageUrl: currentViewController.imageUrl) else { return }
+            title = "Chapter: \(chapter.chapter)"
+            loadScrobblerData(chapter: chapter)
+        }
+    }
 
     let pageScrobbler = ReaderScrobblerViewController()
 
@@ -79,18 +89,6 @@ class ReaderPageViewController: UIPageViewController {
                 self?.setupPages()
             }
         }
-        viewModel.didUpdateChapterPages = { [weak self] error in
-            if let _ = error {
-                self?.presentAlert(of: .noPageDataAvailable)
-            } else {
-                self?.refreshDatasource()
-            }
-        }
-        viewModel.didSwitchChapter = { [weak self] chapterNumber in
-            if let chapterNumber = chapterNumber {
-                self?.title = "Chapter \(String(chapterNumber))"
-            }
-        }
     }
 
     private func setupViewControllers() {
@@ -111,8 +109,17 @@ class ReaderPageViewController: UIPageViewController {
 
     private func setupPages() {
         guard let firstPageUrl = viewModel?.firstPageUrl() else { return }
-        let firstPage = ReaderPageContentViewController(imageUrl: firstPageUrl)
-        setViewControllers([firstPage], direction: .forward, animated: false, completion: nil)
+        currentViewController = ReaderPageContentViewController(imageUrl: firstPageUrl)
+        setViewControllers([currentViewController!], direction: .forward, animated: false, completion: nil)
+    }
+    
+    private func clearScrobblerData() {
+        pageScrobbler.viewModel = nil
+    }
+
+    private func loadScrobblerData(chapter: ChapterPageData) {
+        let scrobblerViewModel = ScrobblerViewModel(chapterData: chapter)
+        pageScrobbler.viewModel = scrobblerViewModel
     }
 
     private func refreshDatasource() {
@@ -164,9 +171,15 @@ extension ReaderPageViewController: UIPageViewControllerDataSource {
 }
 
 extension ReaderPageViewController: UIPageViewControllerDelegate {
-    // Remove unused pages, let ARC remove from memory
     func pageViewController(_: UIPageViewController, didFinishAnimating _: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed {
+            // Update current view controller
+            if let previousViewController = previousViewControllers.first {
+                if currentViewController == previousViewController {
+                    currentViewController = pendingViewController
+                }
+            }
+            // Remove unused views, let ARC remove from memory
             previousViewControllers.forEach { viewController in
                 viewController.willMove(toParent: nil)
                 viewController.view.removeFromSuperview()
@@ -174,48 +187,61 @@ extension ReaderPageViewController: UIPageViewControllerDelegate {
             }
         }
     }
+
+    func pageViewController(_: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        if let pendingViewController = pendingViewControllers.first {
+            self.pendingViewController = pendingViewController as? ReaderPageContentViewController
+        }
+    }
 }
 
 extension ReaderPageViewController: UIGestureRecognizerDelegate {
+    private func showPageScrobbler() {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        pageScrobbler.view.isHidden = false
+        
+        let originalPoint = pageScrobbler.view.center
+        let startPoint = CGPoint(
+            x: pageScrobbler.view.center.x,
+            y: pageScrobbler.view.center.y + pageScrobbler.view.frame.size.height
+        )
+        
+        pageScrobbler.view.center = startPoint
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.pageScrobbler.view.center = originalPoint
+            self.disableTaps = false
+        })
+    }
+    
+    private func hidePageScrobbler() {
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        let originalPoint = pageScrobbler.view.center
+        let endPoint = CGPoint(
+            x: pageScrobbler.view.center.x,
+            y: pageScrobbler.view.center.y + pageScrobbler.view.frame.size.height
+        )
+        UIView.animate(withDuration: 0.2, animations: {
+            self.pageScrobbler.view.center = endPoint
+            
+        }) { _ in
+            self.pageScrobbler.view.isHidden = true
+            self.pageScrobbler.view.center = originalPoint
+            self.disableTaps = false
+        }
+    }
+    
     @objc func handleTap(sender: UITapGestureRecognizer) {
         guard sender.view != nil else { return }
         guard sender.view != pageScrobbler else { return }
-        
+
         disableTaps = true
-        
+
         if pageScrobbler.view.isHidden {
-            navigationController?.setNavigationBarHidden(false, animated: true)
-            pageScrobbler.view.isHidden = false
-            
-            let originalPoint = self.pageScrobbler.view.center
-            let startPoint = CGPoint(
-                x: self.pageScrobbler.view.center.x,
-                y: self.pageScrobbler.view.center.y + self.pageScrobbler.view.frame.size.height
-            )
-            
-            self.pageScrobbler.view.center = startPoint
-            
-            UIView.animate(withDuration: 0.2, animations: {
-                self.pageScrobbler.view.center = originalPoint
-                self.disableTaps = false
-            })
-        }
-        else {
-            navigationController?.setNavigationBarHidden(true, animated: true)
-            
-            let originalPoint = self.pageScrobbler.view.center
-            let endPoint = CGPoint(
-                x: self.pageScrobbler.view.center.x,
-                y: self.pageScrobbler.view.center.y + self.pageScrobbler.view.frame.size.height
-            )
-            UIView.animate(withDuration: 0.2, animations: {
-                self.pageScrobbler.view.center = endPoint
-                
-            }) { (didComplete) in
-                self.pageScrobbler.view.isHidden = true
-                self.pageScrobbler.view.center = originalPoint
-                self.disableTaps = false
-            }
+            showPageScrobbler()
+        } else {
+            hidePageScrobbler()
         }
     }
 
@@ -225,7 +251,7 @@ extension ReaderPageViewController: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(_: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         // Ignore tap if currently animating
-        if (disableTaps) { return false }
+        if disableTaps { return false }
         guard let touchView = touch.view else { return false }
         if touchView.isDescendant(of: pageScrobbler.view) { return false }
         return true

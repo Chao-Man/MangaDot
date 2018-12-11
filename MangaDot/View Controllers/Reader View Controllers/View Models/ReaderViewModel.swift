@@ -22,7 +22,6 @@ class ReaderViewModel {
     typealias DidFetchChapterPagesDataCompletion = (ChapterPageData?, ChapterPageDataError?) -> Void
     typealias DidReloadChapterPagesDataCompletion = (ChapterPageDataError?) -> Void
     typealias DidUpdateChapterPagesDataCompletion = (ChapterPageDataError?) -> Void
-    typealias DidSwitchChapterCompletion = (String?) -> Void
 
     // MARK: - Properties
 
@@ -44,7 +43,6 @@ class ReaderViewModel {
     private var didFetchChapterPageData: DidFetchChapterPagesDataCompletion?
     var didReloadChapterPages: DidReloadChapterPagesDataCompletion?
     var didUpdateChapterPages: DidUpdateChapterPagesDataCompletion?
-    var didSwitchChapter: DidSwitchChapterCompletion?
 
     // MARK: - Methods
 
@@ -57,8 +55,18 @@ class ReaderViewModel {
         prefetcher?.stop()
     }
 
-    func getChapterNumber() -> String? {
-        return currentChapter?.chapter
+    func getChapter(withPageUrl pageUrl: URL) -> ChapterPageData? {
+        if let nextChapter = nextChapter {
+            if nextChapter.pageUrlArray.contains(pageUrl) {
+                return nextChapter
+            }
+        }
+        if let previousChapter = previousChapter {
+            if previousChapter.pageUrlArray.contains(pageUrl) {
+                return previousChapter
+            }
+        }
+        return currentChapter
     }
 
     func reload() {
@@ -163,7 +171,7 @@ class ReaderViewModel {
             currentPrefetcher.stop()
         }
         prefetcher = ImagePrefetcher(urls: uncachedPageUrls, completionHandler: prefetcherCompletion)
-        prefetcher?.maxConcurrentDownloads = 2
+        prefetcher?.maxConcurrentDownloads = 3
         prefetcher?.start()
     }
 
@@ -180,7 +188,6 @@ class ReaderViewModel {
             currentChapter = nextChapter
             nextChapter = nil
             currentChapterId = nextChapterId
-            didSwitchChapter?(currentChapter?.chapter)
             fetchNextChapterPages()
         } else if let i = previousChapter?.pageUrlArray.index(of: pageUrl) {
             index = i
@@ -191,7 +198,6 @@ class ReaderViewModel {
             currentChapter = previousChapter
             previousChapter = nil
             currentChapterId = prevChapterId
-            didSwitchChapter?(currentChapter?.chapter)
             fetchPrevChapterPages()
         } else {
             return nil
@@ -242,7 +248,6 @@ class ReaderViewModel {
             if let _ = error {
                 self?.didUpdateChapterPages?(error)
             }
-            print("Fetched Next Chapter")
 
             if let data = data {
                 self?.nextChapter = data
@@ -261,7 +266,6 @@ class ReaderViewModel {
             if let _ = error {
                 self?.didUpdateChapterPages?(error)
             }
-            print("Fetched Previous Chapter")
 
             if let data = data {
                 self?.previousChapter = data

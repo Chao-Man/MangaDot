@@ -1,8 +1,8 @@
 //
-//  CoverView.swift
+//  PageThumbnailView.swift
 //  MangaDot
 //
-//  Created by Jian Chao Man on 3/11/18.
+//  Created by Jian Chao Man on 2/12/18.
 //  Copyright © 2018 Jian Chao Man. All rights reserved.
 //
 
@@ -10,25 +10,16 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class CoverView: DropShadowView {
-    private var _cornerRadius: CGFloat = 4
-    let imageView: UIImageView
-    let kf: Kingfisher<UIImageView>
-
-    var cornerRadius: CGFloat {
-        set {
-            _cornerRadius = newValue
-            setup()
-        }
-        get { return _cornerRadius }
-    }
+class PageThumbnailView: UIView {
+    let imageView: RoundedImageView
+    let kf: Kingfisher<RoundedImageView>
 
     convenience init() {
         self.init(frame: CGRect.zero)
     }
 
     override init(frame: CGRect) {
-        imageView = UIImageView()
+        imageView = RoundedImageView()
         kf = imageView.kf
         super.init(frame: frame)
         setup()
@@ -42,15 +33,9 @@ class CoverView: DropShadowView {
         addSubview(imageView)
 
         imageView.kf.indicatorType = .activity
-        imageView.backgroundColor = .white
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         imageView.layer.magnificationFilter = .trilinear
         imageView.layer.minificationFilter = .trilinear
-        imageView.layer.cornerRadius = cornerRadius
-
-        layer.magnificationFilter = .nearest
-        layer.minificationFilter = .nearest
 
         imageView.snp.makeConstraints { (make) -> Void in
             make.edges.equalToSuperview()

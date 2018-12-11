@@ -15,7 +15,6 @@ class CarouselCell: UICollectionViewCell {
     var id: Int?
     var coverView = CoverView()
     var titleView = UILabel()
-    var fetcher: ImagePrefetcher = ImagePrefetcher(urls: [])
 
     private func setup(titleData: TitleData) {
         used = true
@@ -66,10 +65,11 @@ class CarouselCell: UICollectionViewCell {
         coverView.imageView.image = nil
         // Define small cover as a placeholder
         let smallCoverImageView = UIImageView()
-        smallCoverImageView.kf.setImage(with: coverUrl)
+        smallCoverImageView.kf.setImage(with: coverUrl, options: [.transition(.fade(0.2))])
         smallCoverImageView.contentMode = .scaleAspectFill
+        let processor = ResizingImageProcessor(referenceSize: CGSize(width: bounds.width * 2, height: bounds.height * 2), mode: .aspectFit)
         // Use large cover when download is complete
-        coverView.kf.setImage(with: largeCoverUrl, placeholder: smallCoverImageView, options: [.transition(.fade(0.2))])
+        coverView.kf.setImage(with: largeCoverUrl, placeholder: smallCoverImageView, options: [.transition(.fade(0.2)), .processor(processor)])
     }
 
     override func layoutSubviews() {

@@ -24,6 +24,37 @@ class CarouselViewController: UIViewController {
         }
     }
 
+    private let itemSize = CGSize(width: 135, height: 216)
+
+    private lazy var layout: UICollectionViewLayout = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        layout.itemSize = itemSize
+        layout.scrollDirection = .horizontal
+        return layout
+    }()
+
+    private lazy var headerView: UILabel = {
+        let headerView = UILabel()
+        headerView.font = UIFont.MangaDot.boldLarge
+        return headerView
+    }()
+
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
+
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.prefetchDataSource = self
+
+        collectionView.register(CarouselCell.self, forCellWithReuseIdentifier: "CarouselCell")
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .white
+
+        return collectionView
+    }()
+
     // MARK: - View Life Cycle
 
     override func viewDidLoad() {
@@ -40,45 +71,10 @@ class CarouselViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    private func setupViewModel(with _: CarouselViewModel) {}
-
-    // MARK: - Helper Methods
-
-    private func setupViews() {
-        // Initalise collection layout
-        let layout = UICollectionViewFlowLayout()
-
-        // Initialise views
-        let headerView = UILabel()
-        let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
-
-        // Add Subviews
-        view.addSubview(headerView)
-        view.addSubview(collectionView)
-
-        // Setup Layout
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: 135, height: 216)
-        layout.scrollDirection = .horizontal
-
-        // Setup View
+    override func updateViewConstraints() {
         view.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(layout.itemSize.height + 70)
+            make.height.equalTo(itemSize.height + 70)
         }
-
-        // Setup Header View
-        headerView.text = viewModel?.sectionName().localized()
-        headerView.font = UIFont.MangaDot.boldLarge
-
-        // Setup Collection View
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.prefetchDataSource = self
-
-        collectionView.register(CarouselCell.self, forCellWithReuseIdentifier: "CarouselCell")
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = .white
 
         // Setup Header View Constraints
         headerView.snp.makeConstraints { (make) -> Void in
@@ -91,6 +87,19 @@ class CarouselViewController: UIViewController {
             make.top.equalTo(headerView.snp.bottom)
             make.bottom.left.right.equalToSuperview()
         }
+        super.updateViewConstraints()
+    }
+
+    private func setupViewModel(with viewModel: CarouselViewModel) {
+        headerView.text = viewModel.sectionName().localized()
+    }
+
+    // MARK: - Helper Methods
+
+    private func setupViews() {
+        // Add Subviews
+        view.addSubview(headerView)
+        view.addSubview(collectionView)
     }
 
     // MARK: - Delegate Methods
@@ -109,9 +118,7 @@ extension CarouselViewController: UICollectionViewDataSource {
             withReuseIdentifier: "CarouselCell",
             for: indexPath
         ) as? CarouselCell else {
-            let carouselCell = CarouselCell()
-            carouselCell.recycle(titleData: viewModel!.titleData(index: indexPath.row))
-            return carouselCell
+            return CarouselCell()
         }
 
         carouselCell.recycle(titleData: viewModel!.titleData(index: indexPath.row))
