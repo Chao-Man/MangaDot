@@ -7,6 +7,7 @@
 //
 import SnapKit
 import UIKit
+import PromiseKit
 
 class TitleViewController: PalettableViewController {
     // MARK: - Types
@@ -114,18 +115,13 @@ class TitleViewController: PalettableViewController {
     }
 
     private func loadData(with viewModel: TitleViewModel) {
-        viewModel.didfetchTitleData = { [weak self] titleData, error in
-            if let _ = error {
+        viewModel.fetchTitleData()
+            .done { [weak self] titleData in
+                self?.chapterViewController.viewModel = TitleChapterViewModel(titleData: titleData)
+                self?.descriptionViewController.viewModel = TitleDescriptionViewModel(titleData: titleData)
+            }.catch { [weak self] error in
                 self?.presentAlert(of: .noTitleDataAvailable)
-            } else if let titleData = titleData {
-                // Update Chapter View Controller
-                let chapterViewModel = TitleChapterViewModel(titleData: titleData)
-                self?.chapterViewController.viewModel = chapterViewModel
-                // Update Description View Controller
-                let descriptionViewModel = TitleDescriptionViewModel(titleData: titleData)
-                self?.descriptionViewController.viewModel = descriptionViewModel
             }
-        }
     }
 
     override func applyPalette(palette: ColorPalette) {

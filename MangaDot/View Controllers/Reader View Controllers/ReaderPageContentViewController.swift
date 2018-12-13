@@ -75,11 +75,10 @@ class ReaderPageContentViewController: UIViewController {
 
     private func setupViews() {
         imageView.kf.indicatorType = .activity
-        imageView.kf.setImage(with: imageUrl, completionHandler: {
-            _, _, _, _ in
+        imageView.kf.setImage(with: imageUrl) { _ in
             self.updateImageContentMode()
             self.updateScrollViewScaling()
-        })
+        }
         scrollView.delegate = self
         scrollView.addSubview(imageView)
 

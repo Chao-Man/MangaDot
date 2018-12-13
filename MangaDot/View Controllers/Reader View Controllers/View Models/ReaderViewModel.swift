@@ -8,6 +8,19 @@
 
 import Foundation
 import Kingfisher
+import PromiseKit
+
+// struct ReaderChapter {
+//    let id: Int
+//
+//    init(id: Int) {
+//        self.id = id
+//    }
+//
+//    func fetch() {
+//
+//    }
+// }
 
 class ReaderViewModel {
     // MARK: - Types
@@ -22,6 +35,7 @@ class ReaderViewModel {
     typealias DidFetchChapterPagesDataCompletion = (ChapterPageData?, ChapterPageDataError?) -> Void
     typealias DidReloadChapterPagesDataCompletion = (ChapterPageDataError?) -> Void
     typealias DidUpdateChapterPagesDataCompletion = (ChapterPageDataError?) -> Void
+    typealias DidPrefetchCompletion = () -> Void
 
     // MARK: - Properties
 
@@ -43,6 +57,7 @@ class ReaderViewModel {
     private var didFetchChapterPageData: DidFetchChapterPagesDataCompletion?
     var didReloadChapterPages: DidReloadChapterPagesDataCompletion?
     var didUpdateChapterPages: DidUpdateChapterPagesDataCompletion?
+    var didPrefetch: DidPrefetchCompletion?
 
     // MARK: - Methods
 
@@ -91,6 +106,12 @@ class ReaderViewModel {
     func firstPageUrl() -> URL? {
         guard let pageUrl = currentChapter?.pageUrlArray.first else { return nil }
         return pageUrl
+    }
+
+    func getPageWith(index: Int) -> URL? {
+        guard let currentChapter = currentChapter else { return nil }
+        guard index >= 0 && index <= currentChapter.pageUrlArray.count else { return nil }
+        return currentChapter.pageUrlArray[index]
     }
 
     func nextPageUrl(currentPageUrl: URL) -> URL? {
@@ -159,18 +180,15 @@ class ReaderViewModel {
     // MARK: - Helper Methods
 
     private func prefetch(pageUrls: [URL?]) {
-        let uncachedPageUrls = pageUrls.compactMap { (pageUrl) -> URL? in
-            guard let pageUrlString = pageUrl?.absoluteString else { return nil }
-            guard ImageCache.default.imageCachedType(forKey: pageUrlString) == .none else { return nil }
-            return pageUrl
-        }
+        let prefetchUrls = pageUrls.compactMap { $0 }
         let prefetcherCompletion: PrefetcherCompletionHandler = { [weak self] _, _, _ in ()
             self?.prefetchArray = []
+            self?.didPrefetch?()
         }
         if let currentPrefetcher = prefetcher {
             currentPrefetcher.stop()
         }
-        prefetcher = ImagePrefetcher(urls: uncachedPageUrls, completionHandler: prefetcherCompletion)
+        prefetcher = ImagePrefetcher(urls: prefetchUrls, completionHandler: prefetcherCompletion)
         prefetcher?.maxConcurrentDownloads = 3
         prefetcher?.start()
     }
@@ -217,7 +235,6 @@ class ReaderViewModel {
 
     private func getChapterId(with index: Int) -> Int? {
         guard index < chapterIds.count && index >= 0 else {
-            print("Chapter index \(index) is not in range")
             return nil
         }
         return chapterIds[index]
@@ -225,7 +242,6 @@ class ReaderViewModel {
 
     private func nextChapterId(chapter: Int) -> Int? {
         guard let chapterIndex = chapterIds.index(of: chapter) else {
-            print("Can't find chapter id in chapter id array")
             return nil
         }
         let nextChapterIndex = chapterIndex + 1
@@ -234,7 +250,6 @@ class ReaderViewModel {
 
     private func prevChapterId(chapter: Int) -> Int? {
         guard let chapterIndex = chapterIds.index(of: chapter) else {
-            print("Can't find chapter id in chapter id array")
             return nil
         }
         let previousChapterIndex = chapterIndex - 1

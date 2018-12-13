@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		051899EF21B63FE10024FA8A /* ScrobblerCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051899EE21B63FE10024FA8A /* ScrobblerCellViewModel.swift */; };
 		051899F121B8EA130024FA8A /* RoundedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051899F021B8EA130024FA8A /* RoundedImageView.swift */; };
-		051FA1482161065E00CABA9C /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051FA1472161065D00CABA9C /* SnapKit.framework */; };
+		051FA1482161065E00CABA9C /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 051FA1472161065D00CABA9C /* SnapKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		051FA14A21610E9A00CABA9C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051FA14921610E9A00CABA9C /* Configuration.swift */; };
 		051FA14C2161BFAC00CABA9C /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051FA14B2161BFAC00CABA9C /* String.swift */; };
 		051FA14D2161C06100CABA9C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 051FA14F2161C06100CABA9C /* Localizable.strings */; };
@@ -24,7 +24,7 @@
 		052D2E362158ECC600079034 /* MangadexTitleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D2E352158ECC600079034 /* MangadexTitleResponse.swift */; };
 		052D2E3A2159DE1600079034 /* MangaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D2E392159DE1600079034 /* MangaData.swift */; };
 		052D2E412159E20D00079034 /* Genres.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D2E402159E20D00079034 /* Genres.swift */; };
-		052E8FF7215F621500FE5677 /* SwiftSoup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052E8FF6215F621500FE5677 /* SwiftSoup.framework */; };
+		052E8FF7215F621500FE5677 /* SwiftSoup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052E8FF6215F621500FE5677 /* SwiftSoup.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		052E8FFA215F636A00FE5677 /* ReadnowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052E8FF9215F636A00FE5677 /* ReadnowViewModel.swift */; };
 		052E8FFC215F65E400FE5677 /* MangadexFeedResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052E8FFB215F65E400FE5677 /* MangadexFeedResponseTests.swift */; };
 		052E8FFE215F663B00FE5677 /* mangadexFeed.html in Resources */ = {isa = PBXBuildFile; fileRef = 052E8FFD215F663B00FE5677 /* mangadexFeed.html */; };
@@ -40,8 +40,8 @@
 		05513407218D98B200E7C50F /* SeperatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05513406218D98B200E7C50F /* SeperatorView.swift */; };
 		05513409218EF29D00E7C50F /* ReaderPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05513408218EF29D00E7C50F /* ReaderPageViewController.swift */; };
 		0551340C218EF2B500E7C50F /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0551340B218EF2B500E7C50F /* ReaderViewModel.swift */; };
-		055384132164889000F43F8C /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055384112164888F00F43F8C /* Kingfisher.framework */; };
-		055384142164889000F43F8C /* SwiftIcons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055384122164889000F43F8C /* SwiftIcons.framework */; };
+		055384132164889000F43F8C /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055384112164888F00F43F8C /* Kingfisher.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		055384142164889000F43F8C /* SwiftIcons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055384122164889000F43F8C /* SwiftIcons.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		055384162164CA6600F43F8C /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055384152164CA6600F43F8C /* Styles.swift */; };
 		055384182164F14400F43F8C /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055384172164F14400F43F8C /* UIImageView.swift */; };
 		05598B7A215C890100B16F71 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05598B79215C890100B16F71 /* Services.swift */; };
@@ -57,7 +57,7 @@
 		05598B9C215F0FE300B16F71 /* MangadexTitleResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05598B9B215F0FE300B16F71 /* MangadexTitleResponseTests.swift */; };
 		05598B9E215F27DF00B16F71 /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05598B9D215F27DF00B16F71 /* Chapter.swift */; };
 		05598BA0215F4FC000B16F71 /* Cartfile in Resources */ = {isa = PBXBuildFile; fileRef = 05598B9F215F4FBF00B16F71 /* Cartfile */; };
-		055C3F15216DD69600BF2D33 /* SwiftDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055C3F14216DD69600BF2D33 /* SwiftDate.framework */; };
+		055C3F15216DD69600BF2D33 /* SwiftDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 055C3F14216DD69600BF2D33 /* SwiftDate.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		055C3F17216DFFFB00BF2D33 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055C3F16216DFFFB00BF2D33 /* UIView.swift */; };
 		0567562B219D142C007182D6 /* TitleDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0567562A219D142C007182D6 /* TitleDescriptionViewController.swift */; };
 		0567562E219D1453007182D6 /* TitleDescriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0567562D219D1453007182D6 /* TitleDescriptionViewModel.swift */; };
@@ -66,6 +66,7 @@
 		05675635219D1913007182D6 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05675634219D1913007182D6 /* ColorPalette.swift */; };
 		05675638219D2CE4007182D6 /* PalettableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05675637219D2CE4007182D6 /* PalettableViewController.swift */; };
 		0567563A219D30BB007182D6 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05675639219D30BB007182D6 /* UserDefaults.swift */; };
+		056B972E21C0C3B700A614E1 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 056B972D21C0C3B700A614E1 /* CloudKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		0576160621B0CE4E00238E3A /* ScrobblerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0576160521B0CE4E00238E3A /* ScrobblerViewModel.swift */; };
 		0576160821B3BD2A00238E3A /* PageThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0576160721B3BD2A00238E3A /* PageThumbnailView.swift */; };
 		057F52B9216CBFC0000724DD /* TitleChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057F52B8216CBFC0000724DD /* TitleChapterViewModel.swift */; };
@@ -77,12 +78,16 @@
 		0582000D214E01560032639A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0582000C214E01560032639A /* Assets.xcassets */; };
 		05820010214E01560032639A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0582000E214E01560032639A /* LaunchScreen.storyboard */; };
 		0582001B214E01560032639A /* MangaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0582001A214E01560032639A /* MangaTests.swift */; };
+		05A5E6FA21C1FFAB00EF5E37 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A5E6F921C1FFAB00EF5E37 /* PromiseKit.framework */; };
+		05A5E6FE21C2017F00EF5E37 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A5E6FD21C2017F00EF5E37 /* Array.swift */; };
 		05CB43E1216F1834002B0FEB /* GenresListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05CB43E0216F1834002B0FEB /* GenresListViewController.swift */; };
-		05E89B0A219FCCBF0069A71A /* Hero.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05E89B09219FCCBF0069A71A /* Hero.framework */; };
 		05E89B0C21A130B90069A71A /* ReaderScrobblerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E89B0B21A130B90069A71A /* ReaderScrobblerViewController.swift */; };
 		05E89B0E21A505370069A71A /* ReaderScrobblerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E89B0D21A505370069A71A /* ReaderScrobblerCell.swift */; };
 		05E8A2522195373500B43F98 /* mangadexChapter.json in Resources */ = {isa = PBXBuildFile; fileRef = 05E8A2512195373500B43F98 /* mangadexChapter.json */; };
 		05E8A2542195378A00B43F98 /* MangadexChapterResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E8A2532195378A00B43F98 /* MangadexChapterResponseTests.swift */; };
+		05FEEEE321C22B21008AE1FD /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05FEEEE021C22B21008AE1FD /* PMKFoundation.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		05FEEEE421C22B21008AE1FD /* PMKCloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05FEEEE121C22B21008AE1FD /* PMKCloudKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		05FEEEE521C22B21008AE1FD /* PMKUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05FEEEE221C22B21008AE1FD /* PMKUIKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,6 +161,8 @@
 		05675634219D1913007182D6 /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		05675637219D2CE4007182D6 /* PalettableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PalettableViewController.swift; sourceTree = "<group>"; };
 		05675639219D30BB007182D6 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		056B972A21C0C36D00A614E1 /* MangaDot.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MangaDot.entitlements; sourceTree = "<group>"; };
+		056B972D21C0C3B700A614E1 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		0576160521B0CE4E00238E3A /* ScrobblerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrobblerViewModel.swift; sourceTree = "<group>"; };
 		0576160721B3BD2A00238E3A /* PageThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageThumbnailView.swift; sourceTree = "<group>"; };
 		057F52B8216CBFC0000724DD /* TitleChapterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleChapterViewModel.swift; sourceTree = "<group>"; };
@@ -172,12 +179,18 @@
 		0582001C214E01560032639A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05820043214E03B00032639A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		0582FFFF214E01550032639A /* MangaDot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangaDot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		05A5E6F921C1FFAB00EF5E37 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		05A5E6FB21C1FFB000EF5E37 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		05A5E6FD21C2017F00EF5E37 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		05CB43E0216F1834002B0FEB /* GenresListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenresListViewController.swift; sourceTree = "<group>"; };
 		05E89B09219FCCBF0069A71A /* Hero.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hero.framework; path = Carthage/Build/iOS/Hero.framework; sourceTree = "<group>"; };
 		05E89B0B21A130B90069A71A /* ReaderScrobblerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScrobblerViewController.swift; sourceTree = "<group>"; };
 		05E89B0D21A505370069A71A /* ReaderScrobblerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScrobblerCell.swift; sourceTree = "<group>"; };
 		05E8A2512195373500B43F98 /* mangadexChapter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mangadexChapter.json; sourceTree = "<group>"; };
 		05E8A2532195378A00B43F98 /* MangadexChapterResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangadexChapterResponseTests.swift; sourceTree = "<group>"; };
+		05FEEEE021C22B21008AE1FD /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = "<group>"; };
+		05FEEEE121C22B21008AE1FD /* PMKCloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKCloudKit.framework; path = Carthage/Build/iOS/PMKCloudKit.framework; sourceTree = "<group>"; };
+		05FEEEE221C22B21008AE1FD /* PMKUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKUIKit.framework; path = Carthage/Build/iOS/PMKUIKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,12 +205,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				056B972E21C0C3B700A614E1 /* CloudKit.framework in Frameworks */,
 				052E8FF7215F621500FE5677 /* SwiftSoup.framework in Frameworks */,
 				051FA1482161065E00CABA9C /* SnapKit.framework in Frameworks */,
 				055384132164889000F43F8C /* Kingfisher.framework in Frameworks */,
 				055384142164889000F43F8C /* SwiftIcons.framework in Frameworks */,
 				055C3F15216DD69600BF2D33 /* SwiftDate.framework in Frameworks */,
-				05E89B0A219FCCBF0069A71A /* Hero.framework in Frameworks */,
+				05A5E6FA21C1FFAB00EF5E37 /* PromiseKit.framework in Frameworks */,
+				05FEEEE321C22B21008AE1FD /* PMKFoundation.framework in Frameworks */,
+				05FEEEE421C22B21008AE1FD /* PMKCloudKit.framework in Frameworks */,
+				05FEEEE521C22B21008AE1FD /* PMKUIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +325,12 @@
 		052E8FF3215F5B7400FE5677 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				05FEEEE121C22B21008AE1FD /* PMKCloudKit.framework */,
+				05FEEEE021C22B21008AE1FD /* PMKFoundation.framework */,
+				05FEEEE221C22B21008AE1FD /* PMKUIKit.framework */,
+				05A5E6FB21C1FFB000EF5E37 /* Alamofire.framework */,
+				05A5E6F921C1FFAB00EF5E37 /* PromiseKit.framework */,
+				056B972D21C0C3B700A614E1 /* CloudKit.framework */,
 				05E89B09219FCCBF0069A71A /* Hero.framework */,
 				055C3F14216DD69600BF2D33 /* SwiftDate.framework */,
 				052FDE752164F4200099D127 /* MarqueeLabelSwift.framework */,
@@ -440,6 +463,7 @@
 			isa = PBXGroup;
 			children = (
 				05598B93215D116D00B16F71 /* UIStoryboard.swift */,
+				05A5E6FD21C2017F00EF5E37 /* Array.swift */,
 				052FDE842169A7090099D127 /* UIColor.swift */,
 				055384172164F14400F43F8C /* UIImageView.swift */,
 				05598B95215D118B00B16F71 /* UIViewController.swift */,
@@ -512,6 +536,7 @@
 		05820001214E01550032639A /* MangaDot */ = {
 			isa = PBXGroup;
 			children = (
+				056B972A21C0C36D00A614E1 /* MangaDot.entitlements */,
 				05820033214E01810032639A /* Application Delegate */,
 				052D2E232158DBB000079034 /* Protocols */,
 				055133FF218D2B9F00E7C50F /* Views */,
@@ -701,6 +726,14 @@
 					0582FFFE214E01550032639A = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1000;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -756,26 +789,14 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftSoup.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Kingfisher.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftIcons.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftDate.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Hero.framework",
 			);
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftSoup.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SnapKit.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Kingfisher.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftIcons.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftDate.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Hero.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/usr/local/bin/carthage copy-frameworks\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/cman/bin/carttool copy-frameworks\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -826,6 +847,7 @@
 				05820003214E01550032639A /* AppDelegate.swift in Sources */,
 				052E8FFA215F636A00FE5677 /* ReadnowViewModel.swift in Sources */,
 				05675633219D1683007182D6 /* PalettableNavigationController.swift in Sources */,
+				05A5E6FE21C2017F00EF5E37 /* Array.swift in Sources */,
 				052D2E302158E6C100079034 /* LibraryViewController.swift in Sources */,
 				05598B7C215C8D8000B16F71 /* MangadexRequest.swift in Sources */,
 				052FDE852169A7090099D127 /* UIColor.swift in Sources */,
@@ -1006,6 +1028,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = MangaDot/MangaDot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UY98EYPB8G;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1034,6 +1057,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = MangaDot/MangaDot.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = UY98EYPB8G;
 				FRAMEWORK_SEARCH_PATHS = (

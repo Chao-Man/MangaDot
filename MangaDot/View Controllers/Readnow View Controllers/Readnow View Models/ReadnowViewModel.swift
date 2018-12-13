@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import PMKFoundation
+import PromiseKit
 
 class ReadnowViewModel {
     // MARK: - Types
@@ -30,57 +32,13 @@ class ReadnowViewModel {
 
     // MARK: - Public API
 
-    func refresh() {
-        fetchMangadexFeedData()
-    }
-
-    // MARK: - Methods
-
-    private func fetchMangadexFeedData() {
+    func fetchFeedData() -> Promise<FeedData> {
         let feedRequest = MangadexFeedRequest(baseUrl: MangadexService.baseUrl)
 
-        URLSession.shared.dataTask(with: feedRequest.url) { [weak self] data, response, error in
-            if let response = response as? HTTPURLResponse {
-                print("Status Code: \(response.statusCode)")
-            }
-
-            DispatchQueue.main.async {
-                if let error = error {
-                    print("Unable to Fetch Manga Data \(error)")
-
-                    // Feed Data Result
-                    let result: FeedDataResult = .failure(.noFeedDataAvailable)
-
-                    // Invoke Completion Handler
-                    self?.didFetchFeedData?(result)
-
-                } else if let data = data {
-                    do {
-                        // Decode HTML Response
-                        let mangadexResponse = try MangadexFeedResponse(data: data)
-
-                        // Feed Data Result
-                        let result: FeedDataResult = .success(mangadexResponse)
-
-                        // Invoke Completion Handler
-                        self?.didFetchFeedData?(result)
-                    } catch {
-                        print("Unable to Decode HTML Response \(error)")
-
-                        // Feed Data Result
-                        let result: FeedDataResult = .failure(.noFeedDataAvailable)
-
-                        // Invoke Completion Handler
-                        self?.didFetchFeedData?(result)
-                    }
-                } else {
-                    // Feed Data Result
-                    let result: FeedDataResult = .failure(.noFeedDataAvailable)
-
-                    // Invoke Completion Handler
-                    self?.didFetchFeedData?(result)
-                }
-            }
-        }.resume()
+        return firstly {
+            URLSession.shared.dataTask(.promise, with: feedRequest.url)
+        }.compactMap {
+            return try MangadexFeedResponse(data: $0.data)
+        }
     }
 }

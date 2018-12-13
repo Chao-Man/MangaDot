@@ -47,8 +47,7 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
             guard let viewModel = viewModel else {
                 return
             }
-            setupViewModel(with: viewModel)
-            viewModel.refresh()
+            refreshData(with: viewModel)
         }
     }
 
@@ -58,7 +57,6 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
@@ -67,11 +65,6 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     override func updateViewConstraints() {
@@ -88,27 +81,13 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
     }
 
     // MARK: - Helper Methods
-
-    private func setupViewModel(with viewModel: ReadnowViewModel) {
-        // Configure View Model
-        viewModel.didFetchFeedData = { [weak self] result in
-            switch result {
-            case let .success(feedData):
-                // Remove prior sections
-                self?.removeAllSections()
-                // Add sections using Feed Data
+    
+    private func refreshData(with viewModel: ReadnowViewModel) {
+        viewModel.fetchFeedData()
+            .done { [weak self] feedData in
                 self?.addSections(feedData: feedData)
-            case let .failure(error):
-                let alertType: AlertType
-
-                switch error {
-                case .noFeedDataAvailable:
-                    alertType = .noFeedDataAvailable
-                }
-
-                // Notify User
-                self?.presentAlert(of: alertType)
-            }
+            }.catch { [weak self] error in
+                self?.presentAlert(of: error)
         }
     }
 
@@ -147,15 +126,17 @@ class ReadnowViewController: UIViewController, UINavigationBarDelegate, UIScroll
 
     // MARK: -
 
-    private func presentAlert(of alertType: AlertType) {
+    private func presentAlert(of error: Error) {
         // Helpers
         let title: String
         let message: String
 
-        switch alertType {
-        case .noFeedDataAvailable:
+        if (error._domain == NSURLErrorDomain) {
             title = "Unable to Fetch Feed Data"
             message = "The application is unable to fetch manga data. Please make sure your device is connected over Wi-Fi or cellular."
+        } else {
+            title = "Unable to Parse Feed Data"
+            message = "The application is unable to process feed data. Please make sure the application is up to date, you can find the latest release on the App Store."
         }
 
         // Initialize Alert Controller

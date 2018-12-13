@@ -11,8 +11,8 @@ import SnapKit
 import UIKit
 
 class PageThumbnailView: UIView {
-    let imageView: RoundedImageView
-    let kf: Kingfisher<RoundedImageView>
+    var imageView: RoundedImageView
+    var kf: KingfisherWrapper<RoundedImageView>
 
     convenience init() {
         self.init(frame: CGRect.zero)

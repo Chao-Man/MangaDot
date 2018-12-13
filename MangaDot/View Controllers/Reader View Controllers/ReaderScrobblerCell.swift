@@ -39,10 +39,9 @@ class ReaderScrobblerCell: UICollectionViewCell {
     }
 
     private func loadImage(imageUrl: URL) {
-        
         let processor = ResizingImageProcessor(referenceSize: CGSize(width: bounds.width * 2, height: bounds.height * 2), mode: .aspectFit)
         // Clear existing image
         pageThumbnailView.imageView.image = nil
-        pageThumbnailView.kf.setImage(with: imageUrl, options: [.transition(.fade(0.2)), .processor(processor)])
+        pageThumbnailView.kf.setImage(with: imageUrl, options: [.transition(.fade(0.2)), .processor(processor), .onlyFromCache])
     }
 }

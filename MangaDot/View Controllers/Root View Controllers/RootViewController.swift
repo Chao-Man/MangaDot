@@ -35,7 +35,7 @@ final class RootViewController: UITabBarController {
         // User Default Theme
         // TODO: Please Change
 
-        ImageCache.default.maxMemoryCost = 1024 * 1024 * 200
+        ImageCache.default.memoryStorage.config.totalCostLimit = 1024 * 1024 * 200
 
         let readnowViewController = ReadnowViewController()
         let libraryViewController = LibraryViewController()

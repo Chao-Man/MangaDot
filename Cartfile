@@ -4,6 +4,6 @@ github "ranesr/SwiftIcons"
 github "onevcat/Kingfisher"
 github "malcommac/SwiftDate"
 github "mxcl/PromiseKit" ~> 6.0
-github "ninjaprox/NVActivityIndicatorView"
-github "JonasGessner/JGProgressHUD"
-
+github "PromiseKit/CloudKit" ~> 3.0
+github "PromiseKit/Foundation" ~> 3.0
+github "PromiseKit/UIKit" ~> 3.0

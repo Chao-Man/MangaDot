@@ -39,9 +39,9 @@ class ImageModifierTests: XCTestCase {
     }
 
     func testAnyImageModifier() {
-        let m = AnyImageModifier(modify: { image in
-            image
-        })
+        let m = AnyImageModifier { image in
+            return image
+        }
         let image = Image(data: testImagePNGData)!
         let modifiedImage = m.modify(image)
         XCTAssert(modifiedImage == image)

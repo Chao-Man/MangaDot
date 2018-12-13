@@ -6,9 +6,9 @@
 //  Copyright © 2018 Jian Chao Man. All rights reserved.
 //
 
+import Kingfisher
 import SnapKit
 import UIKit
-import Kingfisher
 
 class ReaderScrobblerViewController: UIViewController {
     // MARK: - Types
@@ -88,15 +88,19 @@ class ReaderScrobblerViewController: UIViewController {
     private func loadData(with _: ScrobblerViewModel) {
         collectionViewController.collectionView.reloadData()
     }
-    
+
     // MARK: - Methods
-    
+
     func reload() {
         collectionViewController.collectionView.reloadData()
     }
 }
 
-extension ReaderScrobblerViewController: UICollectionViewDelegate {}
+extension ReaderScrobblerViewController: UICollectionViewDelegate {
+    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        viewModel?.selectCell(index: indexPath.item)
+    }
+}
 
 extension ReaderScrobblerViewController: UICollectionViewDataSource {
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
@@ -123,12 +127,12 @@ extension ReaderScrobblerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = view.bounds.height - (layout.sectionInset.top + layout.sectionInset.bottom)
         let width: CGFloat = 150
-        
+
         let defaultSize = CGSize(
             width: width,
             height: height
         )
-        
+
         return defaultSize
 //        guard let viewModel = viewModel else {
 //            return defaultSize
@@ -137,6 +141,5 @@ extension ReaderScrobblerViewController: UICollectionViewDelegateFlowLayout {
 //        {
 //            return defaultSize
 //        }
-        
     }
 }

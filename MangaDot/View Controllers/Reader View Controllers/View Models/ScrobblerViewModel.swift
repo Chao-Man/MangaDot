@@ -10,10 +10,9 @@ import Foundation
 
 struct ScrobblerViewModel {
     // MARK: - Properties
-    
-    
+
     typealias DidSelectCellCompletion = (Int) -> Void
-    
+
     var didSelectCell: DidSelectCellCompletion?
 
     let chapterData: ChapterPageData
@@ -34,5 +33,9 @@ struct ScrobblerViewModel {
 
     func pageImageUrl(index: Int) -> URL? {
         return chapterData.pageUrlArray[index]
+    }
+
+    func selectCell(index: Int) {
+        didSelectCell?(index)
     }
 }

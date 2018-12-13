@@ -12,8 +12,8 @@ import UIKit
 
 class CoverView: DropShadowView {
     private var _cornerRadius: CGFloat = 4
-    let imageView: UIImageView
-    let kf: Kingfisher<UIImageView>
+    var imageView: UIImageView
+    let kf: KingfisherWrapper<UIImageView>
 
     var cornerRadius: CGFloat {
         set {
