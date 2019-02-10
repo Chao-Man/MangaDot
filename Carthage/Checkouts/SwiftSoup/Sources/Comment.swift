@@ -35,11 +35,11 @@ public class Comment: Node {
      @return comment content
      */
     public func getData() -> String {
-        return attributes!.get(key: Comment.COMMENT_KEY)
+		return attributes!.get(key: Comment.COMMENT_KEY)
     }
 
     override func outerHtmlHead(_ accum: StringBuilder, _ depth: Int, _ out: OutputSettings) {
-        if out.prettyPrint() {
+        if (out.prettyPrint()) {
             indent(accum, depth, out)
         }
         accum
@@ -48,19 +48,19 @@ public class Comment: Node {
             .append("-->")
     }
 
-    override func outerHtmlTail(_: StringBuilder, _: Int, _: OutputSettings) {}
+    override func outerHtmlTail(_ accum: StringBuilder, _ depth: Int, _ out: OutputSettings) {}
 
-    public override func copy(with _: NSZone? = nil) -> Any {
-        let clone = Comment(attributes!.get(key: Comment.COMMENT_KEY), baseUri!)
-        return copy(clone: clone)
-    }
+	public override func copy(with zone: NSZone? = nil) -> Any {
+		let clone = Comment(attributes!.get(key: Comment.COMMENT_KEY), baseUri!)
+		return copy(clone: clone)
+	}
 
-    public override func copy(parent: Node?) -> Node {
-        let clone = Comment(attributes!.get(key: Comment.COMMENT_KEY), baseUri!)
-        return copy(clone: clone, parent: parent)
-    }
+	public override func copy(parent: Node?) -> Node {
+		let clone = Comment(attributes!.get(key: Comment.COMMENT_KEY), baseUri!)
+		return copy(clone: clone, parent: parent)
+	}
 
-    public override func copy(clone: Node, parent: Node?) -> Node {
-        return super.copy(clone: clone, parent: parent)
-    }
+	public override func copy(clone: Node, parent: Node?) -> Node {
+		return super.copy(clone: clone, parent: parent)
+	}
 }

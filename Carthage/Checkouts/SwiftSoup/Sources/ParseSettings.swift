@@ -33,7 +33,7 @@ open class ParseSettings {
 
     open func normalizeTag(_ name: String) -> String {
         var name = name.trim()
-        if !preserveTagCase {
+        if (!preserveTagCase) {
             name = name.lowercased()
         }
         return name
@@ -41,18 +41,19 @@ open class ParseSettings {
 
     open func normalizeAttribute(_ name: String) -> String {
         var name = name.trim()
-        if !preserveAttributeCase {
+        if (!preserveAttributeCase) {
             name = name.lowercased()
         }
         return name
     }
 
-    open func normalizeAttributes(_ attributes: Attributes) throws -> Attributes {
-        if !preserveAttributeCase {
-            for attr in attributes {
+    open func normalizeAttributes(_ attributes: Attributes)throws ->Attributes {
+        if (!preserveAttributeCase) {
+            for  attr in attributes {
                 try attr.setKey(key: attr.getKey().lowercased())
             }
         }
         return attributes
     }
+
 }

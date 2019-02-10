@@ -20,7 +20,7 @@ open class BooleanAttribute: Attribute {
         try super.init(key: key, value: "")
     }
 
-    public override func isBooleanAttribute() -> Bool {
+    override public func isBooleanAttribute() -> Bool {
         return true
     }
 }

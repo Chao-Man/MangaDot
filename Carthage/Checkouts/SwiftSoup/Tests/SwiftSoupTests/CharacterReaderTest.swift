@@ -6,10 +6,11 @@
 //  Copyright © 2016 Nabil Chatbi.. All rights reserved.
 //
 
-import SwiftSoup
 import XCTest
+import SwiftSoup
 
 class CharacterReaderTest: XCTestCase {
+
     func testLinuxTestSuiteIncludesAllTests() {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
             let thisClass = type(of: self)
@@ -202,7 +203,7 @@ class CharacterReaderTest: XCTestCase {
     }
 
     func testMatchesAny() {
-        // let scan = [" ", "\n", "\t"]
+        //let scan = [" ", "\n", "\t"]
         let r = CharacterReader("One\nTwo\tThree")
         XCTAssertFalse(r.matchesAny(" ", "\n", "\t"))
         XCTAssertEqual("One", r.consumeToAny(" ", "\n", "\t"))
@@ -250,28 +251,29 @@ class CharacterReaderTest: XCTestCase {
 //        XCTAssertFalse(r.rangeEquals(18, 5, "CHIKE"))
     }
 
-    static var allTests = {
-        [
+	static var allTests = {
+		return [
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
             ("testConsume", testConsume),
-            ("testUnconsume", testUnconsume),
-            ("testMark", testMark),
-            ("testConsumeToEnd", testConsumeToEnd),
-            ("testNextIndexOfChar", testNextIndexOfChar),
-            ("testNextIndexOfString", testNextIndexOfString),
-            ("testNextIndexOfUnmatched", testNextIndexOfUnmatched),
-            ("testConsumeToChar", testConsumeToChar),
-            ("testConsumeToString", testConsumeToString),
-            ("testAdvance", testAdvance),
-            ("testConsumeToAny", testConsumeToAny),
-            ("testConsumeLetterSequence", testConsumeLetterSequence),
-            ("testConsumeLetterThenDigitSequence", testConsumeLetterThenDigitSequence),
-            ("testMatches", testMatches),
-            ("testMatchesIgnoreCase", testMatchesIgnoreCase),
-            ("testContainsIgnoreCase", testContainsIgnoreCase),
-            ("testMatchesAny", testMatchesAny),
-            ("testCachesStrings", testCachesStrings),
-            ("testRangeEquals", testRangeEquals),
-        ]
-    }()
+			("testUnconsume", testUnconsume),
+			("testMark", testMark),
+			("testConsumeToEnd", testConsumeToEnd),
+			("testNextIndexOfChar", testNextIndexOfChar),
+			("testNextIndexOfString", testNextIndexOfString),
+			("testNextIndexOfUnmatched", testNextIndexOfUnmatched),
+			("testConsumeToChar", testConsumeToChar),
+			("testConsumeToString", testConsumeToString),
+			("testAdvance", testAdvance),
+			("testConsumeToAny", testConsumeToAny),
+			("testConsumeLetterSequence", testConsumeLetterSequence),
+			("testConsumeLetterThenDigitSequence", testConsumeLetterThenDigitSequence),
+			("testMatches", testMatches),
+			("testMatchesIgnoreCase", testMatchesIgnoreCase),
+			("testContainsIgnoreCase", testContainsIgnoreCase),
+			("testMatchesAny", testMatchesAny),
+			("testCachesStrings", testCachesStrings),
+			("testRangeEquals", testRangeEquals)
+			]
+	}()
+
 }

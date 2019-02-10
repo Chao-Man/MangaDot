@@ -16,7 +16,7 @@ open class Attribute {
         "allowfullscreen", "async", "autofocus", "checked", "compact", "declare", "default", "defer", "disabled",
         "formnovalidate", "hidden", "inert", "ismap", "itemscope", "multiple", "muted", "nohref", "noresize",
         "noshade", "novalidate", "nowrap", "open", "readonly", "required", "reversed", "seamless", "selected",
-        "sortable", "truespeed", "typemustmatch",
+        "sortable", "truespeed", "typemustmatch"
     ]
 
     var key: String
@@ -69,14 +69,14 @@ open class Attribute {
      @return HTML
      */
     public func html() -> String {
-        let accum = StringBuilder()
-        html(accum: accum, out: (Document("")).outputSettings())
+        let accum =  StringBuilder()
+		html(accum: accum, out: (Document("")).outputSettings())
         return accum.toString()
     }
 
-    public func html(accum: StringBuilder, out: OutputSettings) {
+    public func html(accum: StringBuilder, out: OutputSettings ) {
         accum.append(key)
-        if !shouldCollapseAttribute(out: out) {
+        if (!shouldCollapseAttribute(out: out)) {
             accum.append("=\"")
             Entities.escape(accum, value, out, true, false, false)
             accum.append("\"")
@@ -97,7 +97,7 @@ open class Attribute {
      * @param encodedValue HTML attribute encoded value
      * @return attribute
      */
-    public static func createFromEncoded(unencodedKey: String, encodedValue: String) throws -> Attribute {
+    public static func createFromEncoded(unencodedKey: String, encodedValue: String) throws ->Attribute {
         let value = try Entities.unescape(string: encodedValue, strict: true)
         return try Attribute(key: unencodedKey, value: value)
     }
@@ -113,7 +113,7 @@ open class Attribute {
      * @return  Returns whether collapsible or not
      */
     public final func shouldCollapseAttribute(out: OutputSettings) -> Bool {
-        return ("" == value || value.equalsIgnoreCase(string: key))
+        return ("" == value  || value.equalsIgnoreCase(string: key))
             && out.syntax() == OutputSettings.Syntax.html
             && isBooleanAttribute()
     }
@@ -131,15 +131,18 @@ open class Attribute {
     public func clone() -> Attribute {
         do {
             return try Attribute(key: key, value: value)
-        } catch let Exception.Error(_, msg) {
+        } catch Exception.Error( _, let  msg) {
             print(msg)
-        } catch {}
+        } catch {
+
+        }
         return try! Attribute(key: "", value: "")
     }
 }
 
 extension Attribute: Equatable {
-    public static func == (lhs: Attribute, rhs: Attribute) -> Bool {
-        return lhs.value == rhs.value && lhs.key == rhs.key
-    }
+	static public func == (lhs: Attribute, rhs: Attribute) -> Bool {
+		return lhs.value == rhs.value && lhs.key == rhs.key
+	}
+
 }

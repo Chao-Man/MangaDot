@@ -7,20 +7,20 @@ open class StringBuilder {
 
     /**
      Construct with initial String contents
-
+     
      :param: string Initial value; defaults to empty string
      */
     public init(string: String = "") {
-        stringValue = Array(string)
+        self.stringValue = Array(string)
     }
 
-    public init(_: Int) {
-        stringValue = Array()
+    public init(_ size: Int) {
+        self.stringValue = Array()
     }
 
     /**
      Return the String object
-
+     
      :return: String
      */
     open func toString() -> String {
@@ -32,14 +32,14 @@ open class StringBuilder {
      */
     open var length: Int {
         return self.stringValue.count
-        // return countElements(stringValue)
+        //return countElements(stringValue)
     }
 
     /**
      Append a String to the object
-
+     
      :param: string String
-
+     
      :return: reference to this StringBuilder instance
      */
     open func append(_ string: String) {
@@ -70,9 +70,9 @@ open class StringBuilder {
 
     /**
      Append a Printable to the object
-
+     
      :param: value a value supporting the Printable protocol
-
+     
      :return: reference to this StringBuilder instance
      */
     @discardableResult
@@ -95,22 +95,22 @@ open class StringBuilder {
 
     /**
      Append a String and a newline to the object
-
+     
      :param: string String
-
+     
      :return: reference to this StringBuilder instance
      */
     @discardableResult
-    open func appendLine(_: String) -> StringBuilder {
+    open func appendLine(_ string: String) -> StringBuilder {
         stringValue.append(contentsOf: "\n")
         return self
     }
 
     /**
      Append a Printable and a newline to the object
-
+     
      :param: value a value supporting the Printable protocol
-
+     
      :return: reference to this StringBuilder instance
      */
     @discardableResult
@@ -122,7 +122,7 @@ open class StringBuilder {
 
     /**
      Reset the object to an empty string
-
+     
      :return: reference to this StringBuilder instance
      */
     @discardableResult
@@ -134,7 +134,7 @@ open class StringBuilder {
 
 /**
  Append a String to a StringBuilder using operator syntax
-
+ 
  :param: lhs StringBuilder
  :param: rhs String
  */
@@ -144,7 +144,7 @@ public func += (lhs: StringBuilder, rhs: String) {
 
 /**
  Append a Printable to a StringBuilder using operator syntax
-
+ 
  :param: lhs Printable
  :param: rhs String
  */
@@ -154,12 +154,12 @@ public func += <T: CustomStringConvertible>(lhs: StringBuilder, rhs: T) {
 
 /**
  Create a StringBuilder by concatenating the values of two StringBuilders
-
+ 
  :param: lhs first StringBuilder
  :param: rhs second StringBuilder
-
+ 
  :result StringBuilder
  */
-public func + (lhs: StringBuilder, rhs: StringBuilder) -> StringBuilder {
+public func +(lhs: StringBuilder, rhs: StringBuilder) -> StringBuilder {
     return StringBuilder(string: lhs.toString() + rhs.toString())
 }

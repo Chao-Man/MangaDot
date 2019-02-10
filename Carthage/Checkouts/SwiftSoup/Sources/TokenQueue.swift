@@ -18,7 +18,7 @@ open class TokenQueue {
      Create a new TokenQueue.
      @param data string of data to back queue.
      */
-    public init(_ data: String) {
+    public init (_ data: String) {
         queue = data
     }
 
@@ -85,24 +85,23 @@ open class TokenQueue {
      */
     open func matchesAny(_ seq: [String]) -> Bool {
         for s in seq {
-            if matches(s) {
+            if (matches(s)) {
                 return true
             }
         }
         return false
     }
-
     open func matchesAny(_ seq: String...) -> Bool {
         return matchesAny(seq)
     }
 
     open func matchesAny(_ seq: Character...) -> Bool {
-        if isEmpty() {
+        if (isEmpty()) {
             return false
         }
 
         for c in seq {
-            if queue[pos] as Character == c {
+            if (queue[pos] as Character == c) {
                 return true
             }
         }
@@ -111,7 +110,7 @@ open class TokenQueue {
 
     open func matchesStartTag() -> Bool {
         // micro opt for matching "<x"
-        return (remainingLength() >= 2 && queue[pos] as Character == "<" && Character.isLetter(queue.charAt(pos + 1)))
+        return (remainingLength() >= 2 && queue[pos] as Character == "<" && Character.isLetter(queue.charAt(pos+1)))
     }
 
     /**
@@ -122,7 +121,7 @@ open class TokenQueue {
      */
     @discardableResult
     open func matchChomp(_ seq: String) -> Bool {
-        if matches(seq) {
+        if (matches(seq)) {
             pos += seq.count
             return true
         } else {
@@ -150,7 +149,8 @@ open class TokenQueue {
      * Drops the next character off the queue.
      */
     open func advance() {
-        if !isEmpty() { pos += 1 }
+
+        if (!isEmpty()) {pos+=1}
     }
 
     /**
@@ -159,7 +159,7 @@ open class TokenQueue {
      */
     open func consume() -> Character {
         let i = pos
-        pos += 1
+        pos+=1
         return queue.charAt(i)
     }
 
@@ -170,13 +170,13 @@ open class TokenQueue {
      Case insensitive.
      * @param seq sequence to remove from head of queue.
      */
-    open func consume(_ seq: String) throws {
-        if !matches(seq) {
+    open func consume(_ seq: String)throws {
+        if (!matches(seq)) {
             //throw new IllegalStateException("Queue did not match expected sequence")
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: "Queue did not match expected sequence")
         }
         let len = seq.count
-        if len > remainingLength() {
+        if (len > remainingLength()) {
             //throw new IllegalStateException("Queue not long enough to consume sequence")
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: "Queue not long enough to consume sequence")
         }
@@ -189,15 +189,15 @@ open class TokenQueue {
      * @param seq String to end on (and not include in return, but leave on queue). <b>Case sensitive.</b>
      * @return The matched data consumed from queue.
      */
-    @discardableResult
+	@discardableResult
     open func consumeTo(_ seq: String) -> String {
         let offset = queue.indexOf(seq, pos)
-        if offset != -1 {
-            let consumed = queue.substring(pos, offset - pos)
+        if (offset != -1) {
+            let consumed = queue.substring(pos, offset-pos)
             pos += consumed.count
             return consumed
         } else {
-            // return remainder()
+            //return remainder()
         }
         return ""
     }
@@ -206,25 +206,25 @@ open class TokenQueue {
         let start = pos
         let first = seq.substring(0, 1)
         let canScan = first.lowercased() == first.uppercased() // if first is not cased, use index of
-        while !isEmpty() {
-            if matches(seq) {
+        while (!isEmpty()) {
+            if (matches(seq)) {
                 break
             }
-            if canScan {
+            if (canScan) {
                 let skip = queue.indexOf(first, pos) - pos
-                if skip == 0 { // this char is the skip char, but not match, so force advance of pos
-                    pos += 1
-                } else if skip < 0 { // no chance of finding, grab to end
+                if (skip == 0) { // this char is the skip char, but not match, so force advance of pos
+                    pos+=1
+                } else if (skip < 0) { // no chance of finding, grab to end
                     pos = queue.count
                 } else {
                     pos += skip
                 }
             } else {
-                pos += 1
+                pos+=1
             }
         }
 
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
 
     /**
@@ -237,16 +237,14 @@ open class TokenQueue {
     open func consumeToAny(_ seq: String...) -> String {
         return consumeToAny(seq)
     }
-
     open func consumeToAny(_ seq: [String]) -> String {
         let start = pos
-        while !isEmpty() && !matchesAny(seq) {
-            pos += 1
+        while (!isEmpty() && !matchesAny(seq)) {
+            pos+=1
         }
 
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
-
     /**
      * Pulls a string off the queue (like consumeTo), and then pulls off the matched string (but does not return it).
      * <p>
@@ -284,31 +282,31 @@ open class TokenQueue {
         var inQuote = false
 
         repeat {
-            if isEmpty() { break }
+            if (isEmpty()) {break}
             let c = consume()
-            if last == TokenQueue.empty || last != TokenQueue.ESC {
-                if (c == "'" || c == "\"") && c != open {
+            if (last == TokenQueue.empty || last != TokenQueue.ESC) {
+                if ((c=="'" || c=="\"") && c != open) {
                     inQuote = !inQuote
                 }
-                if inQuote {
+                if (inQuote) {
                     continue
                 }
-                if c == open {
-                    depth += 1
-                    if start == -1 {
+                if (c==open) {
+                    depth+=1
+                    if (start == -1) {
                         start = pos
                     }
-                } else if c == close {
-                    depth -= 1
+                } else if (c==close) {
+                    depth-=1
                 }
             }
 
-            if depth > 0 && last != TokenQueue.empty {
+            if (depth > 0 && last != TokenQueue.empty) {
                 end = pos // don't include the outer match pair in the return
             }
             last = c
         } while (depth > 0)
-        return (end >= 0) ? queue.substring(start, end - start) : ""
+        return (end >= 0) ? queue.substring(start, end-start) : ""
     }
 
     /**
@@ -320,8 +318,8 @@ open class TokenQueue {
         let out = StringBuilder()
         var last = empty
         for c in input {
-            if c == ESC {
-                if last != empty && last == TokenQueue.ESC {
+            if (c == ESC) {
+                if (last != empty && last == TokenQueue.ESC) {
                     out.append(c)
                 }
             } else {
@@ -339,8 +337,8 @@ open class TokenQueue {
     @discardableResult
     open func consumeWhitespace() -> Bool {
         var seen = false
-        while matchesWhitespace() {
-            pos += 1
+        while (matchesWhitespace()) {
+            pos+=1
             seen = true
         }
         return seen
@@ -350,13 +348,13 @@ open class TokenQueue {
      * Retrieves the next run of word type (letter or digit) off the queue.
      * @return String of word characters from queue, or empty string if none.
      */
-    @discardableResult
+	@discardableResult
     open func consumeWord() -> String {
         let start = pos
-        while matchesWord() {
-            pos += 1
+        while (matchesWord()) {
+            pos+=1
         }
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
 
     /**
@@ -366,11 +364,11 @@ open class TokenQueue {
      */
     open func consumeTagName() -> String {
         let start = pos
-        while !isEmpty() && (matchesWord() || matchesAny(":", "_", "-")) {
-            pos += 1
+        while (!isEmpty() && (matchesWord() || matchesAny(":", "_", "-"))) {
+            pos+=1
         }
 
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
 
     /**
@@ -380,11 +378,11 @@ open class TokenQueue {
      */
     open func consumeElementSelector() -> String {
         let start = pos
-        while !isEmpty() && (matchesWord() || matchesAny("*|", "|", "_", "-")) {
-            pos += 1
+        while (!isEmpty() && (matchesWord() || matchesAny("*|", "|", "_", "-"))) {
+            pos+=1
         }
 
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
 
     /**
@@ -394,11 +392,11 @@ open class TokenQueue {
      */
     open func consumeCssIdentifier() -> String {
         let start = pos
-        while !isEmpty() && (matchesWord() || matchesAny("-", "_")) {
-            pos += 1
+        while (!isEmpty() && (matchesWord() || matchesAny("-", "_"))) {
+            pos+=1
         }
 
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
 
     /**
@@ -407,11 +405,11 @@ open class TokenQueue {
      */
     open func consumeAttributeKey() -> String {
         let start = pos
-        while !isEmpty() && (matchesWord() || matchesAny("-", "_", ":")) {
-            pos += 1
+        while (!isEmpty() && (matchesWord() || matchesAny("-", "_", ":"))) {
+            pos+=1
         }
 
-        return queue.substring(start, pos - start)
+        return queue.substring(start, pos-start)
     }
 
     /**
@@ -419,7 +417,7 @@ open class TokenQueue {
      @return remained of queue.
      */
     open func remainder() -> String {
-        let remainder = queue.substring(pos, queue.count - pos)
+        let remainder = queue.substring(pos, queue.count-pos)
         pos = queue.count
         return remainder
     }

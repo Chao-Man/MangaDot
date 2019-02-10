@@ -76,11 +76,11 @@ open class Selector {
     private let evaluator: Evaluator
     private let root: Element
 
-    private init(_ query: String, _ root: Element) throws {
+    private init(_ query: String, _ root: Element)throws {
         let query = query.trim()
         try Validate.notEmpty(string: query)
 
-        evaluator = try QueryParser.parse(query)
+        self.evaluator = try QueryParser.parse(query)
 
         self.root = root
     }
@@ -98,7 +98,7 @@ open class Selector {
      * @return matching elements, empty if none
      * @throws Selector.SelectorParseException (unchecked) on an invalid CSS query.
      */
-    public static func select(_ query: String, _ root: Element) throws -> Elements {
+    public static func select(_ query: String, _ root: Element)throws->Elements {
         return try Selector(query, root).select()
     }
 
@@ -109,7 +109,7 @@ open class Selector {
      * @param root root element to descend into
      * @return matching elements, empty if none
      */
-    public static func select(_ evaluator: Evaluator, _ root: Element) throws -> Elements {
+    public static func select(_ evaluator: Evaluator, _ root: Element)throws->Elements {
         return try Selector(evaluator, root).select()
     }
 
@@ -120,7 +120,7 @@ open class Selector {
      * @param roots root elements to descend into
      * @return matching elements, empty if none
      */
-    public static func select(_ query: String, _ roots: Array<Element>) throws -> Elements {
+    public static func select(_ query: String, _ roots: Array<Element>)throws->Elements {
         try Validate.notEmpty(string: query)
         let evaluator: Evaluator = try QueryParser.parse(query)
         var elements: Array<Element> = Array<Element>()
@@ -129,8 +129,8 @@ open class Selector {
 
         for root: Element in roots {
             let found: Elements = try select(evaluator, root)
-            for el: Element in found.array() {
-                if !seenElements.contains(el) {
+            for  el: Element in found.array() {
+                if (!seenElements.contains(el)) {
                     elements.append(el)
                     seenElements.append(el)
                 }
@@ -139,7 +139,7 @@ open class Selector {
         return Elements(elements)
     }
 
-    private func select() throws -> Elements {
+    private func select()throws->Elements {
         return try Collector.collect(evaluator, root)
     }
 
@@ -149,12 +149,12 @@ open class Selector {
         for el: Element in elements {
             var found: Bool = false
             for out: Element in outs {
-                if el.equals(out) {
+                if (el.equals(out)) {
                     found = true
                     break
                 }
             }
-            if !found {
+            if (!found) {
                 output.add(el)
             }
         }

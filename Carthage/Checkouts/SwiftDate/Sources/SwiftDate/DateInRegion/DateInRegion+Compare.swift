@@ -11,25 +11,25 @@ import Foundation
 // MARK: - Comparing DateInRegion
 
 public func == (lhs: DateInRegion, rhs: DateInRegion) -> Bool {
-    return (lhs.date.timeIntervalSince1970 == rhs.date.timeIntervalSince1970)
+	return (lhs.date.timeIntervalSince1970 == rhs.date.timeIntervalSince1970)
 }
 
 public func <= (lhs: DateInRegion, rhs: DateInRegion) -> Bool {
-    let result = lhs.date.compare(rhs.date)
-    return (result == .orderedAscending || result == .orderedSame)
+	let result = lhs.date.compare(rhs.date)
+	return (result == .orderedAscending || result == .orderedSame)
 }
 
 public func >= (lhs: DateInRegion, rhs: DateInRegion) -> Bool {
-    let result = lhs.date.compare(rhs.date)
-    return (result == .orderedDescending || result == .orderedSame)
+	let result = lhs.date.compare(rhs.date)
+	return (result == .orderedDescending || result == .orderedSame)
 }
 
 public func < (lhs: DateInRegion, rhs: DateInRegion) -> Bool {
-    return lhs.date.compare(rhs.date) == .orderedAscending
+	return lhs.date.compare(rhs.date) == .orderedAscending
 }
 
 public func > (lhs: DateInRegion, rhs: DateInRegion) -> Bool {
-    return lhs.date.compare(rhs.date) == .orderedDescending
+	return lhs.date.compare(rhs.date) == .orderedDescending
 }
 
 // The type of comparison to do against today's date or with the suplied date.
@@ -62,244 +62,248 @@ public func > (lhs: DateInRegion, rhs: DateInRegion) -> Bool {
 /// - isEvening: Return true if date is in the morning (>=17 - <21)
 /// - isNight: Return true if date is in the morning (>=21 - <5)
 public enum DateComparisonType {
-    // Days
-    case isToday
-    case isTomorrow
-    case isYesterday
-    case isSameDay(_: DateRepresentable)
 
-    // Weeks
-    case isThisWeek
-    case isNextWeek
-    case isLastWeek
-    case isSameWeek(_: DateRepresentable)
+	// Days
+	case isToday
+	case isTomorrow
+	case isYesterday
+	case isSameDay(_ : DateRepresentable)
 
-    // Months
-    case isThisMonth
-    case isNextMonth
-    case isLastMonth
-    case isSameMonth(_: DateRepresentable)
+	// Weeks
+	case isThisWeek
+	case isNextWeek
+	case isLastWeek
+	case isSameWeek(_: DateRepresentable)
 
-    // Years
-    case isThisYear
-    case isNextYear
-    case isLastYear
-    case isSameYear(_: DateRepresentable)
+	// Months
+	case isThisMonth
+	case isNextMonth
+	case isLastMonth
+	case isSameMonth(_: DateRepresentable)
 
-    // Relative Time
-    case isInTheFuture
-    case isInThePast
-    case isEarlier(than: DateRepresentable)
-    case isLater(than: DateRepresentable)
-    case isWeekday
-    case isWeekend
+	// Years
+	case isThisYear
+	case isNextYear
+	case isLastYear
+	case isSameYear(_: DateRepresentable)
 
-    // Day time
-    case isMorning
-    case isAfternoon
-    case isEvening
-    case isNight
+	// Relative Time
+	case isInTheFuture
+	case isInThePast
+	case isEarlier(than: DateRepresentable)
+	case isLater(than: DateRepresentable)
+	case isWeekday
+	case isWeekend
 
-    // TZ
-    case isInDST
+	// Day time
+	case isMorning
+	case isAfternoon
+	case isEvening
+	case isNight
+
+	// TZ
+	case isInDST
 }
 
 public extension DateInRegion {
-    /// Decides whether a DATE is "close by" another one passed in parameter,
-    /// where "Being close" is measured using a precision argument
-    /// which is initialized a 300 seconds, or 5 minutes.
-    ///
-    /// - Parameters:
-    ///   - refDate: reference date compare against to.
-    ///   - precision: The precision of the comparison (default is 5 minutes, or 300 seconds).
-    /// - Returns: A boolean; true if close by, false otherwise.
-    public func compareCloseTo(_ refDate: DateInRegion, precision: TimeInterval = 300) -> Bool {
-        return (abs(date.timeIntervalSince(refDate.date)) <= precision)
-    }
 
-    /// Compare the date with the rule specified in the `compareType` parameter.
-    ///
-    /// - Parameter compareType: comparison type.
-    /// - Returns: `true` if comparison succeded, `false` otherwise
-    public func compare(_ compareType: DateComparisonType) -> Bool {
-        switch compareType {
-        case .isToday:
-            return compare(.isSameDay(region.nowInThisRegion()))
+	/// Decides whether a DATE is "close by" another one passed in parameter,
+	/// where "Being close" is measured using a precision argument
+	/// which is initialized a 300 seconds, or 5 minutes.
+	///
+	/// - Parameters:
+	///   - refDate: reference date compare against to.
+	///   - precision: The precision of the comparison (default is 5 minutes, or 300 seconds).
+	/// - Returns: A boolean; true if close by, false otherwise.
+	public func compareCloseTo(_ refDate: DateInRegion, precision: TimeInterval = 300) -> Bool {
+		return (abs(date.timeIntervalSince(refDate.date)) <= precision)
+	}
 
-        case .isTomorrow:
-            let tomorrow = DateInRegion(region: region).dateByAdding(1, .day)
-            return compare(.isSameDay(tomorrow))
+	/// Compare the date with the rule specified in the `compareType` parameter.
+	///
+	/// - Parameter compareType: comparison type.
+	/// - Returns: `true` if comparison succeded, `false` otherwise
+	public func compare(_ compareType: DateComparisonType) -> Bool {
+		switch compareType {
+		case .isToday:
+			return compare(.isSameDay(region.nowInThisRegion()))
 
-        case .isYesterday:
-            let yesterday = DateInRegion(region: region).dateByAdding(-1, .day)
-            return compare(.isSameDay(yesterday))
+		case .isTomorrow:
+			let tomorrow = DateInRegion(region: region).dateByAdding(1, .day)
+			return compare(.isSameDay(tomorrow))
 
-        case let .isSameDay(refDate):
-            return calendar.isDate(date, inSameDayAs: refDate.date)
+		case .isYesterday:
+			let yesterday = DateInRegion(region: region).dateByAdding(-1, .day)
+			return compare(.isSameDay(yesterday))
 
-        case .isThisWeek:
-            return compare(.isSameWeek(region.nowInThisRegion()))
+		case .isSameDay(let refDate):
+			return calendar.isDate(date, inSameDayAs: refDate.date)
 
-        case .isNextWeek:
-            let nextWeek = region.nowInThisRegion().dateByAdding(1, .weekOfYear)
-            return compare(.isSameWeek(nextWeek))
+		case .isThisWeek:
+			return compare(.isSameWeek(region.nowInThisRegion()))
 
-        case .isLastWeek:
-            let lastWeek = region.nowInThisRegion().dateByAdding(-1, .weekOfYear)
-            return compare(.isSameWeek(lastWeek))
+		case .isNextWeek:
+			let nextWeek = region.nowInThisRegion().dateByAdding(1, .weekOfYear)
+			return compare(.isSameWeek(nextWeek))
 
-        case let .isSameWeek(refDate):
-            guard weekOfYear == refDate.weekOfYear else {
-                return false
-            }
-            // Ensure time interval is under 1 week
-            return (abs(date.timeIntervalSince(refDate.date)) < 1.weeks.timeInterval)
+		case .isLastWeek:
+			let lastWeek = region.nowInThisRegion().dateByAdding(-1, .weekOfYear)
+			return compare(.isSameWeek(lastWeek))
 
-        case .isThisMonth:
-            return compare(.isSameMonth(region.nowInThisRegion()))
+		case .isSameWeek(let refDate):
+			guard weekOfYear == refDate.weekOfYear else {
+				return false
+			}
+			// Ensure time interval is under 1 week
+			return (abs(date.timeIntervalSince(refDate.date)) < 1.weeks.timeInterval)
 
-        case .isNextMonth:
-            let nextMonth = region.nowInThisRegion().dateByAdding(1, .month)
-            return compare(.isSameMonth(nextMonth))
+		case .isThisMonth:
+			return compare(.isSameMonth(region.nowInThisRegion()))
 
-        case .isLastMonth:
-            let lastMonth = region.nowInThisRegion().dateByAdding(-1, .month)
-            return compare(.isSameMonth(lastMonth))
+		case .isNextMonth:
+			let nextMonth = region.nowInThisRegion().dateByAdding(1, .month)
+			return compare(.isSameMonth(nextMonth))
 
-        case let .isSameMonth(refDate):
-            return (date.year == refDate.date.year) && (date.month == refDate.date.month)
+		case .isLastMonth:
+			let lastMonth = region.nowInThisRegion().dateByAdding(-1, .month)
+			return compare(.isSameMonth(lastMonth))
 
-        case .isThisYear:
-            return compare(.isSameYear(region.nowInThisRegion()))
+		case .isSameMonth(let refDate):
+			return (date.year == refDate.date.year) && (date.month == refDate.date.month)
 
-        case .isNextYear:
-            let nextYear = region.nowInThisRegion().dateByAdding(1, .year)
-            return compare(.isSameYear(nextYear))
+		case .isThisYear:
+			return compare(.isSameYear(region.nowInThisRegion()))
 
-        case .isLastYear:
-            let lastYear = region.nowInThisRegion().dateByAdding(-1, .year)
-            return compare(.isSameYear(lastYear))
+		case .isNextYear:
+			let nextYear = region.nowInThisRegion().dateByAdding(1, .year)
+			return compare(.isSameYear(nextYear))
 
-        case let .isSameYear(refDate):
-            return (date.year == refDate.date.year)
+		case .isLastYear:
+			let lastYear = region.nowInThisRegion().dateByAdding(-1, .year)
+			return compare(.isSameYear(lastYear))
 
-        case .isInTheFuture:
-            return compare(.isLater(than: region.nowInThisRegion()))
+		case .isSameYear(let refDate):
+			return (date.year == refDate.date.year)
 
-        case .isInThePast:
-            return compare(.isEarlier(than: region.nowInThisRegion()))
+		case .isInTheFuture:
+			return compare(.isLater(than: region.nowInThisRegion()))
 
-        case let .isEarlier(refDate):
-            return ((date as NSDate).earlierDate(refDate.date) == date)
+		case .isInThePast:
+			return compare(.isEarlier(than: region.nowInThisRegion()))
 
-        case let .isLater(refDate):
-            return ((date as NSDate).laterDate(refDate.date) == date)
+		case .isEarlier(let refDate):
+			return ((date as NSDate).earlierDate(refDate.date) == date)
 
-        case .isWeekday:
-            return !compare(.isWeekend)
+		case .isLater(let refDate):
+			return ((date as NSDate).laterDate(refDate.date) == date)
 
-        case .isWeekend:
-            let range = calendar.maximumRange(of: Calendar.Component.weekday)!
-            return (weekday == range.lowerBound || weekday == range.upperBound - range.lowerBound)
+		case .isWeekday:
+			return !compare(.isWeekend)
 
-        case .isInDST:
-            return region.timeZone.isDaylightSavingTime(for: date)
+		case .isWeekend:
+			let range = calendar.maximumRange(of: Calendar.Component.weekday)!
+			return (weekday == range.lowerBound || weekday == range.upperBound - range.lowerBound)
 
-        case .isMorning:
-            return (hour >= 5 && hour < 12)
+		case .isInDST:
+			return region.timeZone.isDaylightSavingTime(for: date)
 
-        case .isAfternoon:
-            return (hour >= 12 && hour < 17)
+		case .isMorning:
+			return (hour >= 5 && hour < 12)
 
-        case .isEvening:
-            return (hour >= 17 && hour < 21)
+		case .isAfternoon:
+			return (hour >= 12 && hour < 17)
 
-        case .isNight:
-            return (hour >= 21 || hour < 5)
-        }
-    }
+		case .isEvening:
+			return (hour >= 17 && hour < 21)
 
-    /// Returns a ComparisonResult value that indicates the ordering of two given dates based on
-    /// their components down to a given unit granularity.
-    ///
-    /// - parameter date:        date to compare.
-    /// - parameter granularity: The smallest unit that must, along with all larger units
-    /// - returns: `ComparisonResult`
-    func compare(toDate refDate: DateInRegion, granularity: Calendar.Component) -> ComparisonResult {
-        switch granularity {
-        case .nanosecond:
-            // There is a possible rounding error using Calendar to compare two dates below the minute granularity
-            // So we've added this trick and use standard Date compare which return correct results in this case
-            // https://github.com/malcommac/SwiftDate/issues/346
-            return date.compare(refDate.date)
-        default:
-            return region.calendar.compare(date, to: refDate.date, toGranularity: granularity)
-        }
-    }
+		case .isNight:
+			return (hour >= 21 || hour < 5)
 
-    /// Compares whether the receiver is before/before equal `date` based on their components down to a given unit granularity.
-    ///
-    /// - Parameters:
-    ///   - refDate: reference date
-    ///   - orEqual: `true` to also check for equality
-    ///   - granularity: smallest unit that must, along with all larger units, be less for the given dates
-    /// - Returns: Boolean
-    public func isBeforeDate(_ date: DateInRegion, orEqual: Bool = false, granularity: Calendar.Component) -> Bool {
-        let result = compare(toDate: date, granularity: granularity)
-        return (orEqual ? (result == .orderedSame || result == .orderedAscending) : result == .orderedAscending)
-    }
+		}
+	}
 
-    /// Compares whether the receiver is after `date` based on their components down to a given unit granularity.
-    ///
-    /// - Parameters:
-    ///   - refDate: reference date
-    ///   - orEqual: `true` to also check for equality
-    ///   - granularity: Smallest unit that must, along with all larger units, be greater for the given dates.
-    /// - Returns: Boolean
-    public func isAfterDate(_ refDate: DateInRegion, orEqual: Bool = false, granularity: Calendar.Component) -> Bool {
-        let result = compare(toDate: refDate, granularity: granularity)
-        return (orEqual ? (result == .orderedSame || result == .orderedDescending) : result == .orderedDescending)
-    }
+	/// Returns a ComparisonResult value that indicates the ordering of two given dates based on
+	/// their components down to a given unit granularity.
+	///
+	/// - parameter date:        date to compare.
+	/// - parameter granularity: The smallest unit that must, along with all larger units
+	/// - returns: `ComparisonResult`
+	func compare(toDate refDate: DateInRegion, granularity: Calendar.Component) -> ComparisonResult {
+		switch granularity {
+		case .nanosecond:
+			// There is a possible rounding error using Calendar to compare two dates below the minute granularity
+			// So we've added this trick and use standard Date compare which return correct results in this case
+			// https://github.com/malcommac/SwiftDate/issues/346
+			return date.compare(refDate.date)
+		default:
+			return region.calendar.compare(date, to: refDate.date, toGranularity: granularity)
+		}
+	}
 
-    /// Compares equality of two given dates based on their components down to a given unit
-    /// granularity.
-    ///
-    /// - parameter date:        date to compare
-    /// - parameter granularity: The smallest unit that must, along with all larger units, be equal for the given
-    ///         dates to be considered the same.
-    ///
-    /// - returns: `true` if the dates are the same down to the given granularity, otherwise `false`
-    public func isInside(date: DateInRegion, granularity: Calendar.Component) -> Bool {
-        return (compare(toDate: date, granularity: granularity) == .orderedSame)
-    }
+	/// Compares whether the receiver is before/before equal `date` based on their components down to a given unit granularity.
+	///
+	/// - Parameters:
+	///   - refDate: reference date
+	///   - orEqual: `true` to also check for equality
+	///   - granularity: smallest unit that must, along with all larger units, be less for the given dates
+	/// - Returns: Boolean
+	public func isBeforeDate(_ date: DateInRegion, orEqual: Bool = false, granularity: Calendar.Component) -> Bool {
+		let result = compare(toDate: date, granularity: granularity)
+		return (orEqual ? (result == .orderedSame || result == .orderedAscending) : result == .orderedAscending)
+	}
 
-    /// Return `true` if receiver data is contained in the range specified by two dates.
-    ///
-    /// - Parameters:
-    ///   - startDate: range upper bound date
-    ///   - endDate: range lower bound date
-    ///   - orEqual: `true` to also check for equality on date and date2, default is `true`
-    ///   - granularity: smallest unit that must, along with all larger units, be greater
-    /// - Returns: Boolean
-    public func isInRange(date startDate: DateInRegion, and endDate: DateInRegion, orEqual: Bool = true, granularity: Calendar.Component = .nanosecond) -> Bool {
-        return isAfterDate(startDate, orEqual: orEqual, granularity: granularity) && isBeforeDate(endDate, orEqual: orEqual, granularity: granularity)
-    }
+	/// Compares whether the receiver is after `date` based on their components down to a given unit granularity.
+	///
+	/// - Parameters:
+	///   - refDate: reference date
+	///   - orEqual: `true` to also check for equality
+	///   - granularity: Smallest unit that must, along with all larger units, be greater for the given dates.
+	/// - Returns: Boolean
+	public func isAfterDate(_ refDate: DateInRegion, orEqual: Bool = false, granularity: Calendar.Component) -> Bool {
+		let result = compare(toDate: refDate, granularity: granularity)
+		return (orEqual ? (result == .orderedSame || result == .orderedDescending) : result == .orderedDescending)
+	}
 
-    // MARK: - Date Earlier/Later
+	/// Compares equality of two given dates based on their components down to a given unit
+	/// granularity.
+	///
+	/// - parameter date:        date to compare
+	/// - parameter granularity: The smallest unit that must, along with all larger units, be equal for the given
+	///         dates to be considered the same.
+	///
+	/// - returns: `true` if the dates are the same down to the given granularity, otherwise `false`
+	public func isInside(date: DateInRegion, granularity: Calendar.Component) -> Bool {
+		return (compare(toDate: date, granularity: granularity) == .orderedSame)
+	}
 
-    /// Return the earlier of two dates, between self and a given date.
-    ///
-    /// - Parameter date: The date to compare to self
-    /// - Returns: The date that is earlier
-    public func earlierDate(_ date: DateInRegion) -> DateInRegion {
-        return (self.date.timeIntervalSince1970 <= date.date.timeIntervalSince1970) ? self : date
-    }
+	/// Return `true` if receiver data is contained in the range specified by two dates.
+	///
+	/// - Parameters:
+	///   - startDate: range upper bound date
+	///   - endDate: range lower bound date
+	///   - orEqual: `true` to also check for equality on date and date2, default is `true`
+	///   - granularity: smallest unit that must, along with all larger units, be greater
+	/// - Returns: Boolean
+	public func isInRange(date startDate: DateInRegion, and endDate: DateInRegion, orEqual: Bool = true, granularity: Calendar.Component = .nanosecond) -> Bool {
+		return isAfterDate(startDate, orEqual: orEqual, granularity: granularity) && isBeforeDate(endDate, orEqual: orEqual, granularity: granularity)
+	}
 
-    /// Return the later of two dates, between self and a given date.
-    ///
-    /// - Parameter date: The date to compare to self
-    /// - Returns: The date that is later
-    public func laterDate(_ date: DateInRegion) -> DateInRegion {
-        return (self.date.timeIntervalSince1970 >= date.date.timeIntervalSince1970) ? self : date
-    }
+	// MARK: - Date Earlier/Later
+
+	/// Return the earlier of two dates, between self and a given date.
+	///
+	/// - Parameter date: The date to compare to self
+	/// - Returns: The date that is earlier
+	public func earlierDate(_ date: DateInRegion) -> DateInRegion {
+		return (self.date.timeIntervalSince1970 <= date.date.timeIntervalSince1970) ? self : date
+	}
+
+	/// Return the later of two dates, between self and a given date.
+	///
+	/// - Parameter date: The date to compare to self
+	/// - Returns: The date that is later
+	public func laterDate(_ date: DateInRegion) -> DateInRegion {
+		return (self.date.timeIntervalSince1970 >= date.date.timeIntervalSince1970) ? self : date
+	}
+
 }

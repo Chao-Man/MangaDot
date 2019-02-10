@@ -8,11 +8,11 @@
 
 import Foundation
 
-extension Array where Element: Equatable {
+extension Array where Element : Equatable {
     func lastIndexOf(_ e: Element) -> Int {
-        for pos in (0 ..< count).reversed() {
+        for pos in (0..<self.count).reversed() {
             let next = self[pos]
-            if next == e {
+            if (next == e) {
                 return pos
             }
         }

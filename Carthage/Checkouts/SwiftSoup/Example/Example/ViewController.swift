@@ -6,28 +6,29 @@
 //  Copyright © 2017 Nabil. All rights reserved.
 //
 
-import SwiftSoup
 import UIKit
+import SwiftSoup
 
 class ViewController: UIViewController {
+
     typealias Item = (text: String, html: String)
 
-    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet var urlTextField: UITextField!
     @IBOutlet var cssTextField: UITextField!
 
     // current document
-    var document: Document = Document("")
+    var document: Document = Document.init("")
     // item founds
     var items: [Item] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "SwiftSoup Example"
+        self.title = "SwiftSoup Example"
 
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        self.tableView.rowHeight = UITableView.automaticDimension
+        self.tableView.estimatedRowHeight = UITableView.automaticDimension
 
         urlTextField.text = "http://www.facebook.com"
         cssTextField.text = "div"
@@ -36,7 +37,7 @@ class ViewController: UIViewController {
         downloadHTML()
     }
 
-    // Download HTML
+    //Download HTML
     func downloadHTML() {
         // url string to URL
         guard let url = URL(string: urlTextField.text ?? "") else {
@@ -47,7 +48,7 @@ class ViewController: UIViewController {
 
         do {
             // content of url
-            let html = try String(contentsOf: url)
+            let html = try String.init(contentsOf: url)
             // parse it into a Document
             document = try SwiftSoup.parse(html)
             // parse css query
@@ -56,12 +57,13 @@ class ViewController: UIViewController {
             // an error occurred
             UIAlertController.showAlert("Error: \(error)", self)
         }
+
     }
 
-    // Parse CSS selector
+    //Parse CSS selector
     func parse() {
         do {
-            // empty old items
+            //empty old items
             items = []
             // firn css selector
             let elements: Elements = try document.select(cssTextField.text ?? "")
@@ -79,55 +81,56 @@ class ViewController: UIViewController {
         tableView.reloadData()
     }
 
-    @IBAction func chooseQuery(_: Any) {
+    @IBAction func chooseQuery(_ sender: Any) {
         guard let viewController = storyboard?.instantiateViewController(
-            withIdentifier: "QueryViewController"
-        ) as? QueryViewController else {
+            withIdentifier: "QueryViewController") as? QueryViewController  else {
             return
         }
-        viewController.completionHandler = { [weak self] resilt in
+        viewController.completionHandler = {[weak self](resilt) in
             self?.navigationController?.popViewController(animated: true)
             self?.cssTextField.text = resilt.example
             self?.parse()
         }
-        show(viewController, sender: self)
+        self.show(viewController, sender: self)
     }
+
 }
 
 extension ViewController: UITableViewDataSource {
-    func numberOfSections(in _: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    public func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         if cell == nil {
-            cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "cell")
+            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "cell")
             cell?.textLabel?.numberOfLines = 2
             cell?.detailTextLabel?.numberOfLines = 6
 
-            cell?.textLabel?.textColor = UIColor(red: 1.0 / 255, green: 174.0 / 255, blue: 66.0 / 255, alpha: 1)
-            cell?.detailTextLabel?.textColor = UIColor(red: 55.0 / 255, green: 67.0 / 255, blue: 55.0 / 255, alpha: 1)
+            cell?.textLabel?.textColor = UIColor.init(red: 1.0/255, green: 174.0/255, blue: 66.0/255, alpha: 1)
+            cell?.detailTextLabel?.textColor = UIColor.init(red: 55.0/255, green: 67.0/255, blue: 55.0/255, alpha: 1)
 
-            cell?.backgroundColor = UIColor(red: 245.0 / 255, green: 245.0 / 255, blue: 245.0 / 255, alpha: 1)
+            cell?.backgroundColor = UIColor.init(red: 245.0/255, green: 245.0/255, blue: 245.0/255, alpha: 1)
         }
 
         cell?.textLabel?.text = items[indexPath.row].text
         cell?.detailTextLabel?.text = items[indexPath.row].html
 
-        let color1 = UIColor(red: 245.0 / 255, green: 245.0 / 255, blue: 245.0 / 255, alpha: 1)
-        let color2 = UIColor(red: 240.0 / 255, green: 240.0 / 255, blue: 240.0 / 255, alpha: 1)
+        let color1 = UIColor.init(red: 245.0/255, green: 245.0/255, blue: 245.0/255, alpha: 1)
+        let color2 = UIColor.init(red: 240.0/255, green: 240.0/255, blue: 240.0/255, alpha: 1)
         cell?.backgroundColor = (indexPath.row % 2) == 0 ? color1 : color2
 
-        return cell!
+        return  cell!
     }
 }
 
-extension ViewController: UITableViewDelegate {}
+extension ViewController: UITableViewDelegate {
+}
 
 extension ViewController: UITextFieldDelegate {
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -136,6 +139,7 @@ extension ViewController: UITextFieldDelegate {
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
+
         if textField == urlTextField {
             downloadHTML()
         }
@@ -147,7 +151,7 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension UIAlertController {
-    public static func showAlert(_ message: String, _ controller: UIViewController) {
+    static public func showAlert(_ message: String, _ controller: UIViewController) {
         let alert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         controller.present(alert, animated: true, completion: nil)

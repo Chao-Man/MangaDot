@@ -12,6 +12,7 @@ import Foundation
  * Base combining (and, or) evaluator.
  */
 public class CombiningEvaluator: Evaluator {
+
     public private(set) var evaluators: Array<Evaluator>
     var num: Int = 0
 
@@ -55,10 +56,10 @@ public class CombiningEvaluator: Evaluator {
         }
 
         public override func matches(_ root: Element, _ node: Element) -> Bool {
-            for index in 0 ..< num {
+            for index in 0..<num {
                 let evaluator = evaluators[index]
                 do {
-                    if try !evaluator.matches(root, node) {
+                    if (try !evaluator.matches(root, node)) {
                         return false
                     }
                 } catch {}
@@ -108,10 +109,10 @@ public class CombiningEvaluator: Evaluator {
         }
 
         public override func matches(_ root: Element, _ node: Element) -> Bool {
-            for index in 0 ..< num {
+            for index in 0..<num {
                 let evaluator: Evaluator = evaluators[index]
                 do {
-                    if try evaluator.matches(root, node) {
+                    if (try evaluator.matches(root, node)) {
                         return true
                     }
                 } catch {}
@@ -120,7 +121,7 @@ public class CombiningEvaluator: Evaluator {
         }
 
         public override func toString() -> String {
-            return ":or\(evaluators.map { String($0.toString()) })"
+            return ":or\(evaluators.map {String($0.toString())})"
         }
     }
 }

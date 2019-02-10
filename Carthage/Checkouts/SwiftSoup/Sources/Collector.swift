@@ -13,7 +13,9 @@ import Foundation
  *
  */
 open class Collector {
-    private init() {}
+
+    private init() {
+    }
 
     /**
      Build a list of elements, by visiting root and every descendant of root, and testing it against the evaluator.
@@ -21,11 +23,12 @@ open class Collector {
      @param root root of tree to descend
      @return list of matches; empty if none
      */
-    public static func collect(_ eval: Evaluator, _ root: Element) throws -> Elements {
+    public static func collect (_ eval: Evaluator, _ root: Element)throws->Elements {
         let elements: Elements = Elements()
         try NodeTraversor(Accumulator(root, elements, eval)).traverse(root)
         return elements
     }
+
 }
 
 private final class Accumulator: NodeVisitor {
@@ -39,7 +42,7 @@ private final class Accumulator: NodeVisitor {
         self.eval = eval
     }
 
-    public func head(_ node: Node, _: Int) {
+    public func head(_ node: Node, _ depth: Int) {
         guard let el = node as? Element else {
             return
         }
@@ -50,7 +53,7 @@ private final class Accumulator: NodeVisitor {
         } catch {}
     }
 
-    public func tail(_: Node, _: Int) {
+    public func tail(_ node: Node, _ depth: Int) {
         // void
     }
 }

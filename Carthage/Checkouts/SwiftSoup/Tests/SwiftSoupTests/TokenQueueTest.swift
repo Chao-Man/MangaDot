@@ -6,10 +6,11 @@
 //  Copyright © 2016 Nabil Chatbi.. All rights reserved.
 //
 
-import SwiftSoup
 import XCTest
+import SwiftSoup
 
 class TokenQueueTest: XCTestCase {
+
     func testLinuxTestSuiteIncludesAllTests() {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
             let thisClass = type(of: self)
@@ -71,15 +72,16 @@ class TokenQueueTest: XCTestCase {
         XCTAssertEqual("Three Two", tq.remainder())
     }
 
-    static var allTests = {
-        [
+	static var allTests = {
+		return [
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
             ("testChompBalanced", testChompBalanced),
-            ("testChompEscapedBalanced", testChompEscapedBalanced),
-            ("testChompBalancedMatchesAsMuchAsPossible", testChompBalancedMatchesAsMuchAsPossible),
-            ("testUnescape", testUnescape),
-            ("testChompToIgnoreCase", testChompToIgnoreCase),
-            ("testAddFirst", testAddFirst),
-        ]
-    }()
+			("testChompEscapedBalanced", testChompEscapedBalanced),
+			("testChompBalancedMatchesAsMuchAsPossible", testChompBalancedMatchesAsMuchAsPossible),
+			("testUnescape", testUnescape),
+			("testChompToIgnoreCase", testChompToIgnoreCase),
+			("testAddFirst", testAddFirst)
+			]
+	}()
+
 }

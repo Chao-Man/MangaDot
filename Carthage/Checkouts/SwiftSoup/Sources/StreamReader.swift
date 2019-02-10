@@ -9,6 +9,7 @@
 import Foundation
 
 class StreamReader {
+
     let encoding: String.Encoding
     let chunkSize: Int
     var fileHandle: FileHandle!
@@ -18,16 +19,17 @@ class StreamReader {
 
     init?(path: String, delimiter: String = "\n", encoding: String.Encoding = .utf8,
           chunkSize: Int = 4096) {
+
         guard let fileHandle = FileHandle(forReadingAtPath: path),
             let delimData = delimiter.data(using: encoding) else {
-            return nil
+                return nil
         }
         self.encoding = encoding
         self.chunkSize = chunkSize
         self.fileHandle = fileHandle
         self.delimData = delimData
-        buffer = Data(capacity: chunkSize)
-        atEof = false
+        self.buffer = Data(capacity: chunkSize)
+        self.atEof = false
     }
 
     deinit {
@@ -42,9 +44,9 @@ class StreamReader {
         while !atEof {
             if let range = buffer.range(of: delimData) {
                 // Convert complete line (excluding the delimiter) to a string:
-                let line = String(data: buffer.subdata(in: 0 ..< range.lowerBound), encoding: encoding)
+                let line = String(data: buffer.subdata(in: 0..<range.lowerBound), encoding: encoding)
                 // Remove line (and the delimiter) from the buffer:
-                buffer.removeSubrange(0 ..< range.upperBound)
+                buffer.removeSubrange(0..<range.upperBound)
                 return line
             }
             let tmpData = fileHandle.readData(ofLength: chunkSize)
@@ -81,7 +83,7 @@ class StreamReader {
 extension StreamReader: Sequence {
     func makeIterator() -> AnyIterator<String> {
         return AnyIterator {
-            self.nextLine()
+            return self.nextLine()
         }
     }
 }

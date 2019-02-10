@@ -23,6 +23,7 @@
 import UIKit
 
 class FontsViewController: UITableViewController {
+
     var fonts = ["DRIPICONS", "EMOJI", "FONT-AWESOME-REGULAR", "ICO FONT", "IONICONS", "LINEARICONS", "MAP-ICONS", "MATERIAL ICONS", "OPEN ICONIC", "STATE FACE", "WEATHER ICONS", "TYPICONS"]
     var fontBackgroundColors = ["e74c3c", "e67e22", "f1c40f", "2ecc71", "1abc9c", "3498db", "9b59b6", "e4Accf", "95a5a6", "34495e", "6c6998", "00695C"]
 
@@ -42,15 +43,15 @@ class FontsViewController: UITableViewController {
         imageView.contentMode = .scaleAspectFit
         imageView.image = UIImage(named: "justlogo")
         navigationItem.titleView = imageView
-
+        
         let font = UIFont(name: "AppleSDGothicNeo-Bold", size: 20)
         let black: UIColor = .black
-        let attributes = [NSAttributedString.Key.font: font!, NSAttributedString.Key.foregroundColor: black]
+        let attributes = [NSAttributedString.Key.font : font!, NSAttributedString.Key.foregroundColor: black]
         navigationController?.navigationBar.titleTextAttributes = attributes
 
         tableView.separatorColor = .clear
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -58,20 +59,20 @@ class FontsViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in _: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fonts.count
     }
 
-    override func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85.0
-    }
-
+    }    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "fontCell", for: indexPath) as! FontTableViewCell
 
@@ -80,59 +81,60 @@ class FontsViewController: UITableViewController {
         cell.author.roundCorners(corners: [.bottomLeft, .bottomRight], radius: 10)
 
         cell.fontName.text = fonts[indexPath.row]
-        cell.fontName.backgroundColor = UIColor(hex: fontBackgroundColors[indexPath.row])
-
+        cell.fontName.backgroundColor = UIColor.init(hex: fontBackgroundColors[indexPath.row])
+        
         cell.author.text = authors[indexPath.row]
-        cell.author.backgroundColor = UIColor(hex: ownersBackgroundColors[indexPath.row])
-
+        cell.author.backgroundColor = UIColor.init(hex: ownersBackgroundColors[indexPath.row])
+        
         cell.selectionStyle = .none
 
         return cell
     }
+    
+    /*
+    // Override to support conditional editing of the table view.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the specified item to be editable.
+        return true
+    }
+    */
 
     /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
+    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        } else if editingStyle == .insert {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }    
+    }
+    */
 
     /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
+    // Override to support rearranging the table view.
+    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+
+    }
+    */
 
     /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+    // Override to support conditional rearranging of the table view.
+    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // Return false if you do not want the item to be re-orderable.
+        return true
+    }
+    */
 
-     }
-     */
-
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "fontSelectionSegue" {
-            let viewController = segue.destination as! IconsViewController
+        if (segue.identifier == "fontSelectionSegue") {
+            let viewController = segue.destination as! IconsViewController            
             viewController.index = tableView.indexPathForSelectedRow!.row
         }
     }

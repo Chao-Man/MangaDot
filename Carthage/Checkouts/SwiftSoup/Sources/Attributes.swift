@@ -19,16 +19,17 @@ import Foundation
  * name.
  * </p>
  *
- *
+ * 
  */
 open class Attributes: NSCopying {
+
     public static var dataPrefix: String = "data-"
 
-    var attributes: OrderedDictionary<String, Attribute> = OrderedDictionary<String, Attribute>()
+    var attributes: OrderedDictionary<String, Attribute>  = OrderedDictionary<String, Attribute>()
     // linked hash map to preserve insertion order.
     // null be default as so many elements have no attributes -- saves a good chunk of memory
 
-    public init() {}
+	public init() {}
 
     /**
      Get an attribute value by key.
@@ -36,9 +37,9 @@ open class Attributes: NSCopying {
      @return the attribute value if set; or empty string if not set.
      @see #hasKey(String)
      */
-    open func get(key: String) -> String {
+    open func  get(key: String) -> String {
         let attr: Attribute? = attributes.get(key: key)
-        return attr != nil ? attr!.getValue() : ""
+		return attr != nil ? attr!.getValue() : ""
     }
 
     /**
@@ -46,10 +47,10 @@ open class Attributes: NSCopying {
      * @param key the attribute name
      * @return the first matching attribute value if set; or empty string if not set.
      */
-    open func getIgnoreCase(key: String) throws -> String {
+    open func getIgnoreCase(key: String )throws -> String {
         try Validate.notEmpty(string: key)
 
-        for attrKey in attributes.keySet() {
+        for attrKey in (attributes.keySet()) {
             if attrKey.equalsIgnoreCase(string: key) {
                 return attributes.get(key: attrKey)!.getValue()
             }
@@ -73,7 +74,7 @@ open class Attributes: NSCopying {
      @param value attribute value
      */
     open func put(_ key: String, _ value: Bool) throws {
-        if value {
+        if (value) {
             try put(attribute: BooleanAttribute(key: key))
         } else {
             try remove(key: key)
@@ -92,19 +93,19 @@ open class Attributes: NSCopying {
      Remove an attribute by key. <b>Case sensitive.</b>
      @param key attribute key to remove
      */
-    open func remove(key: String) throws {
+    open func remove(key: String)throws {
         try Validate.notEmpty(string: key)
-        attributes.remove(key: key)
+		attributes.remove(key: key)
     }
 
     /**
      Remove an attribute by key. <b>Case insensitive.</b>
      @param key attribute key to remove
      */
-    open func removeIgnoreCase(key: String) throws {
+    open func removeIgnoreCase(key: String ) throws {
         try Validate.notEmpty(string: key)
         for attrKey in attributes.keySet() {
-            if attrKey.equalsIgnoreCase(string: key) {
+            if (attrKey.equalsIgnoreCase(string: key)) {
                 attributes.remove(key: attrKey)
             }
         }
@@ -126,7 +127,7 @@ open class Attributes: NSCopying {
      */
     open func hasKeyIgnoreCase(key: String) -> Bool {
         for attrKey in attributes.keySet() {
-            if attrKey.equalsIgnoreCase(string: key) {
+            if (attrKey.equalsIgnoreCase(string: key)) {
                 return true
             }
         }
@@ -138,7 +139,7 @@ open class Attributes: NSCopying {
      @return size
      */
     open func size() -> Int {
-        return attributes.count // TODO: check retyrn right size
+        return attributes.count//TODO: check retyrn right size
     }
 
     /**
@@ -150,7 +151,7 @@ open class Attributes: NSCopying {
             return
         }
 
-        if incoming.size() == 0 {
+        if (incoming.size() == 0) {
             return
         }
         attributes.putAll(all: incoming.attributes)
@@ -170,7 +171,7 @@ open class Attributes: NSCopying {
      @return an view of the attributes as a List.
      */
     open func asList() -> Array<Attribute> {
-        var list: Array<Attribute> = Array( /* attributes.size() */ )
+        var list: Array<Attribute> = Array(/*attributes.size()*/)
         for entry in attributes.orderedValues {
             list.append(entry)
         }
@@ -182,16 +183,16 @@ open class Attributes: NSCopying {
      * starting with {@code data-}.
      * @return map of custom data attributes.
      */
-    // Map<String, String>
+    //Map<String, String>
     open func dataset() -> Dictionary<String, String> {
-        var dataset = Dictionary<String, String>()
-        for attribute in attributes {
-            let attr = attribute.1
-            if attr.isDataAttribute() {
-                let key = attr.getKey().substring(Attributes.dataPrefix.count)
-                dataset[key] = attribute.1.getValue()
-            }
-        }
+		var dataset = Dictionary<String, String>()
+		for attribute in attributes {
+			let attr = attribute.1
+			if(attr.isDataAttribute()) {
+				let key = attr.getKey().substring(Attributes.dataPrefix.count)
+				dataset[key] = attribute.1.getValue()
+			}
+		}
         return dataset
     }
 
@@ -200,20 +201,20 @@ open class Attributes: NSCopying {
      @return HTML
      @throws SerializationException if the HTML representation of the attributes cannot be constructed.
      */
-    open func html() throws -> String {
+    open func html()throws -> String {
         let accum = StringBuilder()
         try html(accum: accum, out: Document("").outputSettings()) // output settings a bit funky, but this html() seldom used
         return accum.toString()
     }
 
-    public func html(accum: StringBuilder, out: OutputSettings) throws {
+    public func html(accum: StringBuilder, out: OutputSettings ) throws {
         for attribute in attributes.orderedValues {
             accum.append(" ")
             attribute.html(accum: accum, out: out)
         }
     }
 
-    open func toString() throws -> String {
+    open func toString()throws -> String {
         return try html()
     }
 
@@ -223,10 +224,10 @@ open class Attributes: NSCopying {
      * @return if both sets of attributes have the same content
      */
     open func equals(o: AnyObject?) -> Bool {
-        if o == nil { return false }
-        if self === o.self { return true }
-        guard let that: Attributes = o as? Attributes else { return false }
-        return (attributes == that.attributes)
+        if(o == nil) {return false}
+        if (self === o.self) {return true}
+        guard let that: Attributes = o as? Attributes else {return false}
+		return (attributes == that.attributes)
     }
 
     /**
@@ -237,26 +238,27 @@ open class Attributes: NSCopying {
         return attributes.hashCode()
     }
 
-    public func copy(with _: NSZone? = nil) -> Any {
+    public func copy(with zone: NSZone? = nil) -> Any {
         let clone = Attributes()
         clone.attributes = attributes.clone()
         return clone
     }
 
     open func clone() -> Attributes {
-        return copy() as! Attributes
+        return self.copy() as! Attributes
     }
 
     fileprivate static func dataKey(key: String) -> String {
         return dataPrefix + key
     }
+
 }
 
 extension Attributes: Sequence {
-    public func makeIterator() -> AnyIterator<Attribute> {
-        var list = attributes.orderedValues
-        return AnyIterator {
-            list.count > 0 ? list.removeFirst() : nil
-        }
-    }
+	public func makeIterator() -> AnyIterator<Attribute> {
+		var list = attributes.orderedValues
+		return AnyIterator {
+			return list.count > 0 ? list.removeFirst() : nil
+		}
+	}
 }

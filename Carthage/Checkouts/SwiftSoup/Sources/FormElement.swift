@@ -45,7 +45,7 @@ public class FormElement: Element {
         return self
     }
 
-    //todo:
+	//todo:
     /**
      * Prepare to submit this form. A Connection object is created with the request set up from the form values. You
      * can then set up other options (like user-agent, timeout, cookies), then execute it.
@@ -58,7 +58,7 @@ public class FormElement: Element {
 //        Validate.notEmpty(action, "Could not determine a form action URL for submit. Ensure you set a base URI when parsing.")
 //        Connection.Method method = attr("method").toUpperCase().equals("POST") ?
 //            Connection.Method.POST : Connection.Method.GET
-//
+//        
 //        return Jsoup.connect(action)
 //            .data(formData())
 //            .method(method)
@@ -72,7 +72,7 @@ public class FormElement: Element {
      */
 //    public List<Connection.KeyVal> formData() {
 //        ArrayList<Connection.KeyVal> data = new ArrayList<Connection.KeyVal>();
-//
+//        
 //        // iterate the form control elements and accumulate their values
 //        for (Element el: elements) {
 //            if (!el.tag().isFormSubmittable()) continue; // contents are form listable, superset of submitable
@@ -80,7 +80,7 @@ public class FormElement: Element {
 //            String name = el.attr("name");
 //            if (name.length() == 0) continue;
 //            String type = el.attr("type");
-//
+//            
 //            if ("select".equals(el.tagName())) {
 //                Elements options = el.select("option[selected]");
 //                boolean set = false;
@@ -106,21 +106,20 @@ public class FormElement: Element {
 //        return data;
 //    }
 
-    public override func copy(with _: NSZone? = nil) -> Any {
-        let clone = FormElement(_tag, baseUri!, attributes!)
-        return copy(clone: clone)
-    }
+	public override func copy(with zone: NSZone? = nil) -> Any {
+		let clone = FormElement(_tag, baseUri!, attributes!)
+		return copy(clone: clone)
+	}
 
-    public override func copy(parent: Node?) -> Node {
-        let clone = FormElement(_tag, baseUri!, attributes!)
-        return copy(clone: clone, parent: parent)
-    }
-
-    public override func copy(clone: Node, parent: Node?) -> Node {
-        let clone = clone as! FormElement
-        for att in _elements.array() {
-            clone._elements.add(att)
-        }
-        return super.copy(clone: clone, parent: parent)
-    }
+	public override func copy(parent: Node?) -> Node {
+		let clone = FormElement(_tag, baseUri!, attributes!)
+		return copy(clone: clone, parent: parent)
+	}
+	public override func copy(clone: Node, parent: Node?) -> Node {
+		let clone = clone as! FormElement
+		for att in _elements.array() {
+			clone._elements.add(att)
+		}
+		return super.copy(clone: clone, parent: parent)
+	}
 }

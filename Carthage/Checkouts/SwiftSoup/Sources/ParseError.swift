@@ -33,7 +33,7 @@ open class ParseError {
      * @return error offset within input
      */
     open func getPosition() -> Int {
-        return pos
+    return pos
     }
 
     open func toString() -> String {

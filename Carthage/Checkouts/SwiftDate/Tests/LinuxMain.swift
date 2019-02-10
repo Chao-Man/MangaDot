@@ -4,8 +4,6 @@
 @testable import SwiftDateTests
 import XCTest
 
-// swiftlint:disable line_length file_length
-
 extension TestDateInRegion {
     static var allTests: [(String, (TestDateInRegion) -> () throws -> Void)] = [
         ("testDateInRegion_ParseWithLocale", testDateInRegion_ParseWithLocale),
@@ -19,7 +17,7 @@ extension TestDateInRegion {
         ("testDateInRegion_Hash", testDateInRegion_Hash),
         ("testDateInRegion_InitComponentsCallback", testDateInRegion_InitComponentsCallback),
         ("testDateInRegion_ExtractComponents", testDateInRegion_ExtractComponents),
-        ("testDateInRegion_InitStringAutoFormat", testDateInRegion_InitStringAutoFormat),
+        ("testDateInRegion_InitStringAutoFormat", testDateInRegion_InitStringAutoFormat)
     ]
 }
 
@@ -33,7 +31,7 @@ extension TestDateInRegion_Compare {
         ("testDateInRegion_isInRange", testDateInRegion_isInRange),
         ("testDateInRegion_earlierAndLaterDate", testDateInRegion_earlierAndLaterDate),
         ("testDateInRegion_compareMath", testDateInRegion_compareMath),
-        ("testDateInRange_GranuralityTest", testDateInRange_GranuralityTest),
+        ("testDateInRange_GranuralityTest", testDateInRange_GranuralityTest)
     ]
 }
 
@@ -49,7 +47,7 @@ extension TestDateInRegion_Components {
         ("testDateInRegion_getIntervalForComponentBetweenDates", testDateInRegion_getIntervalForComponentBetweenDates),
         ("testDateInRegion_timeIntervalSince", testDateInRegion_timeIntervalSince),
         ("testQuarter", testQuarter),
-        ("testAbsoluteDateISOFormatting", testAbsoluteDateISOFormatting),
+        ("testAbsoluteDateISOFormatting", testAbsoluteDateISOFormatting)
     ]
 }
 
@@ -60,13 +58,13 @@ extension TestDateInRegion_Create {
         ("testDateInRegion_RandomDatesInRange", testDateInRegion_RandomDatesInRange),
         ("testDateInRegion_RandomDatesBackToDays", testDateInRegion_RandomDatesBackToDays),
         ("testDateInRegion_EnumareDates", testDateInRegion_EnumareDates),
-        ("testDateInRegion_oldestAndNewestAndSortsIn", testDateInRegion_oldestAndNewestAndSortsIn),
+        ("testDateInRegion_oldestAndNewestAndSortsIn", testDateInRegion_oldestAndNewestAndSortsIn)
     ]
 }
 
 extension TestDateInRegion_Langs {
     static var allTests: [(String, (TestDateInRegion_Langs) -> () throws -> Void)] = [
-        ("testLanguages", testLanguages),
+        ("testLanguages", testLanguages)
     ]
 }
 
@@ -74,7 +72,7 @@ extension TestDateInRegion_Math {
     static var allTests: [(String, (TestDateInRegion_Math) -> () throws -> Void)] = [
         ("testDateInRegion_DateTruncated", testDateInRegion_DateTruncated),
         ("testDateInRegion_Rounding", testDateInRegion_Rounding),
-        ("testDateInRegion_MathOperations", testDateInRegion_MathOperations),
+        ("testDateInRegion_MathOperations", testDateInRegion_MathOperations)
     ]
 }
 
@@ -92,19 +90,19 @@ extension TestFormatters {
         ("testTimeInterval_FormatterUnits", testTimeInterval_FormatterUnits),
         ("testTimeInterval_Formatter", testTimeInterval_Formatter),
         ("testColloquialFormatter", testColloquialFormatter),
-        ("testISOParser", testISOParser),
+        ("testISOParser", testISOParser)
     ]
 }
 
 extension TestRegion {
     static var allTests: [(String, (TestRegion) -> () throws -> Void)] = [
-        ("testRegionInit", testRegionInit),
+        ("testRegionInit", testRegionInit)
     ]
 }
 
 extension TestSwiftDate {
     static var allTests: [(String, (TestSwiftDate) -> () throws -> Void)] = [
-        ("testAutoFormats", testAutoFormats),
+        ("testAutoFormats", testAutoFormats)
     ]
 }
 
@@ -117,5 +115,5 @@ XCTMain([
     testCase(TestDateInRegion_Math.allTests),
     testCase(TestFormatters.allTests),
     testCase(TestRegion.allTests),
-    testCase(TestSwiftDate.allTests),
+    testCase(TestSwiftDate.allTests)
 ])

@@ -9,28 +9,31 @@
 import Foundation
 
 public class SimpleDictionary<KeyType: Hashable, ValueType> {
-    public typealias DictionaryType = [KeyType: ValueType]
-    public private(set) var values = DictionaryType()
 
-    public init() {}
+	public typealias DictionaryType = [KeyType: ValueType]
+	public private(set) var values = DictionaryType()
 
-    public var count: Int {
-        return values.count
-    }
+	public init() {
+	}
 
-    public func remove(_ key: KeyType) {
-        values.removeValue(forKey: key)
-    }
+	public var count: Int {
+		return values.count
+	}
 
-    public func contains(_ key: KeyType) -> Bool {
-        return values[key] != nil
-    }
+	public func remove(_ key: KeyType) {
+		values.removeValue(forKey: key)
+	}
 
-    public func put(_ value: ValueType, forKey key: KeyType) {
-        values[key] = value
-    }
+	public func contains(_ key: KeyType) -> Bool {
+		return self.values[key] != nil
+	}
 
-    public func get(_ key: KeyType) -> ValueType? {
-        return values[key]
-    }
+	public func put(_ value: ValueType, forKey key: KeyType) {
+		self.values[key] = value
+	}
+
+	public func get(_ key: KeyType) -> ValueType? {
+		return self.values[key]
+	}
+
 }

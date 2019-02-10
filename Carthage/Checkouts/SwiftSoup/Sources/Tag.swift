@@ -32,8 +32,8 @@ open class Tag: Hashable {
     fileprivate var _formSubmit: Bool = false // a control that can be submitted in a form: input etc
 
     public init(_ tagName: String) {
-        _tagName = tagName
-        _tagNameNormal = tagName.lowercased()
+        self._tagName = tagName
+        self._tagNameNormal = tagName.lowercased()
     }
 
     /**
@@ -42,11 +42,10 @@ open class Tag: Hashable {
      * @return the tag's name
      */
     open func getName() -> String {
-        return _tagName
+        return self._tagName
     }
-
     open func getNameNormal() -> String {
-        return _tagNameNormal
+        return self._tagNameNormal
     }
 
     /**
@@ -59,16 +58,16 @@ open class Tag: Hashable {
      * @param settings used to control tag name sensitivity
      * @return The tag, either defined or new generic.
      */
-    public static func valueOf(_ tagName: String, _ settings: ParseSettings) throws -> Tag {
+    public static func valueOf(_ tagName: String, _ settings: ParseSettings)throws->Tag {
         var tagName = tagName
         var tag: Tag? = Tag.tags[tagName]
 
-        if tag == nil {
+        if (tag == nil) {
             tagName = settings.normalizeTag(tagName)
             try Validate.notEmpty(string: tagName)
             tag = Tag.tags[tagName]
 
-            if tag == nil {
+            if (tag == nil) {
                 // not defined: create default; go anywhere, do anything! (incl be inside a <p>)
                 tag = Tag(tagName)
                 tag!._isBlock = false
@@ -87,7 +86,7 @@ open class Tag: Hashable {
      * @param tagName Name of tag, e.g. "p". <b>Case sensitive</b>.
      * @return The tag, either defined or new generic.
      */
-    public static func valueOf(_ tagName: String) throws -> Tag {
+    public static func valueOf(_ tagName: String)throws->Tag {
         return try valueOf(tagName, ParseSettings.preserveCase)
     }
 
@@ -212,23 +211,23 @@ open class Tag: Hashable {
     /// - Parameters:
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
-    public static func == (lhs: Tag, rhs: Tag) -> Bool {
+    static public func ==(lhs: Tag, rhs: Tag) -> Bool {
         let this = lhs
         let o = rhs
-        if this === o { return true }
-        if type(of: this) != type(of: o) { return false }
+        if (this === o) {return true}
+        if (type(of: this) != type(of: o)) {return false}
 
         let tag: Tag = o
 
-        if lhs._tagName != tag._tagName { return false }
-        if lhs._canContainBlock != tag._canContainBlock { return false }
-        if lhs._canContainInline != tag._canContainInline { return false }
-        if lhs._empty != tag._empty { return false }
-        if lhs._formatAsBlock != tag._formatAsBlock { return false }
-        if lhs._isBlock != tag._isBlock { return false }
-        if lhs._preserveWhitespace != tag._preserveWhitespace { return false }
-        if lhs._selfClosing != tag._selfClosing { return false }
-        if lhs._formList != tag._formList { return false }
+        if (lhs._tagName != tag._tagName) {return false}
+        if (lhs._canContainBlock != tag._canContainBlock) {return false}
+        if (lhs._canContainInline != tag._canContainInline) {return false}
+        if (lhs._empty != tag._empty) {return false}
+        if (lhs._formatAsBlock != tag._formatAsBlock) {return false}
+        if (lhs._isBlock != tag._isBlock) {return false}
+        if (lhs._preserveWhitespace != tag._preserveWhitespace) {return false}
+        if (lhs._selfClosing != tag._selfClosing) {return false}
+        if (lhs._formList != tag._formList) {return false}
         return lhs._formSubmit == tag._formSubmit
     }
 
@@ -256,7 +255,7 @@ open class Tag: Hashable {
         "ul", "ol", "pre", "div", "blockquote", "hr", "address", "figure", "figcaption", "form", "fieldset", "ins",
         "del", "s", "dl", "dt", "dd", "li", "table", "caption", "thead", "tfoot", "tbody", "colgroup", "col", "tr", "th",
         "td", "video", "audio", "canvas", "details", "menu", "plaintext", "template", "article", "main",
-        "svg", "math",
+        "svg", "math"
     ]
     private static let inlineTags: [String] = [
         "object", "base", "font", "tt", "i", "b", "u", "big", "small", "em", "strong", "dfn", "code", "samp", "kbd",
@@ -264,29 +263,29 @@ open class Tag: Hashable {
         "sub", "sup", "bdo", "iframe", "embed", "span", "input", "select", "textarea", "label", "button", "optgroup",
         "option", "legend", "datalist", "keygen", "output", "progress", "meter", "area", "param", "source", "track",
         "summary", "command", "device", "area", "basefont", "bgsound", "menuitem", "param", "source", "track",
-        "data", "bdi",
+        "data", "bdi"
     ]
     private static let emptyTags: [String] = [
         "meta", "link", "base", "frame", "img", "br", "wbr", "embed", "hr", "input", "keygen", "col", "command",
-        "device", "area", "basefont", "bgsound", "menuitem", "param", "source", "track",
+        "device", "area", "basefont", "bgsound", "menuitem", "param", "source", "track"
     ]
     private static let formatAsInlineTags: [String] = [
         "title", "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "address", "li", "th", "td", "script", "style",
-        "ins", "del", "s",
+        "ins", "del", "s"
     ]
     private static let preserveWhitespaceTags: [String] = [
-        "pre", "plaintext", "title", "textarea",
+        "pre", "plaintext", "title", "textarea"
         // script is not here as it is a data node, which always preserve whitespace
     ]
     // todo: I think we just need submit tags, and can scrub listed
     private static let formListedTags: [String] = [
-        "button", "fieldset", "input", "keygen", "object", "output", "select", "textarea",
+        "button", "fieldset", "input", "keygen", "object", "output", "select", "textarea"
     ]
     private static let formSubmitTags: [String] = [
-        "input", "keygen", "object", "select", "textarea",
+        "input", "keygen", "object", "select", "textarea"
     ]
 
-    private static func initializeMaps() throws -> Dictionary<String, Tag> {
+    static private func initializeMaps()throws->Dictionary<String, Tag> {
         var dict = Dictionary<String, Tag>()
 
         // creates

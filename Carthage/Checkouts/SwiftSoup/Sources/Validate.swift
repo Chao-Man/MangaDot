@@ -9,12 +9,13 @@
 import Foundation
 
 struct Validate {
+
     /**
      * Validates that the object is not null
      * @param obj object to test
      */
     public static func notNull(obj: Any?) throws {
-        if obj == nil {
+        if (obj == nil) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: "Object must not be null")
         }
     }
@@ -25,7 +26,7 @@ struct Validate {
      * @param msg message to output if validation fails
      */
     public static func notNull(obj: AnyObject?, msg: String) throws {
-        if obj == nil {
+        if (obj == nil) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: msg)
         }
     }
@@ -35,7 +36,7 @@ struct Validate {
      * @param val object to test
      */
     public static func isTrue(val: Bool) throws {
-        if !val {
+        if (!val) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: "Must be true")
         }
     }
@@ -46,7 +47,7 @@ struct Validate {
      * @param msg message to output if validation fails
      */
     public static func isTrue(val: Bool, msg: String) throws {
-        if !val {
+        if (!val) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: msg)
         }
     }
@@ -56,7 +57,7 @@ struct Validate {
      * @param val object to test
      */
     public static func isFalse(val: Bool) throws {
-        if val {
+        if (val) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: "Must be false")
         }
     }
@@ -67,7 +68,7 @@ struct Validate {
      * @param msg message to output if validation fails
      */
     public static func isFalse(val: Bool, msg: String) throws {
-        if val {
+        if (val) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: msg)
         }
     }
@@ -87,7 +88,7 @@ struct Validate {
      */
     public static func noNullElements(objects: [AnyObject?], msg: String) throws {
         for obj in objects {
-            if obj == nil {
+            if (obj == nil) {
                 throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: msg)
             }
         }
@@ -98,9 +99,10 @@ struct Validate {
      * @param string the string to test
      */
     public static func notEmpty(string: String?) throws {
-        if string == nil || string?.count == 0 {
+        if (string == nil || string?.count == 0) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: "String must not be empty")
         }
+
     }
 
     /**
@@ -108,8 +110,8 @@ struct Validate {
      * @param string the string to test
      * @param msg message to output if validation fails
      */
-    public static func notEmpty(string: String?, msg: String) throws {
-        if string == nil || string?.count == 0 {
+   public static func notEmpty(string: String?, msg: String ) throws {
+        if (string == nil || string?.count == 0) {
             throw Exception.Error(type: ExceptionType.IllegalArgumentException, Message: msg)
         }
     }

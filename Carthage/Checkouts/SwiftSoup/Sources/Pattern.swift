@@ -16,21 +16,20 @@ public struct Pattern {
         self.pattern = pattern
     }
 
-    public static func compile(_ s: String) -> Pattern {
+    static public func compile(_ s: String) -> Pattern {
+        return Pattern(s)
+    }
+    static public func compile(_ s: String, _ op: Int) -> Pattern {
         return Pattern(s)
     }
 
-    public static func compile(_ s: String, _: Int) -> Pattern {
-        return Pattern(s)
-    }
-
-    func validate() throws {
-        _ = try NSRegularExpression(pattern: pattern, options: [])
+    func validate()throws {
+         _ = try NSRegularExpression(pattern: self.pattern, options: [])
     }
 
     public func matcher(in text: String) -> Matcher {
         do {
-            let regex = try NSRegularExpression(pattern: pattern, options: [])
+            let regex = try NSRegularExpression(pattern: self.pattern, options: [])
             let nsString = NSString(string: text)
             let results = regex.matches(in: text, options: [], range: NSRange(location: 0, length: nsString.length))
 
@@ -46,12 +45,12 @@ public struct Pattern {
     }
 }
 
-public class Matcher {
+public class  Matcher {
     let matches: [NSTextCheckingResult]
     let string: String
     var index: Int = -1
 
-    public var count: Int { return matches.count }
+    public var count: Int { return matches.count}
 
     init(_ m: [NSTextCheckingResult], _ s: String) {
         matches = m
@@ -61,7 +60,7 @@ public class Matcher {
     @discardableResult
     public func find() -> Bool {
         index += 1
-        if index < matches.count {
+        if(index < matches.count) {
             return true
         }
         return false
@@ -75,7 +74,7 @@ public class Matcher {
             let c = b.range(at: i)
         #endif
 
-        if c.location == NSNotFound { return nil }
+        if(c.location == NSNotFound) {return nil}
         let result = string.substring(c.location, c.length)
         return result
     }

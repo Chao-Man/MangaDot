@@ -9,11 +9,11 @@
 import Foundation
 
 protocol TokeniserStateProtocol {
-    func read(_ t: Tokeniser, _ r: CharacterReader) throws
+    func read(_ t: Tokeniser, _ r: CharacterReader)throws
 }
 
 public class TokeniserStateVars {
-    public static let nullScalr: UnicodeScalar = "\u{0000}"
+	public static let nullScalr: UnicodeScalar = "\u{0000}"
 
     static let attributeSingleValueCharsSorted = ["'", UnicodeScalar.Ampersand, nullScalr].sorted()
     static let attributeDoubleValueCharsSorted = ["\"", UnicodeScalar.Ampersand, nullScalr].sorted()
@@ -94,10 +94,10 @@ enum TokeniserState: TokeniserStateProtocol {
     case BogusDoctype
     case CdataSection
 
-    internal func read(_ t: Tokeniser, _ r: CharacterReader) throws {
+    internal func read(_ t: Tokeniser, _ r: CharacterReader)throws {
         switch self {
         case .Data:
-            switch r.current() {
+            switch (r.current()) {
             case UnicodeScalar.Ampersand:
                 t.advanceTransition(.CharacterReferenceInData)
                 break
@@ -121,7 +121,7 @@ enum TokeniserState: TokeniserStateProtocol {
             try TokeniserState.readCharRef(t, .Data)
             break
         case .Rcdata:
-            switch r.current() {
+            switch (r.current()) {
             case UnicodeScalar.Ampersand:
                 t.advanceTransition(.CharacterReferenceInRcdata)
                 break
@@ -152,7 +152,7 @@ enum TokeniserState: TokeniserStateProtocol {
             try TokeniserState.readData(t, r, self, .ScriptDataLessthanSign)
             break
         case .PLAINTEXT:
-            switch r.current() {
+            switch (r.current()) {
             case TokeniserStateVars.nullScalr:
                 t.error(self)
                 r.advance()
@@ -169,7 +169,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .TagOpen:
             // from < in data
-            switch r.current() {
+            switch (r.current()) {
             case "!":
                 t.advanceTransition(.MarkupDeclarationOpen)
                 break
@@ -180,7 +180,7 @@ enum TokeniserState: TokeniserStateProtocol {
                 t.advanceTransition(.BogusComment)
                 break
             default:
-                if r.matchesLetter() {
+                if (r.matchesLetter()) {
                     t.createTagPending(true)
                     t.transition(.TagName)
                 } else {
@@ -192,14 +192,14 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .EndTagOpen:
-            if r.isEmpty() {
+            if (r.isEmpty()) {
                 t.eofError(self)
                 t.emit("</")
                 t.transition(.Data)
-            } else if r.matchesLetter() {
+            } else if (r.matchesLetter()) {
                 t.createTagPending(false)
                 t.transition(.TagName)
-            } else if r.matches(">") {
+            } else if (r.matches(">")) {
                 t.error(self)
                 t.advanceTransition(.Data)
             } else {
@@ -210,11 +210,11 @@ enum TokeniserState: TokeniserStateProtocol {
         case .TagName:
             // from < or </ in data, will have start or end tag pending
             // previous TagOpen state did NOT consume, will have a letter char in current
-            // String tagName = r.consumeToAnySorted(tagCharsSorted).toLowerCase()
+            //String tagName = r.consumeToAnySorted(tagCharsSorted).toLowerCase()
             let tagName = r.consumeTagName()
             t.tagPending.appendTagName(tagName)
 
-            switch r.consume() {
+            switch (r.consume()) {
             case UnicodeScalar.BackslashT:
                 t.transition(.BeforeAttributeName)
                 break
@@ -248,10 +248,10 @@ enum TokeniserState: TokeniserStateProtocol {
                 break
             }
         case .RcdataLessthanSign:
-            if r.matches("/") {
+            if (r.matches("/")) {
                 t.createTempBuffer()
                 t.advanceTransition(.RCDATAEndTagOpen)
-            } else if r.matchesLetter() && t.appropriateEndTagName() != nil && !r.containsIgnoreCase("</" + t.appropriateEndTagName()!) {
+            } else if (r.matchesLetter() && t.appropriateEndTagName() != nil && !r.containsIgnoreCase("</" + t.appropriateEndTagName()!)) {
                 // diverge from spec: got a start tag, but there's no appropriate end tag (</title>), so rather than
                 // consuming to EOF break out here
                 t.tagPending = t.createTagPending(false).name(t.appropriateEndTagName()!)
@@ -264,7 +264,7 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .RCDATAEndTagOpen:
-            if r.matchesLetter() {
+            if (r.matchesLetter()) {
                 t.createTagPending(false)
                 t.tagPending.appendTagName(r.current())
                 t.dataBuffer.append(r.current())
@@ -275,7 +275,7 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .RCDATAEndTagName:
-            if r.matchesLetter() {
+            if (r.matchesLetter()) {
                 let name = r.consumeLetterSequence()
                 t.tagPending.appendTagName(name)
                 t.dataBuffer.append(name)
@@ -289,54 +289,54 @@ enum TokeniserState: TokeniserStateProtocol {
             }
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT:
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     t.transition(.BeforeAttributeName)
                 } else {
                     anythingElse(t, r)
                 }
                 break
             case "\n":
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     t.transition(.BeforeAttributeName)
                 } else {
                     anythingElse(t, r)
                 }
                 break
             case "\r":
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     t.transition(.BeforeAttributeName)
                 } else {
                     anythingElse(t, r)
                 }
                 break
             case UnicodeScalar.BackslashF:
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     t.transition(.BeforeAttributeName)
                 } else {
                     anythingElse(t, r)
                 }
                 break
             case " ":
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     t.transition(.BeforeAttributeName)
                 } else {
                     anythingElse(t, r)
                 }
                 break
             case "/":
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     t.transition(.SelfClosingStartTag)
                 } else {
                     anythingElse(t, r)
                 }
                 break
             case ">":
-                if try t.isAppropriateEndTagToken() {
+                if (try t.isAppropriateEndTagToken()) {
                     try t.emitTagPending()
                     t.transition(.Data)
-                } else { anythingElse(t, r) }
+                } else {anythingElse(t, r)}
                 break
             default:
                 anythingElse(t, r)
@@ -344,7 +344,7 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .RawtextLessthanSign:
-            if r.matches("/") {
+            if (r.matches("/")) {
                 t.createTempBuffer()
                 t.advanceTransition(.RawtextEndTagOpen)
             } else {
@@ -359,7 +359,7 @@ enum TokeniserState: TokeniserStateProtocol {
             try TokeniserState.handleDataEndTag(t, r, .Rawtext)
             break
         case .ScriptDataLessthanSign:
-            switch r.consume() {
+            switch (r.consume()) {
             case "/":
                 t.createTempBuffer()
                 t.transition(.ScriptDataEndTagOpen)
@@ -381,7 +381,7 @@ enum TokeniserState: TokeniserStateProtocol {
             try TokeniserState.handleDataEndTag(t, r, .ScriptData)
             break
         case .ScriptDataEscapeStart:
-            if r.matches("-") {
+            if (r.matches("-")) {
                 t.emit("-")
                 t.advanceTransition(.ScriptDataEscapeStartDash)
             } else {
@@ -389,7 +389,7 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataEscapeStartDash:
-            if r.matches("-") {
+            if (r.matches("-")) {
                 t.emit("-")
                 t.advanceTransition(.ScriptDataEscapedDashDash)
             } else {
@@ -397,13 +397,13 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataEscaped:
-            if r.isEmpty() {
+            if (r.isEmpty()) {
                 t.eofError(self)
                 t.transition(.Data)
                 return
             }
 
-            switch r.current() {
+            switch (r.current()) {
             case "-":
                 t.emit("-")
                 t.advanceTransition(.ScriptDataEscapedDash)
@@ -422,14 +422,14 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataEscapedDash:
-            if r.isEmpty() {
+            if (r.isEmpty()) {
                 t.eofError(self)
                 t.transition(.Data)
                 return
             }
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.emit(c)
                 t.transition(.ScriptDataEscapedDashDash)
@@ -448,14 +448,14 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataEscapedDashDash:
-            if r.isEmpty() {
+            if (r.isEmpty()) {
                 t.eofError(self)
                 t.transition(.Data)
                 return
             }
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.emit(c)
                 break
@@ -477,12 +477,12 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataEscapedLessthanSign:
-            if r.matchesLetter() {
+            if (r.matchesLetter()) {
                 t.createTempBuffer()
                 t.dataBuffer.append(r.current())
                 t.emit("<" + String(r.current()))
                 t.advanceTransition(.ScriptDataDoubleEscapeStart)
-            } else if r.matches("/") {
+            } else if (r.matches("/")) {
                 t.createTempBuffer()
                 t.advanceTransition(.ScriptDataEscapedEndTagOpen)
             } else {
@@ -491,7 +491,7 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataEscapedEndTagOpen:
-            if r.matchesLetter() {
+            if (r.matchesLetter()) {
                 t.createTagPending(false)
                 t.tagPending.appendTagName(r.current())
                 t.dataBuffer.append(r.current())
@@ -509,7 +509,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .ScriptDataDoubleEscaped:
             let c = r.current()
-            switch c {
+            switch (c) {
             case "-":
                 t.emit(c)
                 t.advanceTransition(.ScriptDataDoubleEscapedDash)
@@ -534,7 +534,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .ScriptDataDoubleEscapedDash:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.emit(c)
                 t.transition(.ScriptDataDoubleEscapedDashDash)
@@ -559,7 +559,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .ScriptDataDoubleEscapedDashDash:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.emit(c)
                 break
@@ -586,7 +586,7 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .ScriptDataDoubleEscapedLessthanSign:
-            if r.matches("/") {
+            if (r.matches("/")) {
                 t.emit("/")
                 t.createTempBuffer()
                 t.advanceTransition(.ScriptDataDoubleEscapeEnd)
@@ -600,7 +600,7 @@ enum TokeniserState: TokeniserStateProtocol {
         case .BeforeAttributeName:
             // from tagname <xxx
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 break // ignore whitespace
             case "/":
@@ -637,7 +637,7 @@ enum TokeniserState: TokeniserStateProtocol {
             t.tagPending.appendAttributeName(name)
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT:
                 t.transition(.AfterAttributeName)
                 break
@@ -680,14 +680,14 @@ enum TokeniserState: TokeniserStateProtocol {
             case UnicodeScalar.LessThan:
                 t.error(self)
                 t.tagPending.appendAttributeName(c)
-            // no default, as covered in consumeToAny
+                // no default, as covered in consumeToAny
             default:
                 break
             }
             break
         case .AfterAttributeName:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 // ignore
                 break
@@ -724,7 +724,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .BeforeAttributeValue:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 // ignore
                 break
@@ -765,23 +765,23 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .AttributeValue_doubleQuoted:
             let value = r.consumeToAny(TokeniserStateVars.attributeDoubleValueCharsSorted)
-            if value.count > 0 {
-                t.tagPending.appendAttributeValue(value)
+            if (value.count > 0) {
+            t.tagPending.appendAttributeValue(value)
             } else {
-                t.tagPending.setEmptyAttributeValue()
+            t.tagPending.setEmptyAttributeValue()
             }
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "\"":
                 t.transition(.AfterAttributeValue_quoted)
                 break
             case UnicodeScalar.Ampersand:
 
                 if let ref = try t.consumeCharacterReference("\"", true) {
-                    t.tagPending.appendAttributeValue(ref)
+                t.tagPending.appendAttributeValue(ref)
                 } else {
-                    t.tagPending.appendAttributeValue(UnicodeScalar.Ampersand)
+                t.tagPending.appendAttributeValue(UnicodeScalar.Ampersand)
                 }
                 break
             case TokeniserStateVars.nullScalr:
@@ -792,30 +792,30 @@ enum TokeniserState: TokeniserStateProtocol {
                 t.eofError(self)
                 t.transition(.Data)
                 break
-            // no default, handled in consume to any above
+                // no default, handled in consume to any above
             default:
                 break
             }
             break
         case .AttributeValue_singleQuoted:
             let value = r.consumeToAny(TokeniserStateVars.attributeSingleValueCharsSorted)
-            if value.count > 0 {
-                t.tagPending.appendAttributeValue(value)
+            if (value.count > 0) {
+            t.tagPending.appendAttributeValue(value)
             } else {
-                t.tagPending.setEmptyAttributeValue()
+            t.tagPending.setEmptyAttributeValue()
             }
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "'":
                 t.transition(.AfterAttributeValue_quoted)
                 break
             case UnicodeScalar.Ampersand:
 
                 if let ref = try t.consumeCharacterReference("'", true) {
-                    t.tagPending.appendAttributeValue(ref)
+                t.tagPending.appendAttributeValue(ref)
                 } else {
-                    t.tagPending.appendAttributeValue(UnicodeScalar.Ampersand)
+                t.tagPending.appendAttributeValue(UnicodeScalar.Ampersand)
                 }
                 break
             case TokeniserStateVars.nullScalr:
@@ -826,27 +826,27 @@ enum TokeniserState: TokeniserStateProtocol {
                 t.eofError(self)
                 t.transition(.Data)
                 break
-            // no default, handled in consume to any above
+                // no default, handled in consume to any above
             default:
                 break
             }
             break
         case .AttributeValue_unquoted:
             let value = r.consumeToAnySorted(TokeniserStateVars.attributeValueUnquoted)
-            if value.count > 0 {
-                t.tagPending.appendAttributeValue(value)
+            if (value.count > 0) {
+            t.tagPending.appendAttributeValue(value)
             }
 
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(.BeforeAttributeName)
                 break
             case UnicodeScalar.Ampersand:
                 if let ref = try t.consumeCharacterReference(">", true) {
-                    t.tagPending.appendAttributeValue(ref)
+                t.tagPending.appendAttributeValue(ref)
                 } else {
-                    t.tagPending.appendAttributeValue(UnicodeScalar.Ampersand)
+                t.tagPending.appendAttributeValue(UnicodeScalar.Ampersand)
                 }
                 break
             case ">":
@@ -865,7 +865,7 @@ enum TokeniserState: TokeniserStateProtocol {
                 t.error(self)
                 t.tagPending.appendAttributeValue(c)
                 break
-            // no default, handled in consume to any above
+                // no default, handled in consume to any above
             default:
                 break
             }
@@ -873,7 +873,7 @@ enum TokeniserState: TokeniserStateProtocol {
         case .AfterAttributeValue_quoted:
             // CharacterReferenceInAttributeValue state handled inline
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(.BeforeAttributeName)
                 break
@@ -896,7 +896,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .SelfClosingStartTag:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case ">":
                 t.tagPending._selfClosing = true
                 try t.emitTagPending()
@@ -924,15 +924,15 @@ enum TokeniserState: TokeniserStateProtocol {
             t.advanceTransition(.Data)
             break
         case .MarkupDeclarationOpen:
-            if r.matchConsume("--") {
+            if (r.matchConsume("--")) {
                 t.createCommentPending()
                 t.transition(.CommentStart)
-            } else if r.matchConsumeIgnoreCase("DOCTYPE") {
+            } else if (r.matchConsumeIgnoreCase("DOCTYPE")) {
                 t.transition(.Doctype)
-            } else if r.matchConsume("[CDATA[") {
+            } else if (r.matchConsume("[CDATA[")) {
                 // todo: should actually check current namepspace, and only non-html allows cdata. until namespace
                 // is implemented properly, keep handling as cdata
-                // } else if (!t.currentNodeInHtmlNS() && r.matchConsume("[CDATA[")) {
+                //} else if (!t.currentNodeInHtmlNS() && r.matchConsume("[CDATA[")) {
                 t.transition(.CdataSection)
             } else {
                 t.error(self)
@@ -941,7 +941,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .CommentStart:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.transition(.CommentStartDash)
                 break
@@ -967,7 +967,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .CommentStartDash:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.transition(.CommentStartDash)
                 break
@@ -993,7 +993,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .Comment:
             let c = r.current()
-            switch c {
+            switch (c) {
             case "-":
                 t.advanceTransition(.CommentEndDash)
                 break
@@ -1013,7 +1013,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .CommentEndDash:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.transition(.CommentEnd)
                 break
@@ -1034,7 +1034,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .CommentEnd:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case ">":
                 try t.emitCommentPending()
                 t.transition(.Data)
@@ -1065,7 +1065,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .CommentEndBang:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "-":
                 t.commentPending.data.append("--!")
                 t.transition(.CommentEndDash)
@@ -1091,7 +1091,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .Doctype:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(.BeforeDoctypeName)
                 break
@@ -1111,13 +1111,13 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .BeforeDoctypeName:
-            if r.matchesLetter() {
+            if (r.matchesLetter()) {
                 t.createDoctypePending()
                 t.transition(.DoctypeName)
                 return
             }
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 break // ignore whitespace
             case TokeniserStateVars.nullScalr:
@@ -1140,13 +1140,13 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .DoctypeName:
-            if r.matchesLetter() {
+            if (r.matchesLetter()) {
                 let name = r.consumeLetterSequence()
                 t.doctypePending.name.append(name)
                 return
             }
             let c = r.consume()
-            switch c {
+            switch (c) {
             case ">":
                 try t.emitDoctypePending()
                 t.transition(.Data)
@@ -1169,22 +1169,22 @@ enum TokeniserState: TokeniserStateProtocol {
             }
             break
         case .AfterDoctypeName:
-            if r.isEmpty() {
+            if (r.isEmpty()) {
                 t.eofError(self)
                 t.doctypePending.forceQuirks = true
                 try t.emitDoctypePending()
                 t.transition(.Data)
                 return
             }
-            if r.matchesAny(UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ") {
-                r.advance() // ignore whitespace
-            } else if r.matches(">") {
+            if (r.matchesAny(UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ")) {
+            r.advance() // ignore whitespace
+            } else if (r.matches(">")) {
                 try t.emitDoctypePending()
                 t.advanceTransition(.Data)
-            } else if r.matchConsumeIgnoreCase(DocumentType.PUBLIC_KEY) {
+            } else if (r.matchConsumeIgnoreCase(DocumentType.PUBLIC_KEY)) {
                 t.doctypePending.pubSysKey = DocumentType.PUBLIC_KEY
                 t.transition(.AfterDoctypePublicKeyword)
-            } else if r.matchConsumeIgnoreCase(DocumentType.SYSTEM_KEY) {
+            } else if (r.matchConsumeIgnoreCase(DocumentType.SYSTEM_KEY)) {
                 t.doctypePending.pubSysKey = DocumentType.SYSTEM_KEY
                 t.transition(.AfterDoctypeSystemKeyword)
             } else {
@@ -1195,7 +1195,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .AfterDoctypePublicKeyword:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(.BeforeDoctypePublicIdentifier)
                 break
@@ -1229,7 +1229,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .BeforeDoctypePublicIdentifier:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 break
             case "\"":
@@ -1260,7 +1260,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .DoctypePublicIdentifier_doubleQuoted:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "\"":
                 t.transition(.AfterDoctypePublicIdentifier)
                 break
@@ -1286,7 +1286,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .DoctypePublicIdentifier_singleQuoted:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "'":
                 t.transition(.AfterDoctypePublicIdentifier)
                 break
@@ -1312,7 +1312,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .AfterDoctypePublicIdentifier:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(.BetweenDoctypePublicAndSystemIdentifiers)
                 break
@@ -1344,7 +1344,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .BetweenDoctypePublicAndSystemIdentifiers:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 break
             case ">":
@@ -1375,7 +1375,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .AfterDoctypeSystemKeyword:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(.BeforeDoctypeSystemIdentifier)
                 break
@@ -1409,7 +1409,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .BeforeDoctypeSystemIdentifier:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 break
             case "\"":
@@ -1440,7 +1440,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .DoctypeSystemIdentifier_doubleQuoted:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "\"":
                 t.transition(.AfterDoctypeSystemIdentifier)
                 break
@@ -1466,7 +1466,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .DoctypeSystemIdentifier_singleQuoted:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case "'":
                 t.transition(.AfterDoctypeSystemIdentifier)
                 break
@@ -1492,7 +1492,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .AfterDoctypeSystemIdentifier:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 break
             case ">":
@@ -1513,7 +1513,7 @@ enum TokeniserState: TokeniserStateProtocol {
             break
         case .BogusDoctype:
             let c = r.consume()
-            switch c {
+            switch (c) {
             case ">":
                 try t.emitDoctypePending()
                 t.transition(.Data)
@@ -1536,13 +1536,13 @@ enum TokeniserState: TokeniserStateProtocol {
         }
     }
 
-    var description: String { return String(describing: type(of: self)) }
+    var description: String {return String(describing: type(of: self))}
     /**
      * Handles RawtextEndTagName, ScriptDataEndTagName, and ScriptDataEscapedEndTagName. Same body impl, just
      * different else exit transitions.
      */
-    private static func handleDataEndTag(_ t: Tokeniser, _ r: CharacterReader, _ elseTransition: TokeniserState) throws {
-        if r.matchesLetter() {
+    private static func handleDataEndTag(_ t: Tokeniser, _ r: CharacterReader, _ elseTransition: TokeniserState)throws {
+        if (r.matchesLetter()) {
             let name = r.consumeLetterSequence()
             t.tagPending.appendTagName(name)
             t.dataBuffer.append(name)
@@ -1550,9 +1550,9 @@ enum TokeniserState: TokeniserStateProtocol {
         }
 
         var needsExitTransition = false
-        if try t.isAppropriateEndTagToken() && !r.isEmpty() {
+        if (try t.isAppropriateEndTagToken() && !r.isEmpty()) {
             let c = r.consume()
-            switch c {
+            switch (c) {
             case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ":
                 t.transition(BeforeAttributeName)
                 break
@@ -1571,14 +1571,14 @@ enum TokeniserState: TokeniserStateProtocol {
             needsExitTransition = true
         }
 
-        if needsExitTransition {
+        if (needsExitTransition) {
             t.emit("</" + t.dataBuffer.toString())
             t.transition(elseTransition)
         }
     }
 
-    private static func readData(_ t: Tokeniser, _ r: CharacterReader, _ current: TokeniserState, _ advance: TokeniserState) throws {
-        switch r.current() {
+    private static func readData(_ t: Tokeniser, _ r: CharacterReader, _ current: TokeniserState, _ advance: TokeniserState)throws {
+        switch (r.current()) {
         case UnicodeScalar.LessThan:
             t.advanceTransition(advance)
             break
@@ -1597,9 +1597,9 @@ enum TokeniserState: TokeniserStateProtocol {
         }
     }
 
-    private static func readCharRef(_ t: Tokeniser, _ advance: TokeniserState) throws {
+    private static func readCharRef(_ t: Tokeniser, _ advance: TokeniserState)throws {
         let c = try t.consumeCharacterReference(nil, false)
-        if c == nil {
+        if (c == nil) {
             t.emit(UnicodeScalar.Ampersand)
         } else {
             t.emit(c!)
@@ -1608,7 +1608,7 @@ enum TokeniserState: TokeniserStateProtocol {
     }
 
     private static func readEndTag(_ t: Tokeniser, _ r: CharacterReader, _ a: TokeniserState, _ b: TokeniserState) {
-        if r.matchesLetter() {
+        if (r.matchesLetter()) {
             t.createTagPending(false)
             t.transition(a)
         } else {
@@ -1618,7 +1618,7 @@ enum TokeniserState: TokeniserStateProtocol {
     }
 
     private static func handleDataDoubleEscapeTag(_ t: Tokeniser, _ r: CharacterReader, _ primary: TokeniserState, _ fallback: TokeniserState) {
-        if r.matchesLetter() {
+        if (r.matchesLetter()) {
             let name = r.consumeLetterSequence()
             t.dataBuffer.append(name)
             t.emit(name)
@@ -1626,12 +1626,12 @@ enum TokeniserState: TokeniserStateProtocol {
         }
 
         let c = r.consume()
-        switch c {
+        switch (c) {
         case UnicodeScalar.BackslashT, "\n", "\r", UnicodeScalar.BackslashF, " ", "/", ">":
-            if t.dataBuffer.toString() == "script" {
-                t.transition(primary)
+            if (t.dataBuffer.toString() == "script") {
+            t.transition(primary)
             } else {
-                t.transition(fallback)
+            t.transition(fallback)
             }
             t.emit(c)
             break
@@ -1640,4 +1640,5 @@ enum TokeniserState: TokeniserStateProtocol {
             t.transition(fallback)
         }
     }
+
 }

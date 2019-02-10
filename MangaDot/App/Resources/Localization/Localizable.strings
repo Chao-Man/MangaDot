@@ -1,0 +1,37 @@
+/*
+ Localizable.strings
+ Manga
+ 
+ Created by Jian Chao Man on 16/9/18.
+ Copyright © 2018 Jian Chao Man. All rights reserved.
+ */
+
+
+// MARK: - ReadnowViewController Strings
+"FeedViewController.title"   = "Read Now";
+
+// MARK: - LibraryViewController Strings
+"LibraryViewController.title"   = "Library";
+
+// MARK: - SearchViewController Strings
+"SearchViewController.title"    = "Search";
+
+// MARK: - SettingsViewController Strings
+"SettingsViewController.title"  = "Settings";
+
+// MARK: - Feed Strings
+"Feed.updating" = "Updating Feed...";
+"Feed.Section.latest" = "Latest";
+"Feed.Section.new" = "New";
+"Feed.Section.featured" = "Featured";
+"Feed.Section.topFollows" = "Top Follows";
+"Feed.Section.topRated" = "Top Rated";
+
+// MARK: - ChapterCell
+"ChapterCell.label.chapter" = "CHAPTER";
+"ChapterCell.label.volume"  = "VOLUME";
+
+// MARK: - TitleInfo
+"TitleInfo.label.author" = "Author";
+"TitleInfo.label.artist" = "Artist";
+"TitleInfo.label.tags" = "Tags";

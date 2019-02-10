@@ -6,29 +6,30 @@
 //  Copyright © 2016 Nabil Chatbi.. All rights reserved.
 //
 
-import SwiftSoup
 import XCTest
+import SwiftSoup
 
 class StringUtilTest: XCTestCase {
-    //	func testSite()
-    //	{
-    //		let myURLString = "http://comcast.net"
-    //		guard let myURL = URL(string: myURLString) else {
-    //			print("Error: \(myURLString) doesn't seem to be a valid URL")
-    //			return
-    //		}
-    //
-    //
-    //		do {
-    //			let html = try String(contentsOf: myURL, encoding: .utf8)
-    //			print("HTML : \(html)")
-    //			let doc: Document = try SwiftSoup.parse(html)
-    //			print(try doc.text())
-    //		}
-    //		catch {
-    //			print("Error")
-    //		}
-    //	}
+
+//	func testSite()
+//	{
+//		let myURLString = "http://comcast.net"
+//		guard let myURL = URL(string: myURLString) else {
+//			print("Error: \(myURLString) doesn't seem to be a valid URL")
+//			return
+//		}
+//		
+//		
+//		do {
+//			let html = try String(contentsOf: myURL, encoding: .utf8)
+//			print("HTML : \(html)")
+//			let doc: Document = try SwiftSoup.parse(html)
+//			print(try doc.text())
+//		}
+//		catch {
+//			print("Error")
+//		}
+//	}
 
     func testLinuxTestSuiteIncludesAllTests() {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
@@ -53,7 +54,7 @@ class StringUtilTest: XCTestCase {
     }
 
     func testIsBlank() {
-        // XCTAssertTrue(StringUtil.isBlank(nil))
+        //XCTAssertTrue(StringUtil.isBlank(nil))
         XCTAssertTrue(StringUtil.isBlank(""))
         XCTAssertTrue(StringUtil.isBlank("      "))
         XCTAssertTrue(StringUtil.isBlank("   \r\n  "))
@@ -93,7 +94,7 @@ class StringUtilTest: XCTestCase {
         XCTAssertEqual("hello there", StringUtil.normaliseWhitespace("hello\nthere"))
     }
 
-    func testNormaliseWhiteSpaceHandlesHighSurrogates() throws {
+    func testNormaliseWhiteSpaceHandlesHighSurrogates()throws {
         let test71540chars = "\\u{d869}\\u{deb2}\\u{304b}\\u{309a}  1"
         let test71540charsExpectedSingleWhitespace = "\\u{d869}\\u{deb2}\\u{304b}\\u{309a} 1"
 
@@ -120,7 +121,7 @@ class StringUtilTest: XCTestCase {
     }
 
     static var allTests = {
-        [
+        return [
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
             ("testJoin", testJoin),
             ("testPadding", testPadding),
@@ -129,7 +130,8 @@ class StringUtilTest: XCTestCase {
             ("testIsWhitespace", testIsWhitespace),
             ("testNormaliseWhiteSpace", testNormaliseWhiteSpace),
             ("testNormaliseWhiteSpaceHandlesHighSurrogates", testNormaliseWhiteSpaceHandlesHighSurrogates),
-            ("testResolvesRelativeUrls", testResolvesRelativeUrls),
+            ("testResolvesRelativeUrls", testResolvesRelativeUrls)
         ]
     }()
+
 }

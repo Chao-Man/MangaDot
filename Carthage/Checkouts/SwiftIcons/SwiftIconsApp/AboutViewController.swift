@@ -20,13 +20,14 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
-import SwiftIcons
 import UIKit
+import SwiftIcons
 
 class AboutViewController: UIViewController {
+
     @IBOutlet var githubBtn: UIButton!
     @IBOutlet var madeWith: UILabel!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -38,21 +39,21 @@ class AboutViewController: UIViewController {
 
         let font = UIFont(name: "AppleSDGothicNeo-Bold", size: 20)
         let black: UIColor = .black
-        let attributes = [NSAttributedString.Key.font: font!, NSAttributedString.Key.foregroundColor: black]
+        let attributes = [NSAttributedString.Key.font : font!, NSAttributedString.Key.foregroundColor: black]
         navigationController?.navigationBar.titleTextAttributes = attributes
         navigationItem.hidesBackButton = true
 
         githubBtn.setIcon(prefixText: "Learn more:  ", icon: .fontAwesomeBrands(.github), iconColor: UIColor.gray, postfixText: "", forState: UIControl.State.normal, textSize: 16, iconSize: 30)
-
-        madeWith.setIcon(prefixText: "Made with ", icon: .fontAwesomeSolid(.heart), iconColor: UIColor(hex: "e74c3c"), postfixText: " in San Francisco, California", size: 20, iconSize: 20)
+        
+        madeWith.setIcon(prefixText: "Made with ", icon: .fontAwesomeSolid(.heart), iconColor: UIColor.init(hex: "e74c3c"), postfixText: " in San Francisco, California", size: 15, iconSize: 15)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    @IBAction func goToGithub(_: Any) {
+    
+    @IBAction func goToGithub(_ sender: Any) {
         if let requestUrl = NSURL(string: "https://github.com/ranesr/SwiftIcons") {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(requestUrl as URL, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
@@ -63,17 +64,17 @@ class AboutViewController: UIViewController {
     }
 
     /*
-     // MARK: - Navigation
+    // MARK: - Navigation
 
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
 }
 
 // Helper function inserted by Swift 4.2 migrator.
 fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-    return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value) })
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

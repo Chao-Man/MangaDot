@@ -6,10 +6,11 @@
 //  Copyright © 2016 Nabil Chatbi.. All rights reserved.
 //
 
-import SwiftSoup
 import XCTest
+import SwiftSoup
 
 class ParseSettingsTest: XCTestCase {
+
     func testLinuxTestSuiteIncludesAllTests() {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
             let thisClass = type(of: self)
@@ -38,10 +39,10 @@ class ParseSettingsTest: XCTestCase {
         XCTAssertEqual("FOO", attrOn.normalizeAttribute("FOO"))
     }
 
-    static var allTests = {
-        [
+	static var allTests = {
+		return [
             ("testLinuxTestSuiteIncludesAllTests", testLinuxTestSuiteIncludesAllTests),
-            ("testCaseSupport", testCaseSupport),
-        ]
-    }()
+            ("testCaseSupport", testCaseSupport)
+		]
+	}()
 }
