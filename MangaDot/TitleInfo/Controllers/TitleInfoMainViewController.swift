@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Atributika
 
 class TitleInfoMainViewController: UIViewController {
     

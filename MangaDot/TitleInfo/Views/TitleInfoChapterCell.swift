@@ -41,14 +41,14 @@ class TitleInfoChapterCell: UITableViewCell {
     
     lazy var chapterFlipBoard: FlipBoardView = {
         let view = FlipBoardView(frame: CGRect.zero)
-        view.backgroundColor = .clear
+        view.backgroundColor = MangaDot.Color.white
         view.labelColor = MangaDot.Color.pink
         return view
     }()
     
     lazy var volumeFlipBoard: FlipBoardView = {
         let view = FlipBoardView(frame: CGRect.zero)
-        view.backgroundColor = .clear
+        view.backgroundColor = MangaDot.Color.white
         view.labelColor = MangaDot.Color.gray
         return view
     }()
@@ -75,8 +75,11 @@ class TitleInfoChapterCell: UITableViewCell {
     
     private func setup() {
         layoutMargins = Inset(10)
-        backgroundColor = .clear
+        backgroundColor = MangaDot.Color.white
+        isOpaque = true
         addViews()
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
     }
     
     private func addViews() {

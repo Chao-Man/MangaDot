@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0510CA0B21F96F8000F73E1F /* DownloadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0A21F96F8000F73E1F /* DownloadClient.swift */; };
+		0510CA0B21F96F8000F73E1F /* NukeImageDownloadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0A21F96F8000F73E1F /* NukeImageDownloadClient.swift */; };
 		0510CA0D21F985C100F73E1F /* LargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0C21F985C100F73E1F /* LargeTitleView.swift */; };
 		0510CA0F21F98B3900F73E1F /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0E21F98B3900F73E1F /* DateFormatter.swift */; };
 		0510CA1121F9981800F73E1F /* BorderCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA1021F9981800F73E1F /* BorderCoverView.swift */; };
@@ -111,7 +111,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0510CA0A21F96F8000F73E1F /* DownloadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadClient.swift; sourceTree = "<group>"; };
+		0510CA0A21F96F8000F73E1F /* NukeImageDownloadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NukeImageDownloadClient.swift; sourceTree = "<group>"; };
 		0510CA0C21F985C100F73E1F /* LargeTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTitleView.swift; sourceTree = "<group>"; };
 		0510CA0E21F98B3900F73E1F /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		0510CA1021F9981800F73E1F /* BorderCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderCoverView.swift; sourceTree = "<group>"; };
@@ -125,10 +125,8 @@
 		052F7C3221DCCB1D00A91B3D /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = SOURCE_ROOT; };
 		052F7C3321DCCB1D00A91B3D /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = SOURCE_ROOT; };
 		052F7C3421DCCB1D00A91B3D /* SwiftSoup.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftSoup.framework; path = Carthage/Build/iOS/SwiftSoup.framework; sourceTree = SOURCE_ROOT; };
-		052F7C3521DCCB1D00A91B3D /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = SOURCE_ROOT; };
 		052F7C3621DCCB1D00A91B3D /* PMKUIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKUIKit.framework; path = Carthage/Build/iOS/PMKUIKit.framework; sourceTree = SOURCE_ROOT; };
 		052F7C3721DCCB1D00A91B3D /* PMKFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKFoundation.framework; path = Carthage/Build/iOS/PMKFoundation.framework; sourceTree = SOURCE_ROOT; };
-		052F7C3821DCCB1D00A91B3D /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = SOURCE_ROOT; };
 		052F7C3921DCCB1D00A91B3D /* SwiftHEXColors.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftHEXColors.framework; path = Carthage/Build/iOS/SwiftHEXColors.framework; sourceTree = SOURCE_ROOT; };
 		052F7C4921DCCC0E00A91B3D /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		052F7C4B21DCCCDB00A91B3D /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +177,7 @@
 		055006522207BF8600739EDF /* TitleDismissAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDismissAnimationController.swift; sourceTree = "<group>"; };
 		055006542209305F00739EDF /* CarouselParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselParent.swift; sourceTree = "<group>"; };
 		05500656220988B500739EDF /* RoundedTranslucentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentButton.swift; sourceTree = "<group>"; };
+		056C9626221144D100860BC0 /* Atributika.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Atributika.framework; path = Carthage/Build/iOS/Atributika.framework; sourceTree = SOURCE_ROOT; };
 		059CF91721D4ED100091B848 /* MangaDot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangaDot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		059CF91A21D4ED100091B848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		059CF92121D4ED120091B848 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -246,7 +245,7 @@
 				052F7CD421E60F4B00A91B3D /* Nuke Config */,
 				052F7BFF21DCC68B00A91B3D /* World.swift */,
 				0510CA0E21F98B3900F73E1F /* DateFormatter.swift */,
-				0510CA0A21F96F8000F73E1F /* DownloadClient.swift */,
+				0510CA0A21F96F8000F73E1F /* NukeImageDownloadClient.swift */,
 			);
 			path = World;
 			sourceTree = "<group>";
@@ -274,16 +273,15 @@
 		052F7C2D21DCCA9D00A91B3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				056C9626221144D100860BC0 /* Atributika.framework */,
 				052F7CC521E4439300A91B3D /* Nuke.framework */,
 				052F7CC421E4439300A91B3D /* Yalta.framework */,
 				052F7C2F21DCCB1D00A91B3D /* IceCream.framework */,
-				052F7C3521DCCB1D00A91B3D /* Kingfisher.framework */,
 				052F7C3721DCCB1D00A91B3D /* PMKFoundation.framework */,
 				052F7C3621DCCB1D00A91B3D /* PMKUIKit.framework */,
 				052F7C3121DCCB1D00A91B3D /* PromiseKit.framework */,
 				052F7C3221DCCB1D00A91B3D /* Realm.framework */,
 				052F7C3321DCCB1D00A91B3D /* RealmSwift.framework */,
-				052F7C3821DCCB1D00A91B3D /* SnapKit.framework */,
 				052F7C3021DCCB1D00A91B3D /* SwiftDate.framework */,
 				052F7C3921DCCB1D00A91B3D /* SwiftHEXColors.framework */,
 				052F7C2E21DCCB1D00A91B3D /* SwiftIcons.framework */,
@@ -944,7 +942,7 @@
 				052F7D0121EDE2C400A91B3D /* TitleInfoMainViewController.swift in Sources */,
 				052F7C5221DCCD0400A91B3D /* SettingsViewController.swift in Sources */,
 				052F7CDF21E6248E00A91B3D /* Inset.swift in Sources */,
-				0510CA0B21F96F8000F73E1F /* DownloadClient.swift in Sources */,
+				0510CA0B21F96F8000F73E1F /* NukeImageDownloadClient.swift in Sources */,
 				052F7CD621E60F6000A91B3D /* NukeConfig.swift in Sources */,
 				052F7CD221E60E2000A91B3D /* ShadowCoverView.swift in Sources */,
 				052F7CBC21E33EF500A91B3D /* CarouselViewController.swift in Sources */,

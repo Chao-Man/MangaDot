@@ -1,11 +1,12 @@
 github "scinfu/SwiftSoup"
 github "ranesr/SwiftIcons"
 github "malcommac/SwiftDate"
-github "mxcl/PromiseKit"
-github "PromiseKit/Foundation"
-github "PromiseKit/UIKit"
+github "mxcl/PromiseKit" ~> 6.8
+github "PromiseKit/Foundation" ~> 3.0
+github "PromiseKit/UIKit" ~> 3.0
 github "thii/SwiftHEXColors"
 github "realm/realm-cocoa"
-git "https://github.com/Chao-Man/IceCream.git" "master"
-github "kean/Nuke" ~> 7.0
+github "kean/Nuke"
+github "malcommac/SwiftRichString"
 git "https://github.com/Chao-Man/Yalta.git" "master"
+git "https://github.com/Chao-Man/IceCream.git" "master"

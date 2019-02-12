@@ -11,6 +11,7 @@ import PMKFoundation
 import PromiseKit
 
 public class Mangadex: SourceProtocol {
+    static let baseDomain = URL(string: "mangadex.org")!
     static let baseUrl = URL(string: "https://mangadex.org")!
     static let baseApiUrl = baseUrl.appendingPathComponent("api")
 
@@ -46,7 +47,7 @@ public class Mangadex: SourceProtocol {
         return firstly {
             URLSession.shared.dataTask(.promise, with: url.feed())
         }.compactMap {
-            try Feed(data: $0.data)
+            return try Feed(data: $0.data)
         }
     }
 

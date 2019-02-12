@@ -13,7 +13,7 @@ import UIKit
 typealias CancelClosure = () -> Void
 typealias CancellablePromise = (promise: Promise<ImageResponse>, cancel: CancelClosure)
 
-struct DownloadClient {
+struct NukeImageDownloadClient {
     enum Errors: Error {
         case cancelled
     }

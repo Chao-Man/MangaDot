@@ -29,19 +29,19 @@ extension Mangadex {
         }()
 
         lazy var title: String = {
-            self.decoded.manga.title
+            self.decoded.manga.title.decodingHTMLEntities()
         }()
 
         lazy var description: String = {
-            self.decoded.manga.description
+            self.decoded.manga.description.decodingHTMLEntities()
         }()
 
         lazy var artist: String = {
-            self.decoded.manga.artist
+            self.decoded.manga.artist.decodingHTMLEntities()
         }()
 
         lazy var author: String = {
-            self.decoded.manga.author
+            self.decoded.manga.author.decodingHTMLEntities()
         }()
 
         lazy var status: Int8 = {
@@ -139,14 +139,14 @@ extension Mangadex {
                 self.id = id
                 volume = decoded.volume
                 chapter = decoded.chapter
-                title = decoded.title
+                title = decoded.title.decodingHTMLEntities()
                 langCode = decoded.langCode
                 groupId = decoded.groupId
-                groupName = decoded.groupName
+                groupName = decoded.groupName?.decodingHTMLEntities()
                 groupId2 = decoded.groupId2
-                groupName2 = decoded.groupName2
+                groupName2 = decoded.groupName2?.decodingHTMLEntities()
                 groupId3 = decoded.groupId3
-                groupName3 = decoded.groupName3
+                groupName3 = decoded.groupName3?.decodingHTMLEntities()
                 timestamp = decoded.timestamp
             }
         }
