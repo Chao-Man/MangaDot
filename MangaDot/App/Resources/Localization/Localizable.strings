@@ -35,3 +35,8 @@
 "TitleInfo.label.author" = "Author";
 "TitleInfo.label.artist" = "Artist";
 "TitleInfo.label.tags" = "Tags";
+"TitleInfo.button.sort" = "Sort By";
+"TitleInfo.button.order" = "Order By";
+"TitleInfo.button.language" = "Language";
+"TitleInfo.button.close" = "Close";
+

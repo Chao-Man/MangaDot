@@ -16,8 +16,8 @@ class CarouselViewModel {
     private var data: SectionProtocol
     private var smallCoverTasks: [Int: CancelClosure] = [:]
     private var largeCoverTasks: [Int: CancelClosure] = [:]
-    private let largeImagePipeline = Current.nukeConfig.feedLargeImagePipeline
-    private let smallImagePipeline = Current.nukeConfig.feedSmallImagePipeline
+    private var largeImagePipeline = Current.nukeConfig.feedLargeImagePipeline
+    private var smallImagePipeline = Current.nukeConfig.feedSmallImagePipeline
 
     // MARK: - Computed Instance Properties
 
@@ -82,8 +82,8 @@ class CarouselViewModel {
             return rejectedFetchPromise()
         }
 
-        let request = Current.downloadClient.imageRequestBuilder(url, targetSize: size)
-        let fetch = Current.downloadClient.fetchImage(request: request, imagePipeline: smallImagePipeline)
+        let request = Current.nukeImageDownloadClient.imageRequestBuilder(url, targetSize: size)
+        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: smallImagePipeline)
         let promise = fetch.promise
         smallCoverTasks[index] = fetch.cancel
         return promise
@@ -94,8 +94,8 @@ class CarouselViewModel {
             return rejectedFetchPromise()
         }
 
-        let request = Current.downloadClient.imageRequestBuilder(url, targetSize: size)
-        let fetch = Current.downloadClient.fetchImage(request: request, imagePipeline: largeImagePipeline)
+        let request = Current.nukeImageDownloadClient.imageRequestBuilder(url, targetSize: size)
+        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: largeImagePipeline)
         let promise = fetch.promise
         largeCoverTasks[index] = fetch.cancel
         return promise
@@ -106,8 +106,8 @@ class CarouselViewModel {
             return rejectedFetchPromise()
         }
         
-        let request = Current.downloadClient.imageRequestBuilder(url)
-        let fetch = Current.downloadClient.fetchImage(request: request, imagePipeline: largeImagePipeline)
+        let request = Current.nukeImageDownloadClient.imageRequestBuilder(url)
+        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: largeImagePipeline)
         let promise = fetch.0
         largeCoverTasks[index] = fetch.1
         return promise

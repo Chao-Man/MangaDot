@@ -17,7 +17,7 @@ import Foundation
 struct World {
     var sources = Sources()
     var nukeConfig = NukeConfig()
-    var downloadClient = NukeImageDownloadClient()
+    var nukeImageDownloadClient = NukeImageDownloadClient()
     var calendar = Calendar.autoupdatingCurrent
     var date = { Date() }
     var locale = Locale.autoupdatingCurrent

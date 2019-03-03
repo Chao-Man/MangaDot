@@ -61,4 +61,17 @@ public class Mangadex: SourceProtocol {
             try Mangadex.TitleInfo(withId: id, data: $0.data)
         }
     }
+    
+    func fetchChapter(id: Int) -> Promise<DetailedChapterProtocol> {
+        print("Mangadex.swift | Fetching chapter with id: \(id)")
+        
+        var request = URLRequest(url: url.chapter(id: id))
+        request.setValue("Accept-Encoding", forHTTPHeaderField: "compress, gzip")
+        
+        return firstly {
+            URLSession.shared.dataTask(.promise, with: request)
+            }.compactMap {
+            try Mangadex.Chapter(withId: id, data: $0.data)
+        }
+    }
 }

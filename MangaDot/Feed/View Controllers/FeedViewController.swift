@@ -21,7 +21,7 @@ class FeedViewController: UIViewController, CarouselParent {
 
     // MARK: - Computed Instance Properties
 
-    private lazy var stackView: UIStackView = {
+    private let stackView: UIStackView = {
         let stackView = SeparatedStackView(inset: 45)
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -30,20 +30,20 @@ class FeedViewController: UIViewController, CarouselParent {
         return stackView
     }()
 
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         return scrollView
     }()
 
-    private lazy var refreshControl: UIRefreshControl = {
+    private let refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.attributedTitle = NSAttributedString(string: "Feed.updating".localized())
         refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         return refreshControl
     }()
 
-    private lazy var largeTitleView: LargeTitleView = {
+    private let largeTitleView: LargeTitleView = {
         let view = LargeTitleView()
         view.titleLabel.text = "FeedViewController.title".localized()
         view.subtitleLabel.text = Current.date().toFormat("EEEE, d MMMM").uppercased()
@@ -97,7 +97,6 @@ class FeedViewController: UIViewController, CarouselParent {
             self?.refreshContent()
         }.catch { [weak self] error in
             self?.present(UIAlertController.MangaDot.errorAlert(of: error), animated: true)
-            print(error)
         }.finally {
             self.refreshControl.endRefreshing()
         }

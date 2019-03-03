@@ -69,10 +69,18 @@
 		052F7CF921EBF89300A91B3D /* GradientTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052F7CF821EBF89300A91B3D /* GradientTableView.swift */; };
 		052F7CFF21ED631000A91B3D /* TitleInfoSideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052F7CFE21ED631000A91B3D /* TitleInfoSideBarViewController.swift */; };
 		052F7D0121EDE2C400A91B3D /* TitleInfoMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052F7D0021EDE2C400A91B3D /* TitleInfoMainViewController.swift */; };
+		0533A3B62212EA560062FDDD /* TranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0533A3B52212EA560062FDDD /* TranslucentView.swift */; };
+		0533A3B82214BC4E0062FDDD /* ReaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0533A3B72214BC4E0062FDDD /* ReaderViewModel.swift */; };
+		0533A3BA2215262D0062FDDD /* DetailedChapterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0533A3B92215262D0062FDDD /* DetailedChapterProtocol.swift */; };
+		0533A3BC221527800062FDDD /* MangadexChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0533A3BB221527800062FDDD /* MangadexChapter.swift */; };
 		055006512207BF7C00739EDF /* TitlePresentAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055006502207BF7C00739EDF /* TitlePresentAnimationController.swift */; };
 		055006532207BF8600739EDF /* TitleDismissAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055006522207BF8600739EDF /* TitleDismissAnimationController.swift */; };
 		055006552209305F00739EDF /* CarouselParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055006542209305F00739EDF /* CarouselParent.swift */; };
 		05500657220988B500739EDF /* RoundedTranslucentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05500656220988B500739EDF /* RoundedTranslucentButton.swift */; };
+		057EC4012227C62800A46F6E /* ReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4002227C62800A46F6E /* ReaderViewController.swift */; };
+		057EC4052227C68D00A46F6E /* ReaderChapterCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4042227C68D00A46F6E /* ReaderChapterCollectionViewController.swift */; };
+		057EC4072228F8FE00A46F6E /* PassThroughTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4062228F8FE00A46F6E /* PassThroughTableView.swift */; };
+		057EC40A222B71A600A46F6E /* ReaderPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC409222B71A600A46F6E /* ReaderPageCell.swift */; };
 		059CF91B21D4ED100091B848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059CF91A21D4ED100091B848 /* AppDelegate.swift */; };
 		059CF92221D4ED120091B848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 059CF92121D4ED120091B848 /* Assets.xcassets */; };
 		059CF92521D4ED120091B848 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 059CF92321D4ED120091B848 /* LaunchScreen.storyboard */; };
@@ -173,11 +181,19 @@
 		052F7CF821EBF89300A91B3D /* GradientTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTableView.swift; sourceTree = "<group>"; };
 		052F7CFE21ED631000A91B3D /* TitleInfoSideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleInfoSideBarViewController.swift; sourceTree = "<group>"; };
 		052F7D0021EDE2C400A91B3D /* TitleInfoMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleInfoMainViewController.swift; sourceTree = "<group>"; };
+		0533A3B52212EA560062FDDD /* TranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslucentView.swift; sourceTree = "<group>"; };
+		0533A3B72214BC4E0062FDDD /* ReaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewModel.swift; sourceTree = "<group>"; };
+		0533A3B92215262D0062FDDD /* DetailedChapterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedChapterProtocol.swift; sourceTree = "<group>"; };
+		0533A3BB221527800062FDDD /* MangadexChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangadexChapter.swift; sourceTree = "<group>"; };
 		055006502207BF7C00739EDF /* TitlePresentAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitlePresentAnimationController.swift; sourceTree = "<group>"; };
 		055006522207BF8600739EDF /* TitleDismissAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleDismissAnimationController.swift; sourceTree = "<group>"; };
 		055006542209305F00739EDF /* CarouselParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselParent.swift; sourceTree = "<group>"; };
 		05500656220988B500739EDF /* RoundedTranslucentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentButton.swift; sourceTree = "<group>"; };
 		056C9626221144D100860BC0 /* Atributika.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Atributika.framework; path = Carthage/Build/iOS/Atributika.framework; sourceTree = SOURCE_ROOT; };
+		057EC4002227C62800A46F6E /* ReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewController.swift; sourceTree = "<group>"; };
+		057EC4042227C68D00A46F6E /* ReaderChapterCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderChapterCollectionViewController.swift; sourceTree = "<group>"; };
+		057EC4062228F8FE00A46F6E /* PassThroughTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughTableView.swift; sourceTree = "<group>"; };
+		057EC409222B71A600A46F6E /* ReaderPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderPageCell.swift; sourceTree = "<group>"; };
 		059CF91721D4ED100091B848 /* MangaDot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangaDot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		059CF91A21D4ED100091B848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		059CF92121D4ED120091B848 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -265,6 +281,7 @@
 				052F7C0621DCC8D300A91B3D /* Mangadex.swift */,
 				052F7C7221DDBF5200A91B3D /* MangadexFeed.swift */,
 				052F7CEA21E9C59200A91B3D /* MangadexTitleInfo.swift */,
+				0533A3BB221527800062FDDD /* MangadexChapter.swift */,
 				052F7C7521DDE91B00A91B3D /* MangadexGenre.swift */,
 			);
 			path = Mangadex;
@@ -464,6 +481,7 @@
 		052F7C9221DEFD1B00A91B3D /* Reader */ = {
 			isa = PBXGroup;
 			children = (
+				057EC408222B718700A46F6E /* Views */,
 				052F7C9321DEFEAC00A91B3D /* Controllers */,
 				052F7C9521DEFEAC00A91B3D /* Models */,
 				052F7C9421DEFEAC00A91B3D /* Protocols */,
@@ -475,6 +493,8 @@
 		052F7C9321DEFEAC00A91B3D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				057EC4002227C62800A46F6E /* ReaderViewController.swift */,
+				057EC4042227C68D00A46F6E /* ReaderChapterCollectionViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -482,6 +502,7 @@
 		052F7C9421DEFEAC00A91B3D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				0533A3B92215262D0062FDDD /* DetailedChapterProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -496,6 +517,7 @@
 		052F7C9621DEFEAC00A91B3D /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				0533A3B72214BC4E0062FDDD /* ReaderViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -616,6 +638,7 @@
 			isa = PBXGroup;
 			children = (
 				052F7CD121E60E2000A91B3D /* ShadowCoverView.swift */,
+				057EC4062228F8FE00A46F6E /* PassThroughTableView.swift */,
 				0510CA1021F9981800F73E1F /* BorderCoverView.swift */,
 				0510CA0C21F985C100F73E1F /* LargeTitleView.swift */,
 				05CB5AB221FADA7F008747C0 /* TagView.swift */,
@@ -626,6 +649,7 @@
 				052F7CCB21E4452500A91B3D /* SeparatorView.swift */,
 				05500656220988B500739EDF /* RoundedTranslucentButton.swift */,
 				05C2F436220FDC49004B0FEF /* RoundedButton.swift */,
+				0533A3B52212EA560062FDDD /* TranslucentView.swift */,
 			);
 			path = "Shared Views";
 			sourceTree = "<group>";
@@ -705,6 +729,14 @@
 				052F7D0021EDE2C400A91B3D /* TitleInfoMainViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		057EC408222B718700A46F6E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				057EC409222B71A600A46F6E /* ReaderPageCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		059CF90E21D4ED100091B848 = {
@@ -894,8 +926,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0533A3BC221527800062FDDD /* MangadexChapter.swift in Sources */,
+				057EC4052227C68D00A46F6E /* ReaderChapterCollectionViewController.swift in Sources */,
 				052F7CCE21E4470C00A91B3D /* SeparatedStackView.swift in Sources */,
 				052F7CCC21E4452500A91B3D /* SeparatorView.swift in Sources */,
+				057EC40A222B71A600A46F6E /* ReaderPageCell.swift in Sources */,
 				052F7C0021DCC68B00A91B3D /* World.swift in Sources */,
 				055006552209305F00739EDF /* CarouselParent.swift in Sources */,
 				052F7CC321E3431B00A91B3D /* CarouselViewModel.swift in Sources */,
@@ -909,6 +944,7 @@
 				052F7CE921E74E0900A91B3D /* TitleInfoContainerViewController.swift in Sources */,
 				0510CA0F21F98B3900F73E1F /* DateFormatter.swift in Sources */,
 				052F7C5021DCCCFC00A91B3D /* SearchViewController.swift in Sources */,
+				0533A3B62212EA560062FDDD /* TranslucentView.swift in Sources */,
 				052F7C8C21DEFB6400A91B3D /* SectionProtocol.swift in Sources */,
 				0510CA1121F9981800F73E1F /* BorderCoverView.swift in Sources */,
 				052F7CE121E7280A00A91B3D /* StripedStackView.swift in Sources */,
@@ -932,9 +968,11 @@
 				05C2F42F220D5CBD004B0FEF /* TitleInfoChapterCell.swift in Sources */,
 				052F7C0721DCC8D300A91B3D /* Mangadex.swift in Sources */,
 				052F7CF921EBF89300A91B3D /* GradientTableView.swift in Sources */,
+				0533A3B82214BC4E0062FDDD /* ReaderViewModel.swift in Sources */,
 				052F7CDC21E61E0E00A91B3D /* DropShadowView.swift in Sources */,
 				05C2F431220D6843004B0FEF /* ChapterVolumeView.swift in Sources */,
 				05A40B7B21FC62AE0085C2DF /* TagListView.swift in Sources */,
+				057EC4072228F8FE00A46F6E /* PassThroughTableView.swift in Sources */,
 				052F7C7621DDE91B00A91B3D /* MangadexGenre.swift in Sources */,
 				052F7C4E21DCCCEF00A91B3D /* LibraryViewController.swift in Sources */,
 				052F7C8B21DEFB6400A91B3D /* BasicTitleProtocol.swift in Sources */,
@@ -942,9 +980,11 @@
 				052F7D0121EDE2C400A91B3D /* TitleInfoMainViewController.swift in Sources */,
 				052F7C5221DCCD0400A91B3D /* SettingsViewController.swift in Sources */,
 				052F7CDF21E6248E00A91B3D /* Inset.swift in Sources */,
+				057EC4012227C62800A46F6E /* ReaderViewController.swift in Sources */,
 				0510CA0B21F96F8000F73E1F /* NukeImageDownloadClient.swift in Sources */,
 				052F7CD621E60F6000A91B3D /* NukeConfig.swift in Sources */,
 				052F7CD221E60E2000A91B3D /* ShadowCoverView.swift in Sources */,
+				0533A3BA2215262D0062FDDD /* DetailedChapterProtocol.swift in Sources */,
 				052F7CBC21E33EF500A91B3D /* CarouselViewController.swift in Sources */,
 				052F7CB921E0DA0700A91B3D /* UIAlertController.swift in Sources */,
 				052F7CC121E341B000A91B3D /* CarouselCell.swift in Sources */,

@@ -21,14 +21,14 @@ final class TitleInfoViewModel {
     // MARK: - Private Instance Properties
 
     private let id: Int
-    private let source: SourceProtocol
     private let pipeline = Current.nukeConfig.titleInfoImagePipeline
-    private var sortedChapters: [BasicChapterProtocol]?
     private var titleInfo: TitleInfoProtocol? {
         didSet {
             sortedChapters = nil
         }
     }
+    let source: SourceProtocol
+    var sortedChapters: [BasicChapterProtocol]?
     
     // MARK: - Computed Instance Properties
     
@@ -72,16 +72,16 @@ final class TitleInfoViewModel {
     func fetchLargeCover() throws -> Promise<ImageResponse> {
         guard let titleInfo = titleInfo else { throw Errors.titleInfoDoesNotExist }
         guard let coverUrl = titleInfo.largeCoverUrl else { throw Errors.coverDoesNotExist }
-        let request = Current.downloadClient.imageRequestBuilder(coverUrl)
-        let fetch = Current.downloadClient.fetchImage(request: request, imagePipeline: pipeline)
+        let request = Current.nukeImageDownloadClient.imageRequestBuilder(coverUrl)
+        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: pipeline)
         return fetch.promise
     }
 
     func fetchSmallCover() throws -> Promise<ImageResponse> {
         guard let titleInfo = titleInfo else { throw Errors.titleInfoDoesNotExist }
         guard let coverUrl = titleInfo.coverUrl else { throw Errors.coverDoesNotExist }
-        let request = Current.downloadClient.imageRequestBuilder(coverUrl)
-        let fetch = Current.downloadClient.fetchImage(request: request, imagePipeline: pipeline)
+        let request = Current.nukeImageDownloadClient.imageRequestBuilder(coverUrl)
+        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: pipeline)
         return fetch.promise
     }
 

@@ -71,6 +71,6 @@ struct MangaDot {
     
     struct CornerRadius {
         static let coverView: CGFloat = 8.0
-        static let buttons: CGFloat = 12.0
+        static let buttons: CGFloat = 10.0
     }
 }

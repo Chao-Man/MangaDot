@@ -25,14 +25,6 @@ class TitleInfoContainerViewController: UIViewController {
     var titleInfoMainViewController: TitleInfoMainViewController
 
     // MARK: - Computed Instance Properties
-    
-    private lazy var exitButton: UIButton = {
-        let button = RoundedTranslucentButton(frame: CGRect.zero)
-        button.setTitle("Close", for: UIControl.State.normal)
-        button.setTitleColor(MangaDot.Color.pink, for: UIControl.State.normal)
-        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
-        return button
-    }()
 
     // MARK: - View Life Cycle
 
@@ -105,12 +97,6 @@ class TitleInfoContainerViewController: UIViewController {
             $0.edges(.right, .bottom).pinToSafeArea(of: self)
             $0.top.pinToSuperview()
         }
-        view.addSubview(exitButton) {
-            $0.left.pinToSuperviewMargin()
-            $0.top.pinToSuperviewMargin(inset: 10)
-            $0.height.set(80)
-            $0.width.set(80)
-        }
     }
     
     private func loadChildViewControllerContent() {
@@ -118,7 +104,7 @@ class TitleInfoContainerViewController: UIViewController {
         titleInfoMainViewController.loadContent()
     }
     
-    @objc func handleClose() {
+    func handleClose() {
         navigationController?.popViewController(animated: true)
     }
 }

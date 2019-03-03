@@ -140,8 +140,6 @@ extension CarouselViewController: UICollectionViewDelegate {
 extension CarouselViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-//        selectedCell.coverView.imageView.layoutIfNeeded()
-//        selectedCell.layoutIfNeeded()
         guard let parent = fromVC as? CarouselParent else { return nil }
         guard let selectedCell = parent.selectedCell else { return nil }
         let coverFrame = selectedCell.coverView.frame

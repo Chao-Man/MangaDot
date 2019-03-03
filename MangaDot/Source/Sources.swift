@@ -12,6 +12,7 @@ import PromiseKit
 protocol SourceProtocol {
     func fetchFeed() -> Promise<FeedProtocol>
     func fetchTitleInfo(id: Int) -> Promise<TitleInfoProtocol>
+    func fetchChapter(id: Int) -> Promise<DetailedChapterProtocol>
 }
 
 extension SourceProtocol {

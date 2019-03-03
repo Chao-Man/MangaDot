@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import Atributika
+import Yalta
+import SwiftIcons
 
 class TitleInfoMainViewController: UIViewController {
     
@@ -15,24 +16,126 @@ class TitleInfoMainViewController: UIViewController {
     
     private let viewModel: TitleInfoViewModel
     private let reuseIdentifier = "TitleInfoCell"
+    private let controlViewHeight: CGFloat = 80
     
     // MARK: - Computed Instance Properties
     
+    private let tablePaddingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = MangaDot.Color.white
+        view.frame = CGRect(x: 0, y: 0, width: 0, height: 10)
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = PassThroughTableView()
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.register(TitleInfoChapterCell.self, forCellReuseIdentifier: reuseIdentifier)
-        tableView.rowHeight = 65
+        tableView.rowHeight = 70
         tableView.separatorInset = UIEdgeInsets(top: 0, left: (tableView.rowHeight * 2) + 10, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: controlViewHeight, left: 0, bottom: 0, right: 0)
+        tableView.tableHeaderView = tablePaddingView
         return tableView
     }()
     
-    private lazy var controlStackView: UIStackView = {
+    private lazy var controlsChildContainer: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
+        view.alignment = UIStackView.Alignment.center
+        view.distribution = UIStackView.Distribution.fillEqually
+        view.spacing = 15
+        view.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        view.isLayoutMarginsRelativeArrangement = true
         return view
+    }()
+    
+    private lazy var controlsParentContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = MangaDot.Color.white
+        return view
+    }()
+    
+    private lazy var separator: SeparatorView = {
+        let view = SeparatorView(axis: .horizontal, inset: 0, width: 0.5, color: MangaDot.Color.lightGray)
+        return view
+    }()
+    
+    private lazy var sortByButton: RoundedButton = {
+        let font = MangaDot.Font.mediumSmall
+        let size = font.pointSize
+        let primaryColor = MangaDot.Color.pink
+        let icon = FontType.ionicons(.funnel)
+        let secondaryColor = MangaDot.Color.veryWhiteGray
+        let button = RoundedButton(
+            font: font,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            postfixText: "TitleInfo.button.sort".localized(),
+            icon: icon)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(handleSort), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var orderByButton: RoundedButton = {
+        let font = MangaDot.Font.mediumSmall
+        let size = font.pointSize
+        let primaryColor = MangaDot.Color.pink
+        let icon = FontType.ionicons(.shuffle)
+        let secondaryColor = MangaDot.Color.veryWhiteGray
+        let button = RoundedButton(
+            font: font,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            postfixText: "TitleInfo.button.order".localized(),
+            icon: icon)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(handleOrder), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var languageButton: RoundedButton = {
+        let font = MangaDot.Font.mediumSmall
+        let size = font.pointSize
+        let primaryColor = MangaDot.Color.pink
+        let icon = FontType.ionicons(.planet)
+        let secondaryColor = MangaDot.Color.veryWhiteGray
+        let button = RoundedButton(
+            font: font,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            postfixText: "TitleInfo.button.language".localized(),
+            icon: icon)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(handleLanguage), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var closeButton: RoundedButton = {
+        let font = MangaDot.Font.mediumSmall
+        let size = font.pointSize
+        let primaryColor = MangaDot.Color.pink
+        let icon = FontType.ionicons(.close)
+        let secondaryColor = MangaDot.Color.veryWhiteGray
+        let button = RoundedButton(
+            font: font,
+            primaryColor: primaryColor,
+            secondaryColor: secondaryColor,
+            postfixText: "TitleInfo.button.close".localized(),
+            icon: icon)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
+        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
+        return button
     }()
 
     init(viewModel: TitleInfoViewModel) {
@@ -48,10 +151,17 @@ class TitleInfoMainViewController: UIViewController {
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
-        view.addSubview(tableView) {
-            $0.edges.pinToSuperview()
-        }
-        view.backgroundColor = MangaDot.Color.white
+        setup()
+        super.viewDidLoad()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tableView.layer.shadowColor = MangaDot.Color.gray.cgColor
+        tableView.layer.shadowOpacity = 0.1
+        tableView.layer.shadowRadius = 5
+        tableView.layer.shouldRasterize = true
+        tableView.layer.rasterizationScale = UIScreen.main.scale
     }
     
     // MARK: - Methods
@@ -61,7 +171,58 @@ class TitleInfoMainViewController: UIViewController {
         fadeInViews()
     }
     
+    @objc func handleButtonTouchAnimation(_ sender: RoundedButton) {
+        UIView.animate(withDuration: 0.1) {
+            sender.invertColors()
+        }
+    }
+    
+    @objc func handleSort() {
+        
+    }
+    
+    @objc func handleOrder() {
+        
+    }
+    
+    @objc func handleLanguage() {
+        
+    }
+    
+    @objc func handleClose() {
+        guard let parentViewController = parent as? TitleInfoContainerViewController else {
+            return
+        }
+        parentViewController.handleClose()
+    }
+    
     // MARK: - Helper Methods
+    
+    private func setup() {
+        view.backgroundColor = MangaDot.Color.white
+        addViews()
+    }
+    
+    private func addViews() {
+        view.addSubview(controlsParentContainer) {
+            $0.top.pinToSuperviewMargin()
+            $0.edges(.left, .right).pinToSuperview()
+            $0.height.set(controlViewHeight)
+        }
+        
+        view.addSubview(tableView) {
+            $0.edges.pinToSuperview()
+        }
+        
+        controlsParentContainer.addSubview(controlsChildContainer) {
+            $0.edges.pinToSuperview()
+        }
+        
+        controlsChildContainer.addArrangedSubview(sortByButton)
+        controlsChildContainer.addArrangedSubview(orderByButton)
+        controlsChildContainer.addArrangedSubview(languageButton)
+        controlsChildContainer.addArrangedSubview(closeButton)
+    }
     
     private func setViewsTransparent() {
         tableView.alpha = 0.0
@@ -94,4 +255,12 @@ extension TitleInfoMainViewController: UITableViewDataSource {
     }
 }
 
-extension TitleInfoMainViewController: UITableViewDelegate {}
+extension TitleInfoMainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let sortedChapters = viewModel.sortedChapters else { return }
+        let readerViewModel = ReaderViewModel(source: viewModel.source, basicChaptersOrdered: sortedChapters, chapterOrder: .descending)
+        let readerViewController = ReaderViewController(selectedIndex: indexPath.item, viewModel: readerViewModel)
+        
+        navigationController?.pushViewController(readerViewController, animated: true)
+    }
+}

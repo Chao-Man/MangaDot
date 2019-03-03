@@ -19,13 +19,7 @@ class TitleInfoSideBarViewController: UIViewController {
     // MARK: - Computed Instance Properties
 
     let coverView = ShadowCoverView()
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.bounces = true
-        scrollView.showsVerticalScrollIndicator = false
-        return scrollView
-    }()
-
+    
     lazy var containerStackview: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -37,8 +31,15 @@ class TitleInfoSideBarViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.bounces = true
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
 
-    private lazy var titleView: UILabel = {
+    private let titleView: UILabel = {
         let label = UILabel()
         label.font = MangaDot.Font.mediumLarge
         label.textColor = UIColor.black
@@ -47,7 +48,7 @@ class TitleInfoSideBarViewController: UIViewController {
         return label
     }()
 
-    private lazy var descriptionView: UILabel = {
+    private let descriptionView: UILabel = {
         let label = UILabel()
         label.font = MangaDot.Font.regularSmall
         label.textColor = UIColor.darkGray
@@ -55,7 +56,7 @@ class TitleInfoSideBarViewController: UIViewController {
         return label
     }()
     
-    private lazy var creatorsContainer: UIStackView = {
+    private let creatorsContainer: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fillEqually
         stackView.alignment = .center
@@ -63,16 +64,16 @@ class TitleInfoSideBarViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var authorsContainer = UIView()
-    private lazy var artistsContainer = UIView()
+    private let authorsContainer = UIView()
+    private let artistsContainer = UIView()
+
+    private let authorView = TagListView()
+    private let artistView = TagListView()
+    private let genreView = TagListView()
     
     private lazy var authorLabel = makeSectionLabel(withText: "TitleInfo.label.author".localized())
     private lazy var artistLabel = makeSectionLabel(withText: "TitleInfo.label.artist".localized())
     private lazy var genreLabel = makeSectionLabel(withText: "TitleInfo.label.tags".localized())
-
-    private lazy var authorView = TagListView()
-    private lazy var artistView = TagListView()
-    private lazy var genreView = TagListView()
 
     // MARK: - Life Cycle
 
@@ -93,7 +94,9 @@ class TitleInfoSideBarViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        view.layer.applyShadow(options: MangaDot.Shadow.defaultShadow, path: nil)
+        view.layer.shadowColor = MangaDot.Color.gray.cgColor
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowRadius = 5
         view.layer.shouldRasterize = true
         view.layer.rasterizationScale = UIScreen.main.scale
         super.viewDidLayoutSubviews()
