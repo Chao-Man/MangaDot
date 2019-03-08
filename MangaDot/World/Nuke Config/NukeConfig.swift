@@ -10,7 +10,7 @@ import Foundation
 import Nuke
 
 struct NukeConfig {
-    lazy var feedSmallImagePipeline: ImagePipeline = {
+    let feedSmallImagePipeline: ImagePipeline = {
         let pipeline = ImagePipeline {
             // Shared image cache with a `sizeLimit` equal to ~20% of available RAM.
             $0.imageCache = ImageCache.shared
@@ -36,7 +36,7 @@ struct NukeConfig {
         return pipeline
     }()
     
-    lazy var feedLargeImagePipeline: ImagePipeline = {
+    let feedLargeImagePipeline: ImagePipeline = {
         let pipeline = ImagePipeline {
             // Shared image cache with a `sizeLimit` equal to ~20% of available RAM.
             $0.imageCache = ImageCache.shared
@@ -62,7 +62,7 @@ struct NukeConfig {
         return pipeline
     }()
     
-    lazy var titleInfoImagePipeline: ImagePipeline = {
+    let titleInfoImagePipeline: ImagePipeline = {
         let pipeline = ImagePipeline {
             // Shared image cache with a `sizeLimit` equal to ~20% of available RAM.
             $0.imageCache = ImageCache.shared
@@ -88,7 +88,7 @@ struct NukeConfig {
         return pipeline
     }()
     
-    lazy var readerImagePipelne: ImagePipeline = {
+    let readerImagePipelne: ImagePipeline = {
         let pipeline = ImagePipeline {
             // Shared image cache with a `sizeLimit` equal to ~20% of available RAM.
             $0.imageCache = ImageCache.shared

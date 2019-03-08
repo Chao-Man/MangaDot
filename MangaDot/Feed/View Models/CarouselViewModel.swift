@@ -14,10 +14,6 @@ class CarouselViewModel {
     // MARK: - Instance Properties
 
     private var data: SectionProtocol
-    private var smallCoverTasks: [Int: CancelClosure] = [:]
-    private var largeCoverTasks: [Int: CancelClosure] = [:]
-    private var largeImagePipeline = Current.nukeConfig.feedLargeImagePipeline
-    private var smallImagePipeline = Current.nukeConfig.feedSmallImagePipeline
 
     // MARK: - Computed Instance Properties
 
@@ -74,65 +70,34 @@ class CarouselViewModel {
     func isImageLargeCoverCached(index: Int) -> Bool {
         guard let url = mangaLargeCoverUrl(withIndex: index) else { return false }
         let request = ImageRequest(url: url)
-        return largeImagePipeline.configuration.imageCache?.cachedResponse(for: request) != nil
+        let cache = DataLoader.sharedUrlCache.cachedResponse(for: request.urlRequest)
+        return cache != nil
     }
 
-    func fetchSmallCover(withIndex index: Int, size: CGSize) -> Promise<ImageResponse> {
+    func fetchSmallCover(withIndex index: Int, imageView: UIImageView) -> Promise<ImageResponse> {
         guard let url = mangaCoverUrl(withIndex: index) else {
             return rejectedFetchPromise()
         }
-
-        let request = Current.nukeImageDownloadClient.imageRequestBuilder(url, targetSize: size)
-        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: smallImagePipeline)
-        let promise = fetch.promise
-        smallCoverTasks[index] = fetch.cancel
-        return promise
-    }
-
-    func fetchLargeCover(withIndex index: Int, size: CGSize) -> Promise<ImageResponse> {
-        guard let url = mangaLargeCoverUrl(withIndex: index) else {
-            return rejectedFetchPromise()
-        }
-
-        let request = Current.nukeImageDownloadClient.imageRequestBuilder(url, targetSize: size)
-        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: largeImagePipeline)
-        let promise = fetch.promise
-        largeCoverTasks[index] = fetch.cancel
-        return promise
+        let targetSize = CGSize(width: imageView.bounds.width * UIScreen.main.scale, height: imageView.bounds.height * UIScreen.main.scale)
+        let request = ImageRequest(url: url, targetSize: targetSize, contentMode: .aspectFit)
+        return Current.nukeWrapper.fetchImage(imageView: imageView, request: request, options: nil)
     }
     
-    func fetchLargeCover(withIndex index: Int) -> Promise<ImageResponse> {
+    func fetchLargeCover(withIndex index: Int, imageView: UIImageView) -> Promise<ImageResponse> {
         guard let url = mangaLargeCoverUrl(withIndex: index) else {
             return rejectedFetchPromise()
         }
-        
-        let request = Current.nukeImageDownloadClient.imageRequestBuilder(url)
-        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: largeImagePipeline)
-        let promise = fetch.0
-        largeCoverTasks[index] = fetch.1
-        return promise
+        return Current.nukeWrapper.fetchImage(imageView: imageView, url: url, options: nil)
     }
 
-    func cancelDownloadTask(atIndex index: Int) {
-        if let cancel = largeCoverTasks[index] {
-            cancel()
+    func fetchLargeCover(withIndex index: Int, imageView: UIImageView, placeholderImage: UIImage) -> Promise<ImageResponse> {
+        guard let url = mangaLargeCoverUrl(withIndex: index) else {
+            return rejectedFetchPromise()
         }
-        if let cancel = smallCoverTasks[index] {
-            cancel()
-        }
-        largeCoverTasks.removeValue(forKey: index)
-        smallCoverTasks.removeValue(forKey: index)
-    }
-
-    func cancelAllTasks() {
-        largeCoverTasks.forEach {
-            $0.value()
-        }
-        smallCoverTasks.forEach {
-            $0.value()
-        }
-        largeCoverTasks = [:]
-        smallCoverTasks = [:]
+        let options = ImageLoadingOptions(placeholder: placeholderImage, transition: nil, failureImage: placeholderImage, failureImageTransition: nil, contentModes: nil)
+        let targetSize = CGSize(width: imageView.bounds.width * UIScreen.main.scale, height: imageView.bounds.height * UIScreen.main.scale)
+        let request = ImageRequest(url: url, targetSize: targetSize, contentMode: .aspectFit)
+        return Current.nukeWrapper.fetchImage(imageView: imageView, request: request, options: options)
     }
 
     // MARK: - Private Helper Methods
@@ -144,11 +109,5 @@ class CarouselViewModel {
     private func rejectedFetchPromise() -> Promise<ImageResponse> {
         let promise = Promise<ImageResponse> { $0.reject(Errors.urlDoesNotExist) }
         return promise
-    }
-
-    private func rejectedCancellablePromise() -> CancellablePromise {
-        let promise = rejectedFetchPromise()
-        let cancel: CancelClosure = {}
-        return (promise, cancel)
     }
 }

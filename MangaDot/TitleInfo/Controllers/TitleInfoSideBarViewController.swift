@@ -168,9 +168,7 @@ class TitleInfoSideBarViewController: UIViewController {
 
     private func loadCover() {
         firstly {
-            try viewModel.fetchLargeCover()
-        }.done {
-            self.coverView.imageView.image = $0.image
+            try viewModel.fetchLargeCover(imageView: coverView.imageView)
         }.catch { error in
             print(error)
         }

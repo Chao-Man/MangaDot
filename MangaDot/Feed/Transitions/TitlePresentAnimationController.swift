@@ -11,46 +11,28 @@ import Yalta
 import PromiseKit
 import PMKUIKit
 
-struct AnimationHelper {
-    static func yRotation(_ angle: Double) -> CATransform3D {
-        return CATransform3DMakeRotation(CGFloat(angle), 0.0, 1.0, 0.0)
-    }
-    
-    static func perspectiveTransform(for containerView: UIView) {
-        var transform = CATransform3DIdentity
-        transform.m34 = -0.002
-        containerView.layer.sublayerTransform = transform
-    }
-}
-
 class TitlePresentAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
-    private lazy var titleInfoSideBarPlaceholderView: UIView = {
+    private let titleInfoSideBarPlaceholderView: UIView = {
         let view = UIView()
         view.backgroundColor = MangaDot.Color.white
         return view
     }()
-    private lazy var titleInfoMainPlaceholderView: UIView = {
+    private let titleInfoMainPlaceholderView: UIView = {
         let view = UIView()
         view.backgroundColor = MangaDot.Color.whiteGray
         return view
     }()
-    lazy var blurView: UIVisualEffectView = {
+    private let blurView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
         let view = UIVisualEffectView(effect: blurEffect)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
         return view
     }()
+    private let fromCoverView: ShadowCoverView
     
-    private let params: Params
-    
-    struct Params {
-        let fromCoverFrame: CGRect
-        let fromCover: ShadowCoverView
-    }
-    
-    init(params: Params) {
-        self.params = params
+    init(fromCoverView: ShadowCoverView) {
+        self.fromCoverView = fromCoverView
         super.init()
     }
     
@@ -60,6 +42,7 @@ class TitlePresentAnimationController: NSObject, UIViewControllerAnimatedTransit
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let toViewController = transitionContext.viewController(forKey: .to) as? TitleInfoContainerViewController else { return }
+        guard let fromViewController = transitionContext.viewController(forKey: .from) as? FeedViewController else { return }
         
         let containerView = transitionContext.containerView
         containerView.addSubview(toViewController.view)
@@ -74,11 +57,11 @@ class TitlePresentAnimationController: NSObject, UIViewControllerAnimatedTransit
         // Snapshot of cover
         guard let toCoverViewSnapShot = toViewController.titleInfoSideBarViewController.coverView.snapshotView(afterScreenUpdates: true) else { return }
 
-        // Set initial location
-        toCoverViewSnapShot.frame = params.fromCoverFrame
+        // Set initial location, convert frame to fromViewController coordinate space
+        toCoverViewSnapShot.frame = fromViewController.view.convert(fromCoverView.frame, from: fromCoverView)
         
         // Hide original cover
-        self.params.fromCover.isHidden = true
+        fromCoverView.isHidden = true
         
         containerView.addSubview(toCoverViewSnapShot)
         
@@ -147,12 +130,12 @@ class TitlePresentAnimationController: NSObject, UIViewControllerAnimatedTransit
                 toCoverViewSnapShot.alpha = 0.0
             })
         }.done {_ in
-            self.params.fromCover.isHidden = false
+            self.fromCoverView.isHidden = false
             toCoverViewSnapShot.removeFromSuperview()
             self.blurView.removeFromSuperview()
             self.titleInfoSideBarPlaceholderView.removeFromSuperview()
             self.titleInfoMainPlaceholderView.removeFromSuperview()
-            self.params.fromCover.layer.transform = CATransform3DIdentity
+            self.fromCoverView.layer.transform = CATransform3DIdentity
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
     }

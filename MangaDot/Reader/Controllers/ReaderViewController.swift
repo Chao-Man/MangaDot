@@ -37,14 +37,29 @@ class ReaderViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        setup()
         addChildViewControllers()
         setInitialViewController()
         super.viewDidLoad()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        reenableSwipeBack()
+        setTabBarHidden(true)
         super.viewDidAppear(animated)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+//        setTabBarHidden(false)
+        tabBarController?.tabBar.isHidden = false
+        super.viewWillDisappear(animated)
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -53,6 +68,10 @@ class ReaderViewController: UIViewController {
     
 
     // MARK: - Helper Methods
+    
+    private func setup() {
+        
+    }
     
     private func addChildViewControllers() {
         pageViewController.willMove(toParent: self)
@@ -80,11 +99,6 @@ class ReaderViewController: UIViewController {
 //            }
 //        }
     }
-    
-    func reenableSwipeBack() {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = nil
-    }
 }
 
 extension ReaderViewController: UIPageViewControllerDelegate {
@@ -93,6 +107,7 @@ extension ReaderViewController: UIPageViewControllerDelegate {
 
 extension ReaderViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        print("Fetching Prev Chapter")
         do {
             let viewController = viewController as! ReaderChapterCollectionViewController
             let readerChapterViewModel = try viewModel.chapter(beforeIndex: viewController.index())
@@ -103,6 +118,7 @@ extension ReaderViewController: UIPageViewControllerDataSource {
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        print("Fetching Next Chapter")
         do {
             let viewController = viewController as! ReaderChapterCollectionViewController
             let readerChapterViewModel = try viewModel.chapter(afterIndex: viewController.index())

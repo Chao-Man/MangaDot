@@ -53,9 +53,9 @@ class ReaderChapterCollectionViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         viewModel.stopPreloading()
-        super.viewWillDisappear(animated)
+        super.viewDidDisappear(animated)
     }
 
     override func viewWillLayoutSubviews() {
@@ -72,13 +72,17 @@ class ReaderChapterCollectionViewController: UIViewController {
     // MARK: - Helper Methods
     
     private func setup() {
+        // Enable swipe back navigation pop
+        if let interactivePopGestureRecognizer = navigationController?.interactivePopGestureRecognizer {
+            collectionView.panGestureRecognizer.require(toFail: interactivePopGestureRecognizer)
+        }
         firstly {
             viewModel.fetch()
         }.done {
-            self.reloadData()
             if (self.shouldPreload) {
                 self.viewModel.startPreloading()
             }
+            self.reloadData()
         }
     }
     
@@ -120,12 +124,17 @@ extension ReaderChapterCollectionViewController: UICollectionViewDataSource {
             return readerPageCell
         }
         
+        readerPageCell.activityView.startAnimating()
+        
         Nuke.loadImage(
             with: imageUrl,
             options: ImageLoadingOptions(
                 transition: .fadeIn(duration: 0.33)
             ),
-            into: readerPageCell.imageView
+            into: readerPageCell.imageView,
+            completion: { (response, error) in
+                readerPageCell.activityView.stopAnimating()
+            }
         )
         
         return readerPageCell

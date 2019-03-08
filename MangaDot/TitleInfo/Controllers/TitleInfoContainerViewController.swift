@@ -20,7 +20,9 @@ class TitleInfoContainerViewController: UIViewController {
         self.reloadContent()
     }
     private let placeholder: UIImage?
-
+    
+    var swipeInteractionController: SwipeInteractionController?
+    
     var titleInfoSideBarViewController: TitleInfoSideBarViewController
     var titleInfoMainViewController: TitleInfoMainViewController
 
@@ -54,6 +56,7 @@ class TitleInfoContainerViewController: UIViewController {
     }
     
     private func setup() {
+        swipeInteractionController = SwipeInteractionController(viewController: self)
         setupViews()
         addChildViewControllers()
         fetchData()

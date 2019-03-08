@@ -40,7 +40,7 @@ class TitleInfoMainViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var controlsChildContainer: UIStackView = {
+    private lazy var controlsContainer: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
         view.alignment = UIStackView.Alignment.center
@@ -51,48 +51,44 @@ class TitleInfoMainViewController: UIViewController {
         return view
     }()
     
-    private lazy var controlsParentContainer: UIView = {
-        let view = UIView()
-        view.backgroundColor = MangaDot.Color.white
-        return view
-    }()
-    
     private lazy var separator: SeparatorView = {
         let view = SeparatorView(axis: .horizontal, inset: 0, width: 0.5, color: MangaDot.Color.lightGray)
         return view
     }()
-    
-    private lazy var sortByButton: RoundedButton = {
-        let font = MangaDot.Font.mediumSmall
-        let size = font.pointSize
+
+    private lazy var backButton: RoundedButton = {
+        let font = MangaDot.Font.regularNormal
+        let iconSize = font.pointSize
         let primaryColor = MangaDot.Color.pink
-        let icon = FontType.ionicons(.funnel)
+        let icon = FontType.ionicons(.androidArrowBack)
         let secondaryColor = MangaDot.Color.veryWhiteGray
         let button = RoundedButton(
             font: font,
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
-            postfixText: "TitleInfo.button.sort".localized(),
-            icon: icon)
+            postfixText: "TitleInfo.button.back".localized(),
+            icon: icon,
+            iconSize: iconSize)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
-        button.addTarget(self, action: #selector(handleSort), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
         return button
     }()
     
-    private lazy var orderByButton: RoundedButton = {
-        let font = MangaDot.Font.mediumSmall
-        let size = font.pointSize
+    private lazy var addButton: RoundedButton = {
+        let font = MangaDot.Font.regularNormal
+        let iconSize = font.pointSize
         let primaryColor = MangaDot.Color.pink
-        let icon = FontType.ionicons(.shuffle)
+        let icon = FontType.ionicons(.plus)
         let secondaryColor = MangaDot.Color.veryWhiteGray
         let button = RoundedButton(
             font: font,
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
-            postfixText: "TitleInfo.button.order".localized(),
-            icon: icon)
+            postfixText: "TitleInfo.button.add".localized(),
+            icon: icon,
+            iconSize: iconSize)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
@@ -100,43 +96,26 @@ class TitleInfoMainViewController: UIViewController {
         return button
     }()
     
-    private lazy var languageButton: RoundedButton = {
-        let font = MangaDot.Font.mediumSmall
-        let size = font.pointSize
+    private lazy var resumeButton: RoundedButton = {
+        let font = MangaDot.Font.regularNormal
+        let iconSize = font.pointSize
         let primaryColor = MangaDot.Color.pink
-        let icon = FontType.ionicons(.planet)
+        let icon = FontType.ionicons(.play)
         let secondaryColor = MangaDot.Color.veryWhiteGray
         let button = RoundedButton(
             font: font,
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
-            postfixText: "TitleInfo.button.language".localized(),
-            icon: icon)
+            postfixText: "TitleInfo.button.resume".localized(),
+            icon: icon,
+            iconSize: iconSize)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
         button.addTarget(self, action: #selector(handleLanguage), for: .touchUpInside)
         return button
     }()
-    
-    private lazy var closeButton: RoundedButton = {
-        let font = MangaDot.Font.mediumSmall
-        let size = font.pointSize
-        let primaryColor = MangaDot.Color.pink
-        let icon = FontType.ionicons(.close)
-        let secondaryColor = MangaDot.Color.veryWhiteGray
-        let button = RoundedButton(
-            font: font,
-            primaryColor: primaryColor,
-            secondaryColor: secondaryColor,
-            postfixText: "TitleInfo.button.close".localized(),
-            icon: icon)
-        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
-        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
-        button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
-        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
-        return button
-    }()
+
 
     init(viewModel: TitleInfoViewModel) {
         self.viewModel = viewModel
@@ -204,7 +183,7 @@ class TitleInfoMainViewController: UIViewController {
     }
     
     private func addViews() {
-        view.addSubview(controlsParentContainer) {
+        view.addSubview(controlsContainer) {
             $0.top.pinToSuperviewMargin()
             $0.edges(.left, .right).pinToSuperview()
             $0.height.set(controlViewHeight)
@@ -214,14 +193,9 @@ class TitleInfoMainViewController: UIViewController {
             $0.edges.pinToSuperview()
         }
         
-        controlsParentContainer.addSubview(controlsChildContainer) {
-            $0.edges.pinToSuperview()
-        }
-        
-        controlsChildContainer.addArrangedSubview(sortByButton)
-        controlsChildContainer.addArrangedSubview(orderByButton)
-        controlsChildContainer.addArrangedSubview(languageButton)
-        controlsChildContainer.addArrangedSubview(closeButton)
+        controlsContainer.addArrangedSubview(backButton)
+        controlsContainer.addArrangedSubview(addButton)
+        controlsContainer.addArrangedSubview(resumeButton)
     }
     
     private func setViewsTransparent() {

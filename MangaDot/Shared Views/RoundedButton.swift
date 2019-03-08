@@ -17,40 +17,27 @@ class RoundedButton: UIButton {
     private var prefixText: String
     private var postfixText: String
     private var icon: FontType
+    private var iconSize: CGFloat
     
     init(font: UIFont = MangaDot.Font.regularNormal,
          primaryColor: UIColor = MangaDot.Color.pink,
          secondaryColor: UIColor = MangaDot.Color.veryWhiteGray,
-         prefixText: String = "", postfixText: String = "",
-         icon: FontType = FontType.icofont(.aids)) {
+         prefixText: String = "",
+         postfixText: String = "",
+         icon: FontType = FontType.icofont(.aids),
+         iconSize: CGFloat) {
         
         self.textFont = font
         self.primaryColor = primaryColor
         self.secondaryColor = secondaryColor
-        self.prefixText = prefixText
-        self.postfixText = postfixText
+        self.prefixText = "\(prefixText)  "
+        self.postfixText = "  \(postfixText)"
         self.icon = icon
+        self.iconSize = iconSize
         
         super.init(frame: CGRect.zero)
         
-        setIcon(
-            prefixText: prefixText,
-            prefixTextFont: font,
-            prefixTextColor: primaryColor,
-            icon: icon,
-            iconColor: primaryColor,
-            postfixText: " " + postfixText,
-            postfixTextFont: font,
-            postfixTextColor: primaryColor,
-            backgroundColor: secondaryColor,
-            forState: .normal,
-            iconSize: font.pointSize
-        )
-        
-        titleLabel?.lineBreakMode = .byClipping
-        titleLabel?.numberOfLines = 1
-        layer.cornerRadius = MangaDot.CornerRadius.buttons
-        contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+        setup()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -67,6 +54,27 @@ class RoundedButton: UIButton {
 ////        layer.rasterizationScale = UIScreen.main.scale
 //    }
     
+    func setup() {
+        setIcon(
+            prefixText: prefixText,
+            prefixTextFont: textFont,
+            prefixTextColor: primaryColor,
+            icon: icon,
+            iconColor: primaryColor,
+            postfixText: postfixText,
+            postfixTextFont: textFont,
+            postfixTextColor: primaryColor,
+            backgroundColor: secondaryColor,
+            forState: .normal,
+            iconSize: iconSize
+        )
+        
+        titleLabel?.lineBreakMode = .byClipping
+        titleLabel?.numberOfLines = 1
+        layer.cornerRadius = MangaDot.CornerRadius.buttons
+        contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
+    }
+    
     func invertColors() {
         swapColors()
         setIcon(
@@ -75,12 +83,12 @@ class RoundedButton: UIButton {
             prefixTextColor: primaryColor,
             icon: icon,
             iconColor: primaryColor,
-            postfixText: " " + postfixText,
+            postfixText: postfixText,
             postfixTextFont: textFont,
             postfixTextColor: primaryColor,
             backgroundColor: secondaryColor,
             forState: .normal,
-            iconSize: textFont.pointSize
+            iconSize: iconSize
         )
     }
     

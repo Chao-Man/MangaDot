@@ -18,6 +18,7 @@ class CarouselViewController: UIViewController {
     private let source: SourceProtocol
     private let itemSize = CGSize(width: 145, height: 265)
     private let reuseIdentifier = "CarouselCell"
+    private var selectedCell: CarouselCell?
 
     // MARK: - Computed Instance Properties
 
@@ -62,7 +63,6 @@ class CarouselViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        self.navigationController?.delegate = self
     }
 
     // MARK: - Helper Methods
@@ -83,6 +83,10 @@ class CarouselViewController: UIViewController {
         view.backgroundColor = .white
         view.isOpaque = true
     }
+    
+    private func setNavigationDelegateToSelf() {
+        navigationController?.delegate = self
+    }
 }
 
 extension CarouselViewController: UICollectionViewDataSource {
@@ -102,12 +106,9 @@ extension CarouselViewController: UICollectionViewDataSource {
     private func loadCoverImage(imageView: UIImageView, index: Int) {
         imageView.image = UIImage()
         firstly {
-            viewModel.fetchSmallCover(withIndex: index, size: coverImageSize())
-        }.then { (response: ImageResponse) -> Promise<ImageResponse> in
-            imageView.image = response.image
-            return self.viewModel.fetchLargeCover(withIndex: index, size: self.coverImageSize())
-        }.done { (response: ImageResponse) -> Void in
-            imageView.image = response.image
+            viewModel.fetchSmallCover(withIndex: index, imageView: imageView)
+        }.done { imageResponse in
+            self.viewModel.fetchLargeCover(withIndex: index, imageView: imageView, placeholderImage: imageResponse.image)
         }.catch { error in
             print(error)
         }
@@ -120,32 +121,56 @@ extension CarouselViewController: UICollectionViewDataSource {
 }
 
 extension CarouselViewController: UICollectionViewDelegate {
+//    func collectionView(_: UICollectionView, didEndDisplaying _: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+//        viewModel.cancelDownloadTask(atIndex: indexPath.item)
+//    }
+    
     func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let id = viewModel.mangaId(withIndex: indexPath.item) else { return }
         guard let selectedCell = collectionView.cellForItem(at: indexPath) as? CarouselCell else { return }
-        guard var parent = parent as? CarouselParent else { return }
-        parent.selectedCell = selectedCell
+        
+        setNavigationDelegateToSelf()
+        
+        // Set local property selected cell
+        self.selectedCell = selectedCell
         let placeholder = selectedCell.coverView.imageView.image
+        
         // Load view controller
         let titleInfoViewController = TitleInfoContainerViewController(id: id, source: source, placeholder: placeholder)
-        
         navigationController?.pushViewController(titleInfoViewController, animated: true)
-    }
-
-    func collectionView(_: UICollectionView, didEndDisplaying _: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        viewModel.cancelDownloadTask(atIndex: indexPath.item)
     }
 }
 
 extension CarouselViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        guard let parent = fromVC as? CarouselParent else { return nil }
-        guard let selectedCell = parent.selectedCell else { return nil }
-        let coverFrame = selectedCell.coverView.frame
-        let coverFrameInCollectionViewSpace = parent.currentView.convert(coverFrame, from: selectedCell)
+        // TODO: Remove
+//        navigationController.delegate = nil
         
-        let params = TitlePresentAnimationController.Params(fromCoverFrame: coverFrameInCollectionViewSpace, fromCover: selectedCell.coverView)
-        return TitlePresentAnimationController(params: params)
+        guard ((fromVC is FeedViewController && toVC is TitleInfoContainerViewController) ||
+            (fromVC is TitleInfoContainerViewController && toVC is FeedViewController)) else {
+                return nil
+        }
+        
+        switch operation {
+            case .push:
+                guard let cell = self.selectedCell else { return nil }
+                return TitlePresentAnimationController(fromCoverView: cell.coverView)
+
+            case .pop:
+                guard let cell = self.selectedCell else { return nil }
+                guard let fromTitleVC = fromVC as? TitleInfoContainerViewController else { return nil }
+                return TitleDismissAnimationController(toCoverView: cell.coverView, interactionController: fromTitleVC.swipeInteractionController)
+
+            default:
+                return nil
+        }
+    }
+
+    func navigationController(_ navigationController: UINavigationController, interactionControllerFor animationController: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        guard let animator = animationController as? TitleDismissAnimationController else { return nil }
+        guard let interactionController = animator.interactionController else { return nil }
+        guard interactionController.interactionInProgress else { return nil }
+        return interactionController
     }
 }

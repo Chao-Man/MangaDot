@@ -6,7 +6,7 @@
 //  Copyright © 2019 Jian Chao Man. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Nuke
 import PromiseKit
 
@@ -69,20 +69,11 @@ final class TitleInfoViewModel {
         }
     }
 
-    func fetchLargeCover() throws -> Promise<ImageResponse> {
+    func fetchLargeCover(imageView: UIImageView) throws -> Promise<ImageResponse> {
         guard let titleInfo = titleInfo else { throw Errors.titleInfoDoesNotExist }
         guard let coverUrl = titleInfo.largeCoverUrl else { throw Errors.coverDoesNotExist }
-        let request = Current.nukeImageDownloadClient.imageRequestBuilder(coverUrl)
-        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: pipeline)
-        return fetch.promise
-    }
-
-    func fetchSmallCover() throws -> Promise<ImageResponse> {
-        guard let titleInfo = titleInfo else { throw Errors.titleInfoDoesNotExist }
-        guard let coverUrl = titleInfo.coverUrl else { throw Errors.coverDoesNotExist }
-        let request = Current.nukeImageDownloadClient.imageRequestBuilder(coverUrl)
-        let fetch = Current.nukeImageDownloadClient.fetchImage(request: request, imagePipeline: pipeline)
-        return fetch.promise
+        let fetch = Current.nukeWrapper.fetchImage(imageView: imageView, url: coverUrl, options: nil)
+        return fetch
     }
 
     func title() -> String {

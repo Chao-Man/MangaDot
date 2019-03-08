@@ -1,5 +1,4 @@
 github "scinfu/SwiftSoup"
-github "ranesr/SwiftIcons"
 github "malcommac/SwiftDate"
 github "mxcl/PromiseKit" ~> 6.8
 github "PromiseKit/Foundation" ~> 3.0
@@ -7,6 +6,7 @@ github "PromiseKit/UIKit" ~> 3.0
 github "thii/SwiftHEXColors"
 github "realm/realm-cocoa"
 github "kean/Nuke"
-github "malcommac/SwiftRichString"
+github "ninjaprox/NVActivityIndicatorView"
 git "https://github.com/Chao-Man/Yalta.git" "master"
 git "https://github.com/Chao-Man/IceCream.git" "master"
+git "https://github.com/Chao-Man/SwiftIcons" "master"

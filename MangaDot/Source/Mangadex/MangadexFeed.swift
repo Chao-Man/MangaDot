@@ -101,12 +101,8 @@ extension Mangadex.Feed {
                 throw Mangadex.Errors.invalidTitleId
             }
 
-            guard let _coverUrl = URL(string: coverPath) else {
-                throw Mangadex.Errors.invalidCoverUrl
-            }
-            guard let _largeCoverUrl = URL(string: largeCoverPath) else {
-                throw Mangadex.Errors.invalidCoverUrl
-            }
+            let _coverUrl = Mangadex.baseUrl.appendingPathComponent(coverPath)
+            let _largeCoverUrl = Mangadex.baseUrl.appendingPathComponent(largeCoverPath)
 
             guard let _titleId = Int(titleIdString) else {
                 throw Mangadex.Errors.invalidTitleId
@@ -115,7 +111,7 @@ extension Mangadex.Feed {
             title = try element.select(".manga_title").text()
             titleId = _titleId
             coverUrl = _coverUrl
-            largeCoverUrl = _largeCoverUrl
+            largeCoverUrl =  _largeCoverUrl
         }
     }
 
@@ -135,12 +131,8 @@ extension Mangadex.Feed {
                 throw Mangadex.Errors.invalidTitleId
             }
             
-            guard let _coverUrl = URL(string: coverPath) else {
-                throw Mangadex.Errors.invalidCoverUrl
-            }
-            guard let _largeCoverUrl = URL(string: largeCoverPath) else {
-                throw Mangadex.Errors.invalidCoverUrl
-            }
+            let _coverUrl = Mangadex.baseUrl.appendingPathComponent(coverPath)
+            let _largeCoverUrl = Mangadex.baseUrl.appendingPathComponent(largeCoverPath)
             
             guard let _titleId = Int(titleIdString) else {
                 throw Mangadex.Errors.invalidTitleId
@@ -170,12 +162,8 @@ extension Mangadex.Feed {
                 throw Mangadex.Errors.invalidTitleId
             }
             
-            guard let _coverUrl = URL(string: coverPath) else {
-                throw Mangadex.Errors.invalidCoverUrl
-            }
-            guard let _largeCoverUrl = URL(string: largeCoverPath) else {
-                throw Mangadex.Errors.invalidCoverUrl
-            }
+            let _coverUrl = Mangadex.baseUrl.appendingPathComponent(coverPath)
+            let _largeCoverUrl = Mangadex.baseUrl.appendingPathComponent(largeCoverPath)
             
             guard let _titleId = Int(titleIdString) else {
                 throw Mangadex.Errors.invalidTitleId

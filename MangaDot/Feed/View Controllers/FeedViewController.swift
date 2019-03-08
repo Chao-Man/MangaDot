@@ -11,13 +11,12 @@ import SwiftDate
 import UIKit
 import Yalta
 
-class FeedViewController: UIViewController, CarouselParent {
+class FeedViewController: UIViewController {
     // MARK: - Instance Properties
 
     private var sections: [CarouselViewController] = []
     private lazy var source = Current.sources.getDefault()
     private lazy var viewModel = FeedViewModel(source)
-    var selectedCell: CarouselCell?
 
     // MARK: - Computed Instance Properties
 
@@ -49,12 +48,6 @@ class FeedViewController: UIViewController, CarouselParent {
         view.subtitleLabel.text = Current.date().toFormat("EEEE, d MMMM").uppercased()
         return view
     }()
-    
-    var currentView: UIView {
-        get {
-            return self.view
-        }
-    }
 
     // MARK: - View Life Cycle
 
@@ -115,8 +108,8 @@ class FeedViewController: UIViewController, CarouselParent {
             let carouselViewController = CarouselViewController(data: section, source: source)
             sections.append(carouselViewController)
             addChild(carouselViewController)
-            carouselViewController.didMove(toParent: self)
             stackView.addArrangedSubview(carouselViewController.view)
+            carouselViewController.didMove(toParent: self)
         }
     }
 
