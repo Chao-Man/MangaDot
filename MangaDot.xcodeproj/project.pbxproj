@@ -17,8 +17,6 @@
 		052F7C3A21DCCB1D00A91B3D /* SwiftIcons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C2E21DCCB1D00A91B3D /* SwiftIcons.framework */; };
 		052F7C3C21DCCB1E00A91B3D /* SwiftDate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3021DCCB1D00A91B3D /* SwiftDate.framework */; };
 		052F7C3D21DCCB1E00A91B3D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3121DCCB1D00A91B3D /* PromiseKit.framework */; };
-		052F7C3E21DCCB1E00A91B3D /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3221DCCB1D00A91B3D /* Realm.framework */; };
-		052F7C3F21DCCB1E00A91B3D /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3321DCCB1D00A91B3D /* RealmSwift.framework */; };
 		052F7C4021DCCB1E00A91B3D /* SwiftSoup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3421DCCB1D00A91B3D /* SwiftSoup.framework */; };
 		052F7C4221DCCB1E00A91B3D /* PMKUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3621DCCB1D00A91B3D /* PMKUIKit.framework */; };
 		052F7C4321DCCB1E00A91B3D /* PMKFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3721DCCB1D00A91B3D /* PMKFoundation.framework */; };
@@ -88,6 +86,9 @@
 		058858BE2231D44300400320 /* ReaderChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858BD2231D44300400320 /* ReaderChapterViewModel.swift */; };
 		058858C02231D4DD00400320 /* ChapterPersist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858BF2231D4DD00400320 /* ChapterPersist.swift */; };
 		058858C22231E1E500400320 /* Nuke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858C12231E1E500400320 /* Nuke.swift */; };
+		058858C42233744A00400320 /* LightTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858C32233744A00400320 /* LightTranslucentView.swift */; };
+		058858C52234B9FC00400320 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3221DCCB1D00A91B3D /* Realm.framework */; };
+		058858C62234B9FC00400320 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3321DCCB1D00A91B3D /* RealmSwift.framework */; };
 		059CF91B21D4ED100091B848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059CF91A21D4ED100091B848 /* AppDelegate.swift */; };
 		059CF92221D4ED120091B848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 059CF92121D4ED120091B848 /* Assets.xcassets */; };
 		059CF92521D4ED120091B848 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 059CF92321D4ED120091B848 /* LaunchScreen.storyboard */; };
@@ -208,6 +209,7 @@
 		058858BD2231D44300400320 /* ReaderChapterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderChapterViewModel.swift; sourceTree = "<group>"; };
 		058858BF2231D4DD00400320 /* ChapterPersist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterPersist.swift; sourceTree = "<group>"; };
 		058858C12231E1E500400320 /* Nuke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nuke.swift; sourceTree = "<group>"; };
+		058858C32233744A00400320 /* LightTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTranslucentView.swift; sourceTree = "<group>"; };
 		059CF91721D4ED100091B848 /* MangaDot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangaDot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		059CF91A21D4ED100091B848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		059CF92121D4ED120091B848 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -232,11 +234,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				058858C52234B9FC00400320 /* Realm.framework in Frameworks */,
+				058858C62234B9FC00400320 /* RealmSwift.framework in Frameworks */,
 				052F7C3A21DCCB1D00A91B3D /* SwiftIcons.framework in Frameworks */,
 				052F7C3C21DCCB1E00A91B3D /* SwiftDate.framework in Frameworks */,
 				052F7C3D21DCCB1E00A91B3D /* PromiseKit.framework in Frameworks */,
-				052F7C3E21DCCB1E00A91B3D /* Realm.framework in Frameworks */,
-				052F7C3F21DCCB1E00A91B3D /* RealmSwift.framework in Frameworks */,
 				052F7C4021DCCB1E00A91B3D /* SwiftSoup.framework in Frameworks */,
 				052F7C4221DCCB1E00A91B3D /* PMKUIKit.framework in Frameworks */,
 				052F7C4321DCCB1E00A91B3D /* PMKFoundation.framework in Frameworks */,
@@ -671,6 +673,7 @@
 				05500656220988B500739EDF /* RoundedTranslucentButton.swift */,
 				05C2F436220FDC49004B0FEF /* RoundedButton.swift */,
 				0533A3B52212EA560062FDDD /* TranslucentView.swift */,
+				058858C32233744A00400320 /* LightTranslucentView.swift */,
 			);
 			path = "Shared Views";
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				052F7CA421DF260A00A91B3D /* FeedViewModel.swift in Sources */,
 				059CF91B21D4ED100091B848 /* AppDelegate.swift in Sources */,
 				052F7CF721EBF64D00A91B3D /* TitleInfoViewModel.swift in Sources */,
+				058858C42233744A00400320 /* LightTranslucentView.swift in Sources */,
 				052F7C4A21DCCC0E00A91B3D /* RootViewController.swift in Sources */,
 				052F7CED21E9C62000A91B3D /* TitleInfoProtocol.swift in Sources */,
 				052F7CA621DF2EC400A91B3D /* Sources.swift in Sources */,

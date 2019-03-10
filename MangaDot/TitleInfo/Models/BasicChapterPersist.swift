@@ -32,18 +32,18 @@ class BasicChapterPersistBuilder {
 }
 
 class BasicChapterPersist: Object {
-    @objc dynamic var chapterId: Int
+    @objc dynamic var chapterId: Int = 0
     @objc dynamic var groupName: String?
     @objc dynamic var groupName2: String?
     @objc dynamic var groupName3: String?
-    @objc dynamic var timestamp: Date
-    @objc dynamic var volume: String
-    @objc dynamic var chapter: String
-    @objc dynamic var title: String
-    @objc dynamic var langCode: String
-    @objc dynamic var groupId: Int
-    @objc dynamic var groupId2: Int
-    @objc dynamic var groupId3: Int
+    @objc dynamic var timestamp: Date = Date()
+    @objc dynamic var volume: String = "0"
+    @objc dynamic var chapter: String = "0"
+    @objc dynamic var title: String = ""
+    @objc dynamic var langCode: String = ""
+    @objc dynamic var groupId: Int = 0
+    @objc dynamic var groupId2: Int = 0
+    @objc dynamic var groupId3: Int = 0
 
     init?(builder: BasicChapterPersistBuilder) {
         guard let chapterId = builder.chapterId,
@@ -77,7 +77,8 @@ class BasicChapterPersist: Object {
     }
 
     required init() {
-        fatalError("init() has not been implemented")
+        super.init()
+//        fatalError("init() has not been implemented")
     }
 
     required init(realm _: RLMRealm, schema _: RLMObjectSchema) {

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Realm
+import RealmSwift
 
 #if DEBUG
     var Current = World()
@@ -22,4 +24,5 @@ struct World {
     var date = { Date() }
     var locale = Locale.autoupdatingCurrent
     var timeZone = TimeZone.autoupdatingCurrent
+    var realm = try! Realm()
 }

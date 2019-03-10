@@ -9,6 +9,8 @@
 import UIKit
 import Nuke
 import PromiseKit
+import Realm
+import RealmSwift
 
 final class TitleInfoViewModel {
     // MARK: - Types
@@ -69,10 +71,11 @@ final class TitleInfoViewModel {
         }
     }
 
-    func fetchLargeCover(imageView: UIImageView) throws -> Promise<ImageResponse> {
+    func fetchLargeCover(imageView: UIImageView, placeholderImage: UIImage?) throws -> Promise<ImageResponse> {
         guard let titleInfo = titleInfo else { throw Errors.titleInfoDoesNotExist }
         guard let coverUrl = titleInfo.largeCoverUrl else { throw Errors.coverDoesNotExist }
-        let fetch = Current.nukeWrapper.fetchImage(imageView: imageView, url: coverUrl, options: nil)
+        let options = ImageLoadingOptions(placeholder: placeholderImage, transition: nil, failureImage: placeholderImage, failureImageTransition: .none, contentModes: nil)
+        let fetch = Current.nukeWrapper.fetchImage(imageView: imageView, url: coverUrl, options: options)
         return fetch
     }
 
@@ -108,6 +111,29 @@ final class TitleInfoViewModel {
     func chapter(index: Int) -> BasicChapterProtocol? {
         if !chapterIndexIsInRange(index: index) { return nil }
         return getSortedChapters()[index]
+    }
+    
+    // Realm Library related functions
+    
+    func existsInLibrary() -> Bool {
+        guard let titleInfo = titleInfo else { return false }
+        return Current.realm.object(ofType: TitleInfoPersist.self, forPrimaryKey: titleInfo.id) != nil
+    }
+    
+    func addToLibrary() {
+        guard let titleInfo = titleInfo else { return }
+        guard let titleInfoPersist = titleInfo.persist(source: source.typeName()) else { return }
+        try! Current.realm.write {
+            Current.realm.add(titleInfoPersist)
+        }
+    }
+    
+    func removeFromLibrary() {
+        guard let titleInfo = titleInfo else { return }
+        guard let titleInfoPersist = Current.realm.object(ofType: TitleInfoPersist.self, forPrimaryKey: titleInfo.id) else { return }
+        try! Current.realm.write {
+            Current.realm.delete(titleInfoPersist)
+        }
     }
     
     // MARK: - Private Helper Methods

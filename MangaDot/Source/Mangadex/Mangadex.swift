@@ -24,6 +24,8 @@ public class Mangadex: SourceProtocol {
         case invalidDataFormat
         case invalidTitleId
         case invalidCoverUrl
+        case invalidHttpResponse
+        case cloudflareProtection
     }
 
     // Mangadex URL endpoints
@@ -47,6 +49,9 @@ public class Mangadex: SourceProtocol {
         return firstly {
             URLSession.shared.dataTask(.promise, with: url.feed())
         }.compactMap {
+            guard let httpUrlResponse = $0.response as? HTTPURLResponse else { throw Errors.invalidHttpResponse }
+            guard httpUrlResponse.statusCode != 503 else { throw Errors.cloudflareProtection }
+            guard httpUrlResponse.statusCode == 200 else { throw Errors.invalidHttpResponse }
             return try Feed(data: $0.data)
         }
     }

@@ -12,7 +12,7 @@ import Yalta
 class TranslucentView: UIView {
 
     lazy var backgroundView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.extraLight)
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
         let view = UIVisualEffectView(effect: blurEffect)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
@@ -22,7 +22,7 @@ class TranslucentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        insertSubview(backgroundView, at: 0) {
+        addSubview(backgroundView) {
             $0.edges.pinToSuperview()
         }
     }

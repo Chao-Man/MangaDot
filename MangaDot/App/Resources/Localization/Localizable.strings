@@ -26,6 +26,7 @@
 "Feed.Section.featured" = "Featured";
 "Feed.Section.topFollows" = "Top Follows";
 "Feed.Section.topRated" = "Top Rated";
+"Feed.Error.refresh" = "Pull down to refresh";
 
 // MARK: - ChapterCell
 "ChapterCell.label.chapter" = "CHAPTER";
@@ -35,7 +36,8 @@
 "TitleInfo.label.author" = "Author";
 "TitleInfo.label.artist" = "Artist";
 "TitleInfo.label.tags" = "Tags";
+"TitleInfo.button.back" = "Read Now";
 "TitleInfo.button.add" = "Library";
 "TitleInfo.button.resume" = "Resume";
-"TitleInfo.button.back" = "Back";
+"TitleInfo.button.refresh" = "Refresh";
 

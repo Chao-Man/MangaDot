@@ -11,9 +11,10 @@ import Realm
 import RealmSwift
 
 class TitleInfoPersistBuilder {
+    var source: String?
     var titleId: Int?
-    var coverUrl: URL?
-    var largeCoverUrl: URL?
+    var coverString: String?
+    var largeCoverString: String?
     var title: String?
     var titleDescription: String?
     var artist: String?
@@ -35,26 +36,28 @@ class TitleInfoPersistBuilder {
 class TitleInfoPersist: Object {
     // MARK: - Instance Properties
 
-    @objc dynamic var titleId: Int
-    @objc dynamic var coverUrl: URL?
-    @objc dynamic var largeCoverUrl: URL?
-    @objc dynamic var title: String
-    @objc dynamic var titleDescription: String
-    @objc dynamic var artist: String
-    @objc dynamic var author: String
-    @objc dynamic var status: Int8
-    @objc dynamic var genres: [Int8]
-    @objc dynamic var lastChapter: String
-    @objc dynamic var langName: String
-    @objc dynamic var langFlag: String
+    @objc dynamic var source: String = ""
+    @objc dynamic var titleId: Int = 0
+    @objc dynamic var coverString: String?
+    @objc dynamic var largeCoverString: String?
+    @objc dynamic var title: String = ""
+    @objc dynamic var titleDescription: String = ""
+    @objc dynamic var artist: String = ""
+    @objc dynamic var author: String = ""
+    @objc dynamic var status: Int8 = 0
+    @objc dynamic var lastChapter: String = ""
+    @objc dynamic var langName: String = ""
+    @objc dynamic var langFlag: String = ""
+    var genres = List<Int8>()
     var chapters = List<BasicChapterPersist>()
 
     // MARK: - Life Cycle
 
     init?(builder: TitleInfoPersistBuilder) {
-        guard let titleId = builder.titleId,
-            let coverUrl = builder.coverUrl,
-            let largeCoverUrl = builder.largeCoverUrl,
+        guard let source = builder.source,
+            let titleId = builder.titleId,
+            let coverString = builder.coverString,
+            let largeCoverString = builder.largeCoverString,
             let title = builder.title,
             let titleDescription = builder.titleDescription,
             let artist = builder.artist,
@@ -66,21 +69,25 @@ class TitleInfoPersist: Object {
             let langFlag = builder.langFlag,
             let chapters = builder.chapters
         else { return nil }
-
+        
+        self.source = source
         self.titleId = titleId
-        self.coverUrl = coverUrl
-        self.largeCoverUrl = largeCoverUrl
+        self.coverString = coverString
+        self.largeCoverString = largeCoverString
         self.title = title
         self.titleDescription = titleDescription
         self.artist = artist
         self.author = author
         self.status = status
-        self.genres = genres
         self.lastChapter = lastChapter
         self.langName = langName
         self.langFlag = langFlag
 
         super.init()
+        
+        genres.forEach {
+            self.genres.append($0)
+        }
 
         chapters.forEach {
             self.chapters.append($0.persist()!)
@@ -88,7 +95,8 @@ class TitleInfoPersist: Object {
     }
 
     required init() {
-        fatalError("init() has not been implemented")
+        super.init()
+//        fatalError("init() has not been implemented")
     }
 
     required init(realm _: RLMRealm, schema _: RLMObjectSchema) {
@@ -97,5 +105,19 @@ class TitleInfoPersist: Object {
 
     required init(value _: Any, schema _: RLMSchema) {
         fatalError("init(value:schema:) has not been implemented")
+    }
+    
+    override static func primaryKey() -> String? {
+        return "titleId"
+    }
+    
+    var coverUrl: URL? {
+        guard let coverString = coverString else { return nil }
+        return URL(string: coverString)
+    }
+    
+    var largeCoverUrl: URL? {
+        guard let largeCoverString = largeCoverString else { return nil }
+        return URL(string: largeCoverString)
     }
 }

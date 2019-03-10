@@ -16,7 +16,8 @@ class TitleInfoMainViewController: UIViewController {
     
     private let viewModel: TitleInfoViewModel
     private let reuseIdentifier = "TitleInfoCell"
-    private let controlViewHeight: CGFloat = 80
+    private let controlViewHeight: CGFloat = 70
+    private lazy var tableViewInset: CGFloat = controlViewHeight - 10
     
     // MARK: - Computed Instance Properties
     
@@ -35,7 +36,7 @@ class TitleInfoMainViewController: UIViewController {
         tableView.register(TitleInfoChapterCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 70
         tableView.separatorInset = UIEdgeInsets(top: 0, left: (tableView.rowHeight * 2) + 10, bottom: 0, right: 0)
-        tableView.contentInset = UIEdgeInsets(top: controlViewHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: tableViewInset, left: 0, bottom: 0, right: 0)
         tableView.tableHeaderView = tablePaddingView
         return tableView
     }()
@@ -60,19 +61,19 @@ class TitleInfoMainViewController: UIViewController {
         let font = MangaDot.Font.regularNormal
         let iconSize = font.pointSize
         let primaryColor = MangaDot.Color.pink
-        let icon = FontType.ionicons(.androidArrowBack)
+        let icon = FontType.ionicons(.refresh)
         let secondaryColor = MangaDot.Color.veryWhiteGray
         let button = RoundedButton(
             font: font,
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
-            postfixText: "TitleInfo.button.back".localized(),
+            postfixText: "TitleInfo.button.refresh".localized(),
             icon: icon,
             iconSize: iconSize)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
-        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleRefresh), for: .touchUpInside)
         return button
     }()
     
@@ -92,7 +93,7 @@ class TitleInfoMainViewController: UIViewController {
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
-        button.addTarget(self, action: #selector(handleOrder), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
         return button
     }()
     
@@ -112,7 +113,7 @@ class TitleInfoMainViewController: UIViewController {
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
-        button.addTarget(self, action: #selector(handleLanguage), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleResume), for: .touchUpInside)
         return button
     }()
 
@@ -156,23 +157,15 @@ class TitleInfoMainViewController: UIViewController {
         }
     }
     
-    @objc func handleSort() {
+    @objc func handleAdd() {
+        print(viewModel.existsInLibrary())
+    }
+    
+    @objc func handleResume() {
         
     }
     
-    @objc func handleOrder() {
-        
-    }
-    
-    @objc func handleLanguage() {
-        
-    }
-    
-    @objc func handleClose() {
-        guard let parentViewController = parent as? TitleInfoContainerViewController else {
-            return
-        }
-        parentViewController.handleClose()
+    @objc func handleRefresh() {
     }
     
     // MARK: - Helper Methods
@@ -184,7 +177,7 @@ class TitleInfoMainViewController: UIViewController {
     
     private func addViews() {
         view.addSubview(controlsContainer) {
-            $0.top.pinToSuperviewMargin()
+            $0.top.pinToSuperview()
             $0.edges(.left, .right).pinToSuperview()
             $0.height.set(controlViewHeight)
         }

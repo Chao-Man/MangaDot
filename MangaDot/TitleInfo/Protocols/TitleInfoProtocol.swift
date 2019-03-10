@@ -27,11 +27,12 @@ protocol TitleInfoProtocol {
 }
 
 extension TitleInfoProtocol {
-    func persist() -> TitleInfoPersist? {
+    func persist(source: String) -> TitleInfoPersist? {
         let persistBuilder = TitleInfoPersistBuilder { builder in
+            builder.source = source
             builder.titleId = id
-            builder.coverUrl = coverUrl
-            builder.largeCoverUrl = largeCoverUrl
+            builder.coverString = coverUrl?.absoluteString
+            builder.largeCoverString = largeCoverUrl?.absoluteString
             builder.title = title
             builder.titleDescription = description
             builder.artist = artist

@@ -6,10 +6,11 @@
 //  Copyright © 2019 Jian Chao Man. All rights reserved.
 //
 
+import UIKit
 import PromiseKit
 import SwiftDate
-import UIKit
 import Yalta
+import SwiftIcons
 
 class FeedViewController: UIViewController {
     // MARK: - Instance Properties
@@ -48,6 +49,26 @@ class FeedViewController: UIViewController {
         view.subtitleLabel.text = Current.date().toFormat("EEEE, d MMMM").uppercased()
         return view
     }()
+    
+    private let errorView = UIView()
+    private let errorImageView: UIImageView = {
+        let imageView = UIImageView()
+        let size = CGSize(width: 100, height: 100)
+        imageView.contentMode = .center
+        imageView.setIcon(icon: .dripicon(.wrong),
+                              textColor: MangaDot.Color.gray,
+                              backgroundColor: MangaDot.Color.white,
+                              size: size)
+        return imageView
+    }()
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Feed.Error.refresh".localized()
+        label.font = MangaDot.Font.mediumSmall
+        label.textColor = MangaDot.Color.gray
+        label.textAlignment = .center
+        return label
+    }()
 
     // MARK: - View Life Cycle
 
@@ -58,6 +79,7 @@ class FeedViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        setNavigationBarTransparent()
         super.viewWillAppear(animated)
     }
 
@@ -75,6 +97,30 @@ class FeedViewController: UIViewController {
             $0.edges.pinToSuperview()
             $0.width.match(scrollView.al.width)
         }
+        
+        scrollView.addSubview(errorView) {
+            $0.height.match(scrollView.al.height * 0.25)
+            $0.width.match(scrollView.al.width * 0.25)
+            $0.center.align(with: scrollView.al.center)
+        }
+        
+        errorView.addSubview(errorImageView, errorLabel) {
+            $0.edges(.left, .right, .top).pinToSuperview()
+            $1.edges(.left, .right, .bottom).pinToSuperview()
+            $1.top.align(with: $0.bottom)
+            $0.height.match(errorView.al.height * 0.75)
+        }
+        
+        errorView.isHidden = true
+        addLargeTitleView()
+    }
+    
+    private func setNavigationBarTransparent() {
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.view.backgroundColor = .clear
+        self.navigationItem.title = nil
     }
 
     private func addLargeTitleView() {
@@ -89,7 +135,8 @@ class FeedViewController: UIViewController {
         }.done { [weak self] _ in
             self?.refreshContent()
         }.catch { [weak self] error in
-            self?.present(UIAlertController.MangaDot.errorAlert(of: error), animated: true)
+            self?.present(UIAlertController.MangaDot.feedErrorAlert(of: error), animated: true)
+            self?.errorView.isHidden = false
         }.finally {
             self.refreshControl.endRefreshing()
         }

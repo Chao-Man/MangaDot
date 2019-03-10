@@ -9,12 +9,15 @@
 import PromiseKit
 import UIKit
 import Yalta
+import SwiftIcons
 
 class TitleInfoSideBarViewController: UIViewController {
     // MARK: - Instance Properties
 
     private let viewModel: TitleInfoViewModel
     private let containerInset: CGFloat = 15
+    private let navigationViewHeight: CGFloat = 65
+    private lazy var scrollViewInset: CGFloat = navigationViewHeight - 10
 
     // MARK: - Computed Instance Properties
 
@@ -25,17 +28,32 @@ class TitleInfoSideBarViewController: UIViewController {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.spacing = 15
-        stackView.layoutMargins = Inset(containerInset)
+        stackView.layoutMargins = UIEdgeInsets(top: 0, left: containerInset, bottom: containerInset, right: containerInset)
         stackView.isBaselineRelativeArrangement = false
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private let scrollView: UIScrollView = {
+    private let navigationView = LightTranslucentView()
+    
+    private let backButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitle("TitleInfo.button.back".localized(), for: .normal)
+        button.setTitleColor(MangaDot.Color.pink, for: .normal)
+        let size = CGSize(width: 30, height: 30)
+        let image = UIImage(icon: FontType.ionicons(.iosArrowBack), size: size, textColor: MangaDot.Color.pink, backgroundColor: .clear)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.bounces = true
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInset = UIEdgeInsets(top: scrollViewInset, left: 0, bottom: 0, right: 0)
+        scrollView.contentInsetAdjustmentBehavior = UIScrollView.ContentInsetAdjustmentBehavior.always
         return scrollView
     }()
 
@@ -113,6 +131,10 @@ class TitleInfoSideBarViewController: UIViewController {
         genreView.addTags(withTextList: viewModel.genre())
         fadeInViews()
     }
+    
+    @objc func handleBack() {
+        navigationController?.popViewController(animated: true)
+    }
 
     // MARK: - Helper Methods
 
@@ -121,8 +143,21 @@ class TitleInfoSideBarViewController: UIViewController {
         view.backgroundColor = MangaDot.Color.white
         
         view.addSubview(scrollView) {
-            $0.edges.pinToSafeArea(of: self)
+            $0.top.pinToSuperview()
+            $0.bottom.pinToSuperviewMargin()
+            $0.edges(.left, .right).pinToSuperview()
         }
+        
+        view.addSubview(navigationView) {
+            $0.edges(.top, .left, .right).pinToSuperview()
+            $0.height.set(navigationViewHeight)
+        }
+        
+        navigationView.addSubview(backButton) {
+            $0.top.pinToSuperviewMargin()
+            $0.left.pinToSuperviewMargin()
+        }
+        
         scrollView.addSubview(containerStackview) {
             $0.edges.pinToSuperview()
             $0.width.match(scrollView.al.width)
@@ -168,7 +203,7 @@ class TitleInfoSideBarViewController: UIViewController {
 
     private func loadCover() {
         firstly {
-            try viewModel.fetchLargeCover(imageView: coverView.imageView)
+            try viewModel.fetchLargeCover(imageView: coverView.imageView, placeholderImage: coverView.imageView.image)
         }.catch { error in
             print(error)
         }
