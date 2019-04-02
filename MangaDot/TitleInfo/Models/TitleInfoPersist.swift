@@ -53,7 +53,9 @@ class TitleInfoPersist: Object {
 
     // MARK: - Life Cycle
 
-    init?(builder: TitleInfoPersistBuilder) {
+    convenience init?(builder: TitleInfoPersistBuilder) {
+        self.init()
+        
         guard let source = builder.source,
             let titleId = builder.titleId,
             let coverString = builder.coverString,
@@ -82,29 +84,16 @@ class TitleInfoPersist: Object {
         self.lastChapter = lastChapter
         self.langName = langName
         self.langFlag = langFlag
-
-        super.init()
         
         genres.forEach {
             self.genres.append($0)
         }
 
-        chapters.forEach {
-            self.chapters.append($0.persist()!)
+        chapters.compactMap {
+            return $0.persist()
+        }.forEach {
+             self.chapters.append($0)
         }
-    }
-
-    required init() {
-        super.init()
-//        fatalError("init() has not been implemented")
-    }
-
-    required init(realm _: RLMRealm, schema _: RLMObjectSchema) {
-        fatalError("init(realm:schema:) has not been implemented")
-    }
-
-    required init(value _: Any, schema _: RLMSchema) {
-        fatalError("init(value:schema:) has not been implemented")
     }
     
     override static func primaryKey() -> String? {

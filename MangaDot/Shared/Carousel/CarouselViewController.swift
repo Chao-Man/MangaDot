@@ -18,6 +18,7 @@ class CarouselViewController: UIViewController {
     private let source: SourceProtocol
     private let itemSize = CGSize(width: 145, height: 265)
     private let reuseIdentifier = "CarouselCell"
+    private let scrollDirection: UICollectionView.ScrollDirection
     private var selectedCell: CarouselCell?
 
     // MARK: - Computed Instance Properties
@@ -50,9 +51,10 @@ class CarouselViewController: UIViewController {
 
     // MARK: - View Life Cycle
 
-    init(data: SectionProtocol, source: SourceProtocol) {
-        viewModel = CarouselViewModel(data)
+    init(data: SectionProtocol, source: SourceProtocol, scrollDirection: UICollectionView.ScrollDirection = .horizontal) {
+        self.viewModel = CarouselViewModel(data)
         self.source = source
+        self.scrollDirection = scrollDirection
         super.init(nibName: nil, bundle: nil)
     }
 

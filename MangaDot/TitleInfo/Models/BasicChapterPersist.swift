@@ -45,7 +45,9 @@ class BasicChapterPersist: Object {
     @objc dynamic var groupId2: Int = 0
     @objc dynamic var groupId3: Int = 0
 
-    init?(builder: BasicChapterPersistBuilder) {
+    convenience init?(builder: BasicChapterPersistBuilder) {
+        self.init()
+        
         guard let chapterId = builder.chapterId,
             let groupName = builder.groupName,
             let groupName2 = builder.groupName2,
@@ -72,20 +74,5 @@ class BasicChapterPersist: Object {
         self.groupId = groupId
         self.groupId2 = groupId2
         self.groupId3 = groupId3
-
-        super.init()
-    }
-
-    required init() {
-        super.init()
-//        fatalError("init() has not been implemented")
-    }
-
-    required init(realm _: RLMRealm, schema _: RLMObjectSchema) {
-        fatalError("init(realm:schema:) has not been implemented")
-    }
-
-    required init(value _: Any, schema _: RLMSchema) {
-        fatalError("init(value:schema:) has not been implemented")
     }
 }

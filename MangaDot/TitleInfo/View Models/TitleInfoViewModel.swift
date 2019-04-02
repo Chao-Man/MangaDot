@@ -113,7 +113,7 @@ final class TitleInfoViewModel {
         return getSortedChapters()[index]
     }
     
-    // Realm Library related functions
+    // Realm related functions
     
     func existsInLibrary() -> Bool {
         guard let titleInfo = titleInfo else { return false }
@@ -122,7 +122,7 @@ final class TitleInfoViewModel {
     
     func addToLibrary() {
         guard let titleInfo = titleInfo else { return }
-        guard let titleInfoPersist = titleInfo.persist(source: source.typeName()) else { return }
+        guard let titleInfoPersist = titleInfo.persist(source: source.name()) else { return }
         try! Current.realm.write {
             Current.realm.add(titleInfoPersist)
         }

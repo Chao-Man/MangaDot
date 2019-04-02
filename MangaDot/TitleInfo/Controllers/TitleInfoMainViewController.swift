@@ -17,6 +17,7 @@ class TitleInfoMainViewController: UIViewController {
     private let viewModel: TitleInfoViewModel
     private let reuseIdentifier = "TitleInfoCell"
     private let controlViewHeight: CGFloat = 70
+    private let controlButtonWidth: CGFloat = 100
     private lazy var tableViewInset: CGFloat = controlViewHeight - 10
     
     // MARK: - Computed Instance Properties
@@ -24,7 +25,11 @@ class TitleInfoMainViewController: UIViewController {
     private let tablePaddingView: UIView = {
         let view = UIView()
         view.backgroundColor = MangaDot.Color.white
-        view.frame = CGRect(x: 0, y: 0, width: 0, height: 10)
+        view.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 10)
         return view
     }()
     
@@ -33,10 +38,18 @@ class TitleInfoMainViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
-        tableView.register(TitleInfoChapterCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 70
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: (tableView.rowHeight * 2) + 10, bottom: 0, right: 0)
-        tableView.contentInset = UIEdgeInsets(top: tableViewInset, left: 0, bottom: 0, right: 0)
+        tableView.register(TitleInfoChapterCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.separatorInset = UIEdgeInsets(
+            top: 0,
+            left: (tableView.rowHeight * 2) + 10,
+            bottom: 0,
+            right: 0)
+        tableView.contentInset = UIEdgeInsets(
+            top: tableViewInset,
+            left: 0,
+            bottom: 0,
+            right: 0)
         tableView.tableHeaderView = tablePaddingView
         return tableView
     }()
@@ -46,7 +59,6 @@ class TitleInfoMainViewController: UIViewController {
         view.axis = .horizontal
         view.alignment = UIStackView.Alignment.center
         view.distribution = UIStackView.Distribution.fillEqually
-        view.spacing = 15
         view.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         view.isLayoutMarginsRelativeArrangement = true
         return view
@@ -57,7 +69,7 @@ class TitleInfoMainViewController: UIViewController {
         return view
     }()
 
-    private lazy var backButton: RoundedButton = {
+    private lazy var refreshButton: RoundedButton = {
         let font = MangaDot.Font.regularNormal
         let iconSize = font.pointSize
         let primaryColor = MangaDot.Color.pink
@@ -77,23 +89,25 @@ class TitleInfoMainViewController: UIViewController {
         return button
     }()
     
-    private lazy var addButton: RoundedButton = {
+    private lazy var addButton: RoundedToggleButton = {
         let font = MangaDot.Font.regularNormal
         let iconSize = font.pointSize
         let primaryColor = MangaDot.Color.pink
-        let icon = FontType.ionicons(.plus)
+        let untoggledIcon = FontType.ionicons(.plus)
+        let toggledIcon = FontType.ionicons(.checkmark)
         let secondaryColor = MangaDot.Color.veryWhiteGray
-        let button = RoundedButton(
+        let button = RoundedToggleButton(
             font: font,
             primaryColor: primaryColor,
             secondaryColor: secondaryColor,
             postfixText: "TitleInfo.button.add".localized(),
-            icon: icon,
+            untoggledIcon: untoggledIcon,
+            toggledIcon: toggledIcon,
             iconSize: iconSize)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchDown)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpInside)
         button.addTarget(self, action: #selector(handleButtonTouchAnimation(_:)), for: .touchUpOutside)
-        button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleAdd(sender:)), for: .touchUpInside)
         return button
     }()
     
@@ -142,23 +156,39 @@ class TitleInfoMainViewController: UIViewController {
         tableView.layer.shadowRadius = 5
         tableView.layer.shouldRasterize = true
         tableView.layer.rasterizationScale = UIScreen.main.scale
+        controlsContainer.spacing = (view.bounds.width / 3)
     }
     
     // MARK: - Methods
     
     func loadContent() {
         tableView.reloadData()
+        addButton.isSelected = viewModel.existsInLibrary()
+        addButton.setup()
         fadeInViews()
     }
     
-    @objc func handleButtonTouchAnimation(_ sender: RoundedButton) {
+    @objc func handleButtonTouchAnimation(_ sender: InvertableButton) {
         UIView.animate(withDuration: 0.1) {
             sender.invertColors()
         }
     }
     
-    @objc func handleAdd() {
-        print(viewModel.existsInLibrary())
+    @objc func handleAdd(sender: InvertableButton) {
+        let exists = viewModel.existsInLibrary()
+        switch exists {
+        case true:
+            print("Removing title from Library")
+            viewModel.removeFromLibrary()
+        
+        case false:
+            print("Adding title to Library")
+            viewModel.addToLibrary()
+            
+        }
+        
+        addButton.isSelected = viewModel.existsInLibrary()
+        addButton.setup()
     }
     
     @objc func handleResume() {
@@ -186,18 +216,20 @@ class TitleInfoMainViewController: UIViewController {
             $0.edges.pinToSuperview()
         }
         
-        controlsContainer.addArrangedSubview(backButton)
         controlsContainer.addArrangedSubview(addButton)
+        controlsContainer.addArrangedSubview(refreshButton)
         controlsContainer.addArrangedSubview(resumeButton)
     }
     
     private func setViewsTransparent() {
         tableView.alpha = 0.0
+        controlsContainer.alpha = 0.0
     }
     
     private func fadeInViews() {
         UIView.animate(withDuration: 0.8) {
             self.tableView.alpha = 1.0
+            self.controlsContainer.alpha = 1.0
         }
     }
 }
@@ -225,8 +257,13 @@ extension TitleInfoMainViewController: UITableViewDataSource {
 extension TitleInfoMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let sortedChapters = viewModel.sortedChapters else { return }
-        let readerViewModel = ReaderViewModel(source: viewModel.source, basicChaptersOrdered: sortedChapters, chapterOrder: .descending)
-        let readerViewController = ReaderViewController(selectedIndex: indexPath.item, viewModel: readerViewModel)
+        let readerViewModel = ReaderViewModel(
+            source: viewModel.source,
+            basicChaptersOrdered: sortedChapters,
+            chapterOrder: .descending)
+        let readerViewController = ReaderViewController(
+            selectedIndex: indexPath.item,
+            viewModel: readerViewModel)
         
         navigationController?.pushViewController(readerViewController, animated: true)
     }

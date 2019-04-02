@@ -84,11 +84,12 @@
 		057EC40A222B71A600A46F6E /* ReaderPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC409222B71A600A46F6E /* ReaderPageCell.swift */; };
 		057EC40F222DEF1400A46F6E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC40E222DEF1400A46F6E /* UIViewController.swift */; };
 		058858BE2231D44300400320 /* ReaderChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858BD2231D44300400320 /* ReaderChapterViewModel.swift */; };
-		058858C02231D4DD00400320 /* ChapterPersist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858BF2231D4DD00400320 /* ChapterPersist.swift */; };
+		058858C02231D4DD00400320 /* ReadChapterPersist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858BF2231D4DD00400320 /* ReadChapterPersist.swift */; };
 		058858C22231E1E500400320 /* Nuke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858C12231E1E500400320 /* Nuke.swift */; };
 		058858C42233744A00400320 /* LightTranslucentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858C32233744A00400320 /* LightTranslucentView.swift */; };
 		058858C52234B9FC00400320 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3221DCCB1D00A91B3D /* Realm.framework */; };
 		058858C62234B9FC00400320 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3321DCCB1D00A91B3D /* RealmSwift.framework */; };
+		058858C8223891AC00400320 /* RoundedToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058858C7223891AC00400320 /* RoundedToggleButton.swift */; };
 		059CF91B21D4ED100091B848 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 059CF91A21D4ED100091B848 /* AppDelegate.swift */; };
 		059CF92221D4ED120091B848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 059CF92121D4ED120091B848 /* Assets.xcassets */; };
 		059CF92521D4ED120091B848 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 059CF92321D4ED120091B848 /* LaunchScreen.storyboard */; };
@@ -113,6 +114,9 @@
 		05CB5AC121FAE25A008747C0 /* SwiftIcons.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C2E21DCCB1D00A91B3D /* SwiftIcons.framework */; };
 		05CB5AC221FAE25A008747C0 /* SwiftSoup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7C3421DCCB1D00A91B3D /* SwiftSoup.framework */; };
 		05CB5AC321FAE25A008747C0 /* Yalta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 052F7CC421E4439300A91B3D /* Yalta.framework */; };
+		05EE4C4522389874005284BA /* InvertableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4C4422389874005284BA /* InvertableButton.swift */; };
+		05EE4C4B2238CD64005284BA /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4C4A2238CD64005284BA /* LibraryViewModel.swift */; };
+		05EE4C4D223A0BD6005284BA /* OutlineRoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EE4C4C223A0BD6005284BA /* OutlineRoundedButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -207,9 +211,10 @@
 		057EC409222B71A600A46F6E /* ReaderPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderPageCell.swift; sourceTree = "<group>"; };
 		057EC40E222DEF1400A46F6E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		058858BD2231D44300400320 /* ReaderChapterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderChapterViewModel.swift; sourceTree = "<group>"; };
-		058858BF2231D4DD00400320 /* ChapterPersist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterPersist.swift; sourceTree = "<group>"; };
+		058858BF2231D4DD00400320 /* ReadChapterPersist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadChapterPersist.swift; sourceTree = "<group>"; };
 		058858C12231E1E500400320 /* Nuke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nuke.swift; sourceTree = "<group>"; };
 		058858C32233744A00400320 /* LightTranslucentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTranslucentView.swift; sourceTree = "<group>"; };
+		058858C7223891AC00400320 /* RoundedToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedToggleButton.swift; sourceTree = "<group>"; };
 		059CF91721D4ED100091B848 /* MangaDot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MangaDot.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		059CF91A21D4ED100091B848 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		059CF92121D4ED120091B848 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -227,6 +232,9 @@
 		05CB5AB221FADA7F008747C0 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		05CB5AB421FAE0FD008747C0 /* MangadexTitleInfoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangadexTitleInfoTest.swift; sourceTree = "<group>"; };
 		05CB5AB621FAE19B008747C0 /* MangadexTitleInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MangadexTitleInfo.json; sourceTree = "<group>"; };
+		05EE4C4422389874005284BA /* InvertableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvertableButton.swift; sourceTree = "<group>"; };
+		05EE4C4A2238CD64005284BA /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
+		05EE4C4C223A0BD6005284BA /* OutlineRoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineRoundedButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,7 +422,6 @@
 			isa = PBXGroup;
 			children = (
 				052F7C4B21DCCCDB00A91B3D /* FeedViewController.swift */,
-				052F7CBB21E33EF500A91B3D /* CarouselViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -430,7 +437,6 @@
 			isa = PBXGroup;
 			children = (
 				052F7CA321DF260A00A91B3D /* FeedViewModel.swift */,
-				052F7CC221E3431B00A91B3D /* CarouselViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -531,7 +537,7 @@
 		052F7C9521DEFEAC00A91B3D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				058858BF2231D4DD00400320 /* ChapterPersist.swift */,
+				058858BF2231D4DD00400320 /* ReadChapterPersist.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -555,6 +561,7 @@
 		052F7C9821DEFEBE00A91B3D /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				05EE4C4A2238CD64005284BA /* LibraryViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -657,7 +664,7 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
-		052F7CCA21E444FD00A91B3D /* Shared Views */ = {
+		052F7CCA21E444FD00A91B3D /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				052F7CD121E60E2000A91B3D /* ShadowCoverView.swift */,
@@ -672,10 +679,13 @@
 				052F7CCB21E4452500A91B3D /* SeparatorView.swift */,
 				05500656220988B500739EDF /* RoundedTranslucentButton.swift */,
 				05C2F436220FDC49004B0FEF /* RoundedButton.swift */,
+				05EE4C4C223A0BD6005284BA /* OutlineRoundedButton.swift */,
+				05EE4C4422389874005284BA /* InvertableButton.swift */,
+				058858C7223891AC00400320 /* RoundedToggleButton.swift */,
 				0533A3B52212EA560062FDDD /* TranslucentView.swift */,
 				058858C32233744A00400320 /* LightTranslucentView.swift */,
 			);
-			path = "Shared Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		052F7CD421E60F4B00A91B3D /* Nuke Config */ = {
@@ -807,7 +817,7 @@
 				052F7BFE21DCC68400A91B3D /* World */,
 				052F7C0421DCC8AE00A91B3D /* Source */,
 				052F7CBD21E33F3C00A91B3D /* Configuration */,
-				052F7CCA21E444FD00A91B3D /* Shared Views */,
+				05EE4C462238CCB9005284BA /* Shared */,
 				052F7CDD21E6243200A91B3D /* Utility */,
 				052F7C5921DCCE5E00A91B3D /* Extensions */,
 				052F7C9121DEFCEC00A91B3D /* App */,
@@ -833,6 +843,24 @@
 				055006502207BF7C00739EDF /* TitlePresentAnimationController.swift */,
 			);
 			path = Transitions;
+			sourceTree = "<group>";
+		};
+		05EE4C462238CCB9005284BA /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				05EE4C492238CCF9005284BA /* Carousel */,
+				052F7CCA21E444FD00A91B3D /* Views */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		05EE4C492238CCF9005284BA /* Carousel */ = {
+			isa = PBXGroup;
+			children = (
+				052F7CBB21E33EF500A91B3D /* CarouselViewController.swift */,
+				052F7CC221E3431B00A91B3D /* CarouselViewModel.swift */,
+			);
+			path = Carousel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -977,6 +1005,7 @@
 				055006552209305F00739EDF /* CarouselParent.swift in Sources */,
 				052F7CC321E3431B00A91B3D /* CarouselViewModel.swift in Sources */,
 				05C2F435220F9CBD004B0FEF /* TitleInfoChapterViewModel.swift in Sources */,
+				05EE4C4522389874005284BA /* InvertableButton.swift in Sources */,
 				052FEB1422309DCA0089185F /* SwipeInteractionController.swift in Sources */,
 				052F7CBF21E33F4C00A91B3D /* MangaDot.swift in Sources */,
 				055006532207BF8600739EDF /* TitleDismissAnimationController.swift in Sources */,
@@ -993,6 +1022,7 @@
 				0510CA1121F9981800F73E1F /* BorderCoverView.swift in Sources */,
 				052F7CE121E7280A00A91B3D /* StripedStackView.swift in Sources */,
 				058858C22231E1E500400320 /* Nuke.swift in Sources */,
+				05EE4C4D223A0BD6005284BA /* OutlineRoundedButton.swift in Sources */,
 				05CB5AB321FADA7F008747C0 /* TagView.swift in Sources */,
 				052F7CDA21E61DC700A91B3D /* ShadowOptions.swift in Sources */,
 				052F7C7321DDBF5200A91B3D /* MangadexFeed.swift in Sources */,
@@ -1010,6 +1040,7 @@
 				052F7CEF21E9C70B00A91B3D /* BasicChapterProtocol.swift in Sources */,
 				05C2F433220E76C6004B0FEF /* FlipBoardView.swift in Sources */,
 				052F7CF321EAEB3D00A91B3D /* SortOrder.swift in Sources */,
+				058858C8223891AC00400320 /* RoundedToggleButton.swift in Sources */,
 				0510CA0D21F985C100F73E1F /* LargeTitleView.swift in Sources */,
 				05C2F42F220D5CBD004B0FEF /* TitleInfoChapterCell.swift in Sources */,
 				052F7C0721DCC8D300A91B3D /* Mangadex.swift in Sources */,
@@ -1026,6 +1057,7 @@
 				052F7D0121EDE2C400A91B3D /* TitleInfoMainViewController.swift in Sources */,
 				052F7C5221DCCD0400A91B3D /* SettingsViewController.swift in Sources */,
 				052F7CDF21E6248E00A91B3D /* Inset.swift in Sources */,
+				05EE4C4B2238CD64005284BA /* LibraryViewModel.swift in Sources */,
 				057EC4012227C62800A46F6E /* ReaderViewController.swift in Sources */,
 				0510CA0B21F96F8000F73E1F /* NukeWrapper.swift in Sources */,
 				052F7CD621E60F6000A91B3D /* NukeConfig.swift in Sources */,
@@ -1034,7 +1066,7 @@
 				057EC40F222DEF1400A46F6E /* UIViewController.swift in Sources */,
 				052F7CBC21E33EF500A91B3D /* CarouselViewController.swift in Sources */,
 				052F7CB921E0DA0700A91B3D /* UIAlertController.swift in Sources */,
-				058858C02231D4DD00400320 /* ChapterPersist.swift in Sources */,
+				058858C02231D4DD00400320 /* ReadChapterPersist.swift in Sources */,
 				052F7CC121E341B000A91B3D /* CarouselCell.swift in Sources */,
 				055006512207BF7C00739EDF /* TitlePresentAnimationController.swift in Sources */,
 				05500657220988B500739EDF /* RoundedTranslucentButton.swift in Sources */,

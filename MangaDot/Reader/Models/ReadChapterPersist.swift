@@ -10,7 +10,7 @@ import Foundation
 import Realm
 import RealmSwift
 
-class ChapterPersist: Object {
+class ReadChapterPersist: Object {
     @objc dynamic var titleId: Int = 0
     @objc dynamic var chapterId: Int = 0
     

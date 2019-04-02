@@ -13,19 +13,14 @@ protocol SourceProtocol {
     func fetchFeed() -> Promise<FeedProtocol>
     func fetchTitleInfo(id: Int) -> Promise<TitleInfoProtocol>
     func fetchChapter(id: Int) -> Promise<DetailedChapterProtocol>
-}
-
-extension SourceProtocol {
-    func typeName() -> String {
-        return String(describing: type(of: self))
-    }
+    func name() -> String
 }
 
 class Sources {
     let userDefaultKey = "userDefault"
     
     func setDefault(source: SourceProtocol) {
-        UserDefaults.standard.set(source.typeName(), forKey: userDefaultKey)
+        UserDefaults.standard.set(source.name(), forKey: userDefaultKey)
     }
 
     func getDefault() -> SourceProtocol {

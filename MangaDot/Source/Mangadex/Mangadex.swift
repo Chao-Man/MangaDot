@@ -44,6 +44,10 @@ public class Mangadex: SourceProtocol {
     }
 
     // MARK: - Public Methods
+    
+    func name() -> String {
+        return "MangaDex"
+    }
 
     func fetchFeed() -> Promise<FeedProtocol> {
         return firstly {

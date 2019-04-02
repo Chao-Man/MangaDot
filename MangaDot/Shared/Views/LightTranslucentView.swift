@@ -13,7 +13,7 @@ class LightTranslucentView: TranslucentView {
     let whiteOverlayView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.alpha = 0.2
+        view.alpha = 0.3
         return view
     }()
     

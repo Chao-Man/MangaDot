@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import Yalta
 import SwiftIcons
 
-class RoundedButton: UIButton {
+class RoundedButton: InvertableButton {
     private var textFont: UIFont
     private var primaryColor: UIColor
     private var secondaryColor: UIColor
@@ -44,17 +43,7 @@ class RoundedButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-////        layer.shadowColor = MangaDot.Color.pink.cgColor
-////        layer.shadowOpacity = 0.1
-////        layer.shadowRadius = 4
-////        layer.shadowOffset = CGSize(width: 0, height: 1)
-////        layer.shouldRasterize = true
-////        layer.rasterizationScale = UIScreen.main.scale
-//    }
-    
-    func setup() {
+    override func setup() {
         setIcon(
             prefixText: prefixText,
             prefixTextFont: textFont,
@@ -71,11 +60,15 @@ class RoundedButton: UIButton {
         
         titleLabel?.lineBreakMode = .byClipping
         titleLabel?.numberOfLines = 1
-        layer.cornerRadius = MangaDot.CornerRadius.buttons
         contentEdgeInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 15)
     }
     
-    func invertColors() {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = bounds.height / 2
+    }
+    
+    override func invertColors() {
         swapColors()
         setIcon(
             prefixText: prefixText,
