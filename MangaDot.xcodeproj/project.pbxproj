@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050709C7225468F700E6366A /* ReaderScrobblerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050709C6225468F700E6366A /* ReaderScrobblerViewController.swift */; };
+		050709C9225469AE00E6366A /* ReaderScrobblerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 050709C8225469AE00E6366A /* ReaderScrobblerCell.swift */; };
 		0510CA0B21F96F8000F73E1F /* NukeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0A21F96F8000F73E1F /* NukeWrapper.swift */; };
 		0510CA0D21F985C100F73E1F /* LargeTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0C21F985C100F73E1F /* LargeTitleView.swift */; };
 		0510CA0F21F98B3900F73E1F /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0510CA0E21F98B3900F73E1F /* DateFormatter.swift */; };
@@ -79,7 +81,7 @@
 		055006552209305F00739EDF /* CarouselParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 055006542209305F00739EDF /* CarouselParent.swift */; };
 		05500657220988B500739EDF /* RoundedTranslucentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05500656220988B500739EDF /* RoundedTranslucentButton.swift */; };
 		057EC4012227C62800A46F6E /* ReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4002227C62800A46F6E /* ReaderViewController.swift */; };
-		057EC4052227C68D00A46F6E /* ReaderChapterCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4042227C68D00A46F6E /* ReaderChapterCollectionViewController.swift */; };
+		057EC4052227C68D00A46F6E /* ReaderChapterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4042227C68D00A46F6E /* ReaderChapterViewController.swift */; };
 		057EC4072228F8FE00A46F6E /* PassThroughTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC4062228F8FE00A46F6E /* PassThroughTableView.swift */; };
 		057EC40A222B71A600A46F6E /* ReaderPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC409222B71A600A46F6E /* ReaderPageCell.swift */; };
 		057EC40F222DEF1400A46F6E /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 057EC40E222DEF1400A46F6E /* UIViewController.swift */; };
@@ -130,6 +132,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		050709C6225468F700E6366A /* ReaderScrobblerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScrobblerViewController.swift; sourceTree = "<group>"; };
+		050709C8225469AE00E6366A /* ReaderScrobblerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderScrobblerCell.swift; sourceTree = "<group>"; };
 		0510CA0A21F96F8000F73E1F /* NukeWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NukeWrapper.swift; sourceTree = "<group>"; };
 		0510CA0C21F985C100F73E1F /* LargeTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTitleView.swift; sourceTree = "<group>"; };
 		0510CA0E21F98B3900F73E1F /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
@@ -206,7 +210,7 @@
 		055006542209305F00739EDF /* CarouselParent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselParent.swift; sourceTree = "<group>"; };
 		05500656220988B500739EDF /* RoundedTranslucentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTranslucentButton.swift; sourceTree = "<group>"; };
 		057EC4002227C62800A46F6E /* ReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderViewController.swift; sourceTree = "<group>"; };
-		057EC4042227C68D00A46F6E /* ReaderChapterCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderChapterCollectionViewController.swift; sourceTree = "<group>"; };
+		057EC4042227C68D00A46F6E /* ReaderChapterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderChapterViewController.swift; sourceTree = "<group>"; };
 		057EC4062228F8FE00A46F6E /* PassThroughTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughTableView.swift; sourceTree = "<group>"; };
 		057EC409222B71A600A46F6E /* ReaderPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderPageCell.swift; sourceTree = "<group>"; };
 		057EC40E222DEF1400A46F6E /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -521,7 +525,8 @@
 			isa = PBXGroup;
 			children = (
 				057EC4002227C62800A46F6E /* ReaderViewController.swift */,
-				057EC4042227C68D00A46F6E /* ReaderChapterCollectionViewController.swift */,
+				050709C6225468F700E6366A /* ReaderScrobblerViewController.swift */,
+				057EC4042227C68D00A46F6E /* ReaderChapterViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -779,6 +784,7 @@
 			isa = PBXGroup;
 			children = (
 				057EC409222B71A600A46F6E /* ReaderPageCell.swift */,
+				050709C8225469AE00E6366A /* ReaderScrobblerCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -997,7 +1003,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0533A3BC221527800062FDDD /* MangadexChapter.swift in Sources */,
-				057EC4052227C68D00A46F6E /* ReaderChapterCollectionViewController.swift in Sources */,
+				050709C9225469AE00E6366A /* ReaderScrobblerCell.swift in Sources */,
+				057EC4052227C68D00A46F6E /* ReaderChapterViewController.swift in Sources */,
 				052F7CCE21E4470C00A91B3D /* SeparatedStackView.swift in Sources */,
 				052F7CCC21E4452500A91B3D /* SeparatorView.swift in Sources */,
 				057EC40A222B71A600A46F6E /* ReaderPageCell.swift in Sources */,
@@ -1047,6 +1054,7 @@
 				052F7CF921EBF89300A91B3D /* GradientTableView.swift in Sources */,
 				0533A3B82214BC4E0062FDDD /* ReaderViewModel.swift in Sources */,
 				052F7CDC21E61E0E00A91B3D /* DropShadowView.swift in Sources */,
+				050709C7225468F700E6366A /* ReaderScrobblerViewController.swift in Sources */,
 				05C2F431220D6843004B0FEF /* ChapterVolumeView.swift in Sources */,
 				05A40B7B21FC62AE0085C2DF /* TagListView.swift in Sources */,
 				057EC4072228F8FE00A46F6E /* PassThroughTableView.swift in Sources */,

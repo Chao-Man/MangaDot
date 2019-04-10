@@ -77,12 +77,7 @@ class FeedViewController: UIViewController {
         setupViews()
         refreshFeed()
     }
-
-    override func viewWillAppear(_ animated: Bool) {
-        setNavigationBarTransparent()
-        super.viewWillAppear(animated)
-    }
-
+    
     // MARK: - Helper Methods
 
     private func setupViews() {
@@ -115,14 +110,6 @@ class FeedViewController: UIViewController {
         addLargeTitleView()
     }
     
-    private func setNavigationBarTransparent() {
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = .clear
-        self.navigationItem.title = nil
-    }
-
     private func addLargeTitleView() {
         stackView.addArrangedSubview(largeTitleView) {
             $0.width.match(stackView.al.width)
@@ -132,11 +119,11 @@ class FeedViewController: UIViewController {
     private func refreshFeed() {
         firstly {
             viewModel.fetchFeed()
-        }.done { [weak self] _ in
-            self?.refreshContent()
-        }.catch { [weak self] error in
-            self?.present(UIAlertController.MangaDot.feedErrorAlert(of: error), animated: true)
-            self?.errorView.isHidden = false
+        }.done { _ in
+            self.refreshContent()
+        }.catch { error in
+            self.present(UIAlertController.MangaDot.feedErrorAlert(of: error), animated: true)
+            self.errorView.isHidden = false
         }.finally {
             self.refreshControl.endRefreshing()
         }

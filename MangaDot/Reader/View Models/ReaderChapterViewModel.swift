@@ -40,8 +40,8 @@ class ReaderChapterViewModel {
     func fetch() -> Promise<Void> {
         return firstly {
             source.fetchChapter(id: basicChapter.id)
-            }.done {
-                self.detailedChapter = $0
+        }.done {
+            self.detailedChapter = $0
         }
     }
     

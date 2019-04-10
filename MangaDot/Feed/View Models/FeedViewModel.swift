@@ -26,7 +26,7 @@ public final class FeedViewModel {
     public func fetchFeed() -> Promise<Void> {
         return firstly {
             source.fetchFeed()
-        }.done { [weak self] feed in
+        }.done { feed in
             self?.feed = feed
         }
     }

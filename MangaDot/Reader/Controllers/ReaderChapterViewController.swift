@@ -1,5 +1,5 @@
 //
-//  ReaderChapterCollectionViewController.swift
+//  ReaderChapterViewController.swift
 //  MangaDot
 //
 //  Created by Jian Chao Man on 28/2/19.
@@ -11,7 +11,7 @@ import Yalta
 import PromiseKit
 import Nuke
 
-class ReaderChapterCollectionViewController: UIViewController {
+class ReaderChapterViewController: UIViewController {
     private let viewModel: ReaderChapterViewModel
     private let reuseIdentifier = "ReaderPageCell"
     private let shouldPreload: Bool
@@ -37,6 +37,18 @@ class ReaderChapterCollectionViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        gesture.delegate = self
+        return gesture
+    }()
+    
+    lazy var scrobblerViewController: ReaderScrobblerViewController = {
+        let viewController = ReaderScrobblerViewController(viewModel: viewModel)
+        viewController.view.isHidden = true
+        return viewController
+    }()
+    
     init(viewModel: ReaderChapterViewModel, shouldPreload: Bool) {
         self.viewModel = viewModel
         self.shouldPreload = shouldPreload
@@ -49,6 +61,7 @@ class ReaderChapterCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         addViews()
+        addChildViewController()
         setup()
         super.viewDidLoad()
     }
@@ -56,6 +69,11 @@ class ReaderChapterCollectionViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         viewModel.stopPreloading()
         super.viewDidDisappear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
 
     override func viewWillLayoutSubviews() {
@@ -66,16 +84,32 @@ class ReaderChapterCollectionViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         layout.itemSize = collectionView.frame.size
-        adjustContentOffset()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // Update collectionview offset to align page after orientation change
+        guard let currentCellIndexPath = collectionView.indexPathsForVisibleItems.first else { return }
+        collectionView.contentOffset = CGPoint(x: CGFloat(currentCellIndexPath.item) * size.width, y: collectionView.contentOffset.y)
+        coordinator.animate(alongsideTransition: nil, completion: { _ in
+            self.collectionView.scrollToItem(at: currentCellIndexPath, at: .left, animated: true)
+        })
     }
     
     // MARK: - Helper Methods
     
     private func setup() {
+        
         // Enable swipe back navigation pop
         if let interactivePopGestureRecognizer = navigationController?.interactivePopGestureRecognizer {
             collectionView.panGestureRecognizer.require(toFail: interactivePopGestureRecognizer)
         }
+        
+        // Setup Gestures
+        collectionView.addGestureRecognizer(tapGesture)
+        
+        // Fetch data
         firstly {
             viewModel.fetch()
         }.done {
@@ -92,13 +126,40 @@ class ReaderChapterCollectionViewController: UIViewController {
         }
     }
     
-    private func reloadData() {
-        collectionView.reloadData()
+    private func addChildViewController() {
+        scrobblerViewController.didMove(toParent: self)
+        addChild(scrobblerViewController)
+        view.addSubview(scrobblerViewController.view)
     }
     
-    private func adjustContentOffset() {
-        guard let currentCellIndexPath = collectionView.indexPathsForVisibleItems.last else { return }
-        collectionView.scrollToItem(at: currentCellIndexPath, at: UICollectionView.ScrollPosition.left, animated: false)
+    private func reloadData() {
+        collectionView.reloadData()
+        scrobblerViewController.reloadData()
+    }
+    
+    private func layoutScrobblerView() {
+        let frame = scrobblerViewController.view.frame
+        let y = scrobblerViewController.view.isHidden ? view.frame.height : view.frame.height - frame.height
+        scrobblerViewController.view.frame = CGRect(x: frame.origin.x, y: y, width: view.frame.width, height: 200)
+    }
+    
+    private func toggleScrobblerHidden() -> Promise<Void> {
+        guard let navIsHidden = navigationController?.navigationBar.isHidden else { return Promise() }
+        navigationController?.setNavigationBarHidden(!navIsHidden, animated: true)
+        
+        layoutScrobblerView()
+        let wasHidden = scrobblerViewController.view.isHidden
+        let frame = scrobblerViewController.view.frame
+        let endY = wasHidden ? view.frame.height - frame.height : view.frame.height
+        
+        scrobblerViewController.view.isHidden = false
+        return firstly {
+            UIView.animate(.promise, duration: TimeInterval(UINavigationController.hideShowBarDuration), animations: {
+                self.scrobblerViewController.view.frame = CGRect(x: frame.origin.x, y: endY, width: frame.width, height: frame.height)
+            })
+            }.done { _ in
+                self.scrobblerViewController.view.isHidden = !wasHidden
+        }
     }
     
     // MARK: - Methods
@@ -108,11 +169,11 @@ class ReaderChapterCollectionViewController: UIViewController {
     }
 }
 
-extension ReaderChapterCollectionViewController: UICollectionViewDelegate {
+extension ReaderChapterViewController: UICollectionViewDelegate {
     
 }
 
-extension ReaderChapterCollectionViewController: UICollectionViewDataSource {
+extension ReaderChapterViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.pageCount()
     }
@@ -138,5 +199,28 @@ extension ReaderChapterCollectionViewController: UICollectionViewDataSource {
         )
         
         return readerPageCell
+    }
+}
+
+extension ReaderChapterViewController: UIGestureRecognizerDelegate {
+    private func toggleNavigationBar() {
+        guard let navIsHidden = navigationController?.navigationBar.isHidden else { return }
+        navigationController?.setNavigationBarHidden(!navIsHidden, animated: true)
+    }
+    
+    @objc private func handleTap(sender: UITapGestureRecognizer) {
+        guard sender.view != nil else { return }
+        print("Tap")
+        print(view.frame)
+        // Disable gesture
+        tapGesture.isEnabled = false
+        firstly {
+            toggleScrobblerHidden()
+        }.done {
+            // Re-enable gesture
+            self.tapGesture.isEnabled = true
+            print(self.view.frame)
+        }
+        print(view.frame)
     }
 }

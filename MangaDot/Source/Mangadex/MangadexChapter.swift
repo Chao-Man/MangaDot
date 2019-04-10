@@ -38,7 +38,7 @@ extension Mangadex {
         }()
         
         lazy var server: URL = {
-            return decoded.server
+            return decoded.server.absoluteString == "/data/" ? Mangadex.dataUrl : decoded.server
         }()
         
         lazy var pageUrlArray: [URL] = {

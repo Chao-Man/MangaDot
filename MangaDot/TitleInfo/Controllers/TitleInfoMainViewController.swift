@@ -61,6 +61,7 @@ class TitleInfoMainViewController: UIViewController {
         view.distribution = UIStackView.Distribution.fillEqually
         view.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         view.isLayoutMarginsRelativeArrangement = true
+        view.spacing = 10
         return view
     }()
     
@@ -156,7 +157,6 @@ class TitleInfoMainViewController: UIViewController {
         tableView.layer.shadowRadius = 5
         tableView.layer.shouldRasterize = true
         tableView.layer.rasterizationScale = UIScreen.main.scale
-        controlsContainer.spacing = (view.bounds.width / 3)
     }
     
     // MARK: - Methods

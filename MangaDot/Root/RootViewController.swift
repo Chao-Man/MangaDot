@@ -47,7 +47,7 @@ final class RootViewController: UITabBarController {
         let searchNavigationController = UINavigationController(rootViewController: searchViewController)
         let settingsNavigationController = UINavigationController(rootViewController: settingsViewController)
 
-        readnowNavigationController.navigationBar.isHidden = true
+        readnowNavigationController.setNavigationBarHidden(true, animated: false)
         libraryNavigationController.navigationBar.isHidden = true
         searchNavigationController.navigationBar.isHidden = true
         settingsNavigationController.navigationBar.isHidden = true

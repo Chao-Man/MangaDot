@@ -1,5 +1,5 @@
 github "scinfu/SwiftSoup"
-github "malcommac/SwiftDate"
+github "malcommac/SwiftDate" ~> 5.1
 github "mxcl/PromiseKit" ~> 6.8
 github "PromiseKit/Foundation" ~> 3.0
 github "PromiseKit/UIKit" ~> 3.0

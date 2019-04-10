@@ -13,6 +13,7 @@ import PromiseKit
 public class Mangadex: SourceProtocol {
     static let baseDomain = URL(string: "mangadex.org")!
     static let baseUrl = URL(string: "https://mangadex.org")!
+    static let dataUrl = baseUrl.appendingPathComponent("data")
     static let baseApiUrl = baseUrl.appendingPathComponent("api")
 
     enum ServiceType: String {

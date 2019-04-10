@@ -48,29 +48,23 @@ class ReaderViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
 //        setTabBarHidden(false)
         tabBarController?.tabBar.isHidden = false
         super.viewWillDisappear(animated)
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
+//    override var prefersStatusBarHidden: Bool {
+//        return navigationController?.isNavigationBarHidden == true
+//    }
+//    
+//    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+//        return UIStatusBarAnimation.fade
+//    }
 
     // MARK: - Helper Methods
     
     private func setup() {
-        
     }
     
     private func addChildViewControllers() {
@@ -85,8 +79,8 @@ class ReaderViewController: UIViewController {
     private func setInitialViewController() {
         do {
             let readerChapterViewModel = try viewModel.chapter(withIndex: startingChapterIndex)
-            let readerChapterViewController = ReaderChapterCollectionViewController(viewModel: readerChapterViewModel, shouldPreload: true)
-            pageViewController.setViewControllers([readerChapterViewController], direction: UIPageViewController.NavigationDirection.forward, animated: true, completion: nil)
+            let readerChapterViewController = ReaderChapterViewController(viewModel: readerChapterViewModel, shouldPreload: true)
+            pageViewController.setViewControllers([readerChapterViewController], direction: UIPageViewController.NavigationDirection.forward, animated: false, completion: nil)
         } catch {
             
         }
@@ -109,9 +103,9 @@ extension ReaderViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         print("Fetching Prev Chapter")
         do {
-            let viewController = viewController as! ReaderChapterCollectionViewController
+            let viewController = viewController as! ReaderChapterViewController
             let readerChapterViewModel = try viewModel.chapter(beforeIndex: viewController.index())
-            return ReaderChapterCollectionViewController(viewModel: readerChapterViewModel, shouldPreload: false)
+            return ReaderChapterViewController(viewModel: readerChapterViewModel, shouldPreload: false)
         } catch {
             return nil
         }
@@ -120,9 +114,9 @@ extension ReaderViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         print("Fetching Next Chapter")
         do {
-            let viewController = viewController as! ReaderChapterCollectionViewController
+            let viewController = viewController as! ReaderChapterViewController
             let readerChapterViewModel = try viewModel.chapter(afterIndex: viewController.index())
-            return ReaderChapterCollectionViewController(viewModel: readerChapterViewModel, shouldPreload: true)
+            return ReaderChapterViewController(viewModel: readerChapterViewModel, shouldPreload: true)
         } catch {
             return nil
         }
